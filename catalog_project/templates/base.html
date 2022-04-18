@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base-style.css' %}">
+    <title>
+        {% block title %}
+            PLACEHOLDER TITLE
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <nav id="topbar">
+        This is the topbar. Add some stuff here.
+    </nav>
+    <section id="main-section">
+        {% block content %}
+                <p>This contains content for the other html pages.</p>
+        {% endblock %}
+    </section>
+</body>
+</html>

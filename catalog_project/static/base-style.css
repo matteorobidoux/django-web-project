@@ -1,0 +1,15 @@
+body{
+    margin: 0;
+}
+
+#topbar{
+    background-color: black;
+    color: white;
+    padding: 1em;
+    margin: 0;
+    position: static;
+}
+
+#main-section{
+    padding: 1em;
+}
