@@ -8,5 +8,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.dashboard, name="admin_board")
+    # Dashboard view
+    path('', views.dashboard, name="admin_board"),
+    # User editor view
+    #path('edit-user/<int:user_id>/', views.edit_user, name="edit_user"),
+    # User creator view
+    #path('create-user/', views.create_user, name="create_user"),
 ]
