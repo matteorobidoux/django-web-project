@@ -8,8 +8,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.dashboard_redirect),
     # Dashboard view
-    path('', views.dashboard, name="admin_board"),
+    path('page/<int:page>/', views.Dashboard.as_view(), name="admin_board"),
     # User editor view
     #path('edit-user/<int:user_id>/', views.edit_user, name="edit_user"),
     # User creator view
