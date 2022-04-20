@@ -3,8 +3,36 @@
     Admin Dashboard
 {% endblock %}
 {% block content %}
-    <h1>Admin dashboard.</h1>
-    <p>
-        You're now in the admin dashboard. This doesn't do anything
-    </p>
+<h1>Admin dashboard.</h1>
+<section>
+    <section>
+        List of all users registered on the website:
+    </section>
+    <table>
+        <thead>
+            <th>
+                ID
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Group
+            </th>
+        </thead>
+        {% for user in user_list %}
+            <tr>
+                <td>
+                    {{ user.id }}
+                </td>
+                <td>
+                    {{ user.username }}
+                </td>
+                <td>
+                    {{ user.groups.all.0 }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</section>
 {% endblock %}
