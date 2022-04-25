@@ -30,9 +30,10 @@
                   </div>
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
+                            <span class="nav-item nav-link">Welcome back, {{ user.username }}!</span>
                             <a class="nav-item nav-link" href="#">New Project</a>
                             <a class="nav-item nav-link" href="#">Profile</a>
-                            <a class="nav-item nav-link" href="#">Logout</a>
+                            <a class="nav-item nav-link" href="/logout">Logout</a>
                         {% else %}
                             <a class="nav-item nav-link" href="#">Login</a>
                             <a class="nav-item nav-link" href="#">Register</a>

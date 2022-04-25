@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, Http404
 from django.template import loader
 from django.views import generic
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect
 from user_management.models import Warning, Profile
 
@@ -24,12 +24,19 @@ class Dashboard(generic.ListView):
         end_users = 5*page
         return User.objects.all()[start_users:end_users]
 
+    def dispatch(self, request, *args, **kwargs):
+        issuer = request.user
+        in_group = issuer.groups.filter(name="Superuser").exists()
+        if not in_group:
+            raise Http404("Page not found")
+        return super(Dashboard, self).dispatch(request, *args, **kwargs)
+
 # Dashboard functions
 def warn_user(request, id):
     issuer = request.user
     user = User.objects.get(id=id)
     if not issuer.has_perm('warn_user'):
-        return HttpResponseNotFound
+        return Http404("Page not found")
 
     if request.method == "POST":
         message = request.POST.get('warning-message')
@@ -48,7 +55,7 @@ def warn_user(request, id):
 def flag_user(request, id):
     issuer = request.user
     if not issuer.has_perm('flag_user'):
-        return HttpResponseNotFound
+        raise Http404("Page not found")
 
     if request.method == 'POST':
         user = User.objects.get(id=id)
@@ -61,7 +68,7 @@ def flag_user(request, id):
 def edit_user(request, id):
     issuer = request.user
     if not issuer.has_perm('change_user'):
-        return HttpResponseNotFound
+        raise Http404("Page not found")
 
     if request.method == 'POST':
         print(f"Edited user {id}")
@@ -71,7 +78,7 @@ def edit_user(request, id):
 def delete_user(request, id):
     issuer = request.user
     if not issuer.has_perm('delete_user'):
-        return HttpResponseNotFound
+        raise Http404("Page not found")
 
     user = User.objects.get(id=id)
     if request.method == "POST":

@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', include('administration.urls'), name='admin'),
     path('', include('item_catalog.urls'), name='item_catalog'),
     path('messages/', include('messaging.urls'), name='messaging'),
-    path('manage-users/', include('user_management.urls'), name='user_management'),
+    path('', include('user_management.urls'), name='user_management'),
 ]
+
+handler404 = 'item_catalog.views.response_not_found_404'
