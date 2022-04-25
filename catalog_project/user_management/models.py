@@ -26,4 +26,4 @@ class Profile(models.Model):
 class Warning(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True) # Incase a user gets deleted but you want to log warnings
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True) # Incase a user gets deleted but you want to log warnings
