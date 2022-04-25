@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'messaging.apps.MessagingConfig',
     'item_catalog.apps.ItemCatalogConfig',
     'administration.apps.AdministrationConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
