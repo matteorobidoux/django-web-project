@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
-{% block title %}
-    Admin Dashboard
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin-style.css' %}">
+<title> Admin Dashboard </title>
 {% endblock %}
 {% block content %}
-<h1>Admin dashboard.</h1>
-<section>
+<section id="content-section">
     <section>
+        <h1>Admin dashboard.</h1>
         List of all users registered on the website:
     </section>
-    <table>
+    <section>
+        <button class="action-button-1">
+            Create user
+        </button>
+    </section>
+    <table class="content-block">
         <thead>
             <th>
                 ID
@@ -20,6 +28,7 @@
                 Group
             </th>
         </thead>
+        <tbody>
         {% for user in user_list %}
             <tr>
                 <td>
@@ -31,8 +40,10 @@
                 <td>
                     {{ user.groups.all.0 }}
                 </td>
+                {% include 'admin-actions.html' with user=user %}
             </tr>
         {% endfor %}
+        </tbody>
     </table>
 </section>
 {% endblock %}

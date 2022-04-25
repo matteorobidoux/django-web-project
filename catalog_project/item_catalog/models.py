@@ -18,6 +18,14 @@ STATUS_CHOICES = (
 )
 
 class Item(models.Model):
+    # Define the class for permissions
+    class Meta:
+        permissions = (
+            ("delete_user_item", "Delete own item"),
+            ("change_user_item", "Change own item"),
+            ("rate_item", "Rate item"),
+        )
+
     name = models.CharField(max_length=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=30, choices=TYPE_CHOICES, default='practical')
