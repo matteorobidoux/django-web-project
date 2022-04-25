@@ -26,7 +26,11 @@ class Dashboard(generic.ListView):
 
 # Dashboard functions
 def warn_user(request, id):
+    issuer = request.user
     user = User.objects.get(id=id)
+    if not issuer.has_perm('warn_user'):
+        return HttpResponseNotFound
+
     if request.method == "POST":
         message = request.POST.get('warning-message')
         warning = Warning(message=message,user=user)
@@ -34,7 +38,7 @@ def warn_user(request, id):
     else:
         template = loader.get_template('warn-user.html')
         context = {
-            'user': user
+            'target_user': user
         }
         return HttpResponse(template.render(context, request))
     return redirect('/admin')
@@ -42,6 +46,10 @@ def warn_user(request, id):
 
 # Dashboard functions
 def flag_user(request, id):
+    issuer = request.user
+    if not issuer.has_perm('flag_user'):
+        return HttpResponseNotFound
+
     if request.method == 'POST':
         user = User.objects.get(id=id)
         profile = Profile.objects.get(user=user)
@@ -51,19 +59,27 @@ def flag_user(request, id):
 
 # Dashboard functions
 def edit_user(request, id):
+    issuer = request.user
+    if not issuer.has_perm('change_user'):
+        return HttpResponseNotFound
+
     if request.method == 'POST':
         print(f"Edited user {id}")
     return redirect('/admin')
 
 # Dashboard functions
 def delete_user(request, id):
+    issuer = request.user
+    if not issuer.has_perm('delete_user'):
+        return HttpResponseNotFound
+
     user = User.objects.get(id=id)
     if request.method == "POST":
         user.delete()
     else:
         template = loader.get_template('delete-user.html')
         context = {
-            'user': user
+            'target_user': user
         }
         return HttpResponse(template.render(context, request))
     return redirect('/admin')

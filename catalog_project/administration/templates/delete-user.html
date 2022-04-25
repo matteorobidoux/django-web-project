@@ -9,7 +9,7 @@
     <section id="content-section">
         <section class="content-block">
             <h2>
-                Delete user {{ user.username }}?
+                Delete user {{ target_user.username }}?
             </h2>
             <form action="{% url 'delete_user' user.id %}" method="POST">
                 {% csrf_token %}

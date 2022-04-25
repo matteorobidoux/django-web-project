@@ -29,18 +29,18 @@
             </th>
         </thead>
         <tbody>
-        {% for user in user_list %}
+        {% for target_user in user_list %}
             <tr>
                 <td>
-                    {{ user.id }}
+                    {{ target_user.id }}
                 </td>
                 <td>
-                    {{ user.username }}
+                    {{ target_user.username }}
                 </td>
                 <td>
-                    {{ user.groups.all.0 }}
+                    {{ target_user.groups.all.0 }}
                 </td>
-                {% include 'admin-actions.html' with user=user %}
+                {% include 'admin-actions.html' with target_user=target_user %}
             </tr>
         {% endfor %}
         </tbody>

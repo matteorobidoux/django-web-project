@@ -9,7 +9,7 @@
     <section id="content-section">
         <section class="content-block">
             <h2>
-                Write a warning message for {{ user.username }}
+                Write a warning message for {{ target_user.username }}
             </h2>
             <form action="{% url 'warn_user' user.id %}" method="POST">
                 {% csrf_token %}

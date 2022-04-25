@@ -1,15 +1,15 @@
 <td>
-    <a href="{%url 'warn_user' user.id %}">
+    <a href="{%url 'warn_user' target_user.id %}">
         <button type = 'submit' class="action-button-1">
             Warn
         </button>
     </a>
 </td>
 <td>
-    <form action="{% url 'flag_user' user.id %}" method="POST">
+    <form action="{% url 'flag_user' target_user.id %}" method="POST">
         {% csrf_token %}
         <button type = 'submit' class="action-button-1">
-            {% if not user.profile.flagged %}
+            {% if not target_user.profile.flagged %}
             Flag
             {% else %}
             Unflag
@@ -18,7 +18,7 @@
     </form>
 </td>
 <td>
-    <form action="{% url 'edit_user' user.id %}" method="POST">
+    <form action="{% url 'edit_user' target_user.id %}" method="POST">
         {% csrf_token %}
         <button type = 'submit' class="action-button-1">
             Edit
@@ -26,7 +26,7 @@
     </form>
 </td>
 <td>
-    <a href="{%url 'delete_user' user.id %}">
+    <a href="{%url 'delete_user' target_user.id %}">
         <button type = 'submit' class="action-button-1">
             Delete
         </button>
