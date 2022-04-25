@@ -45,5 +45,30 @@
         {% endfor %}
         </tbody>
     </table>
+    <section class="page-select">
+        <a href="{% url 'admin_board' 1 %}">
+            <button class="page-button">
+                &lt;&lt;
+            </button>
+        </a>
+        <a href="{% url 'admin_board' last_page %}" >
+            <button class="page-button" {% if page == 1 %} disabled {% endif %}>
+                &lt;
+            </button >
+        </a>
+        <span class="page-num">
+            Page {{ page }}
+        </span>
+        <a href="{% url 'admin_board' next_page %}" >
+            <button class="page-button" {% if page == max_pages %} disabled {% endif %} >
+                &gt;
+            </button>
+        </a>
+        <a href="{% url 'admin_board' max_pages %}" >
+            <button class="page-button">
+                &gt;&gt;
+            </button>
+        </a>
+    </section>
 </section>
 {% endblock %}

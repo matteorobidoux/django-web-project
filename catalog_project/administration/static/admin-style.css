@@ -28,3 +28,34 @@ td,th {
     color: white;
     background: #5f788a;
 }
+
+.page-button {
+    color: white;
+    background: #5f788a;
+    border-style: none;
+    min-width: 40px;
+}
+
+.page-num {
+    background: white;
+    color: #5f788a;
+    border: solid 1px #5f788a;
+}
+
+.page-button,.page-num{
+    padding: 4px;
+    margin: 0 2px;
+    border-radius: 4px;
+}
+
+.page-button:disabled{
+    background: #6f6f6f;
+}
+
+
+.page-select{
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
