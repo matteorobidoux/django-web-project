@@ -1,11 +1,12 @@
 from django.urls import path
 from . import views
-from .views import ItemCreateView, ItemListView
+from .views import ItemCreateView, ItemListView, ItemDetailView
 
 urlpatterns = [
     # Index page
     path('', ItemListView.as_view(), name="explore-projects"),
     path('project/new/', ItemCreateView.as_view(), name='new-project'),
+    path('project/<int:pk>/', ItemDetailView.as_view(), name='project-detail')
 
     # Explore projects
     #path('explore/', views.explore, name="explore_projects"),
