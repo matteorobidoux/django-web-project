@@ -4,6 +4,7 @@ from .models import Item
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import DetailView, UpdateView, ListView, CreateView, DeleteView
 
+<<<<<<< HEAD
 class ItemListView(ListView):
     model = Item
     template_name = 'item_catalog/explore.html'
@@ -20,3 +21,10 @@ class ItemCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+=======
+# Create your views here.
+# Placeholder index html page for when you open the site.
+def index(request):
+    template = loader.get_template('index.html')
+    return HttpResponse(template.render({}, request))
+>>>>>>> main
