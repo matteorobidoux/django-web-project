@@ -3,8 +3,8 @@ from . import views
 
 urlpatterns = [
     # User manager for user admins
-    path('', views.manage_users, name='manage_users')
-
+    path('manage-users/', views.manage_users, name='manage_users'),
+    path('logout/', views.logout_user, name='logout'),
     # Login page
     #path('login/', views.login, name="login"),
     # Register page

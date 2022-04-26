@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
-{% block title %}
-    Admin Dashboard
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin-style.css' %}">
+<title> Admin Dashboard </title>
 {% endblock %}
 {% block content %}
-<h1>Admin dashboard.</h1>
-<section>
+<section id="content-section">
     <section>
+        <h1>Admin dashboard.</h1>
         List of all users registered on the website:
     </section>
-    <table>
+    <section>
+        <button class="action-button-1">
+            Create user
+        </button>
+    </section>
+    <table class="content-block">
         <thead>
             <th>
                 ID
@@ -20,19 +28,47 @@
                 Group
             </th>
         </thead>
-        {% for user in user_list %}
+        <tbody>
+        {% for target_user in user_list %}
             <tr>
                 <td>
-                    {{ user.id }}
+                    {{ target_user.id }}
                 </td>
                 <td>
-                    {{ user.username }}
+                    {{ target_user.username }}
                 </td>
                 <td>
-                    {{ user.groups.all.0 }}
+                    {{ target_user.groups.all.0 }}
                 </td>
+                {% include 'admin-actions.html' with target_user=target_user %}
             </tr>
         {% endfor %}
+        </tbody>
     </table>
+    <section class="page-select">
+        <a href="{% url 'admin_board' 1 %}">
+            <button class="page-button">
+                &lt;&lt;
+            </button>
+        </a>
+        <a href="{% url 'admin_board' last_page %}" >
+            <button class="page-button" {% if page == 1 %} disabled {% endif %}>
+                &lt;
+            </button >
+        </a>
+        <span class="page-num">
+            Page {{ page }}
+        </span>
+        <a href="{% url 'admin_board' next_page %}" >
+            <button class="page-button" {% if page == max_pages %} disabled {% endif %} >
+                &gt;
+            </button>
+        </a>
+        <a href="{% url 'admin_board' max_pages %}" >
+            <button class="page-button">
+                &gt;&gt;
+            </button>
+        </a>
+    </section>
 </section>
 {% endblock %}
