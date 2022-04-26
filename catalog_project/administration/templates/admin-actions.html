@@ -32,3 +32,15 @@
         </button>
     </a>
 </td>
+<td>
+    <form action="{% url 'block_user' target_user.id %}" method="POST">
+        {% csrf_token %}
+        <button type = 'submit' class="action-button-1">
+            {% if not target_user.profile.blocked %}
+            Block
+            {% else %}
+            Unblock
+            {% endif%}
+        </button>
+    </form>
+</td>
