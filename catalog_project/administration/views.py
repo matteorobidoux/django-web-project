@@ -6,4 +6,4 @@ from django.template import loader
 def dashboard(request):
     # Load template from templates/administration/dashboard.html
     template = loader.get_template('dashboard.html')
-    return HttpResponse(template.render({}, request))
+    return HttpResponse(template.render({}, request)) p
