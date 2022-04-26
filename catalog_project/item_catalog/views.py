@@ -19,7 +19,9 @@ class ItemCreateView(CreateView):
     template_name = 'new_project.html'
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        obj = form.save(commit=False)
+        obj.owner = self.request.user
+        obj.save
         return super().form_valid(form)
 
 class ItemDetailView(DetailView):
