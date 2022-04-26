@@ -4,7 +4,7 @@ from django.views import generic, View
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
-import actions
+from . import actions
 
 # Redirects you to page 1 when you open up the admin dashboard
 def dashboard_redirect(request):

@@ -26,6 +26,7 @@ class Command(BaseCommand):
         # Clear groups and users
         Group.objects.all().delete()
         User.objects.all().delete()
+        Profile.objects.all().delete()
         print("Cleared groups and users.")
 
         # Create groups
