@@ -1,17 +1,20 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     # User manager for user admins
-    path('', views.manage_users, name='manage_users')
-
+    path('manage-users/', views.manage_users, name='manage_users'),
     # Login page
-    #path('login/', views.login, name="login"),
+    path(r'login/', views.login_page, name="login"),
     # Register page
-    #path('register/', views.register, name="register"),
+    path(r'register/', views.register, name="register"),
     # Reset password page
-    #path('reset-password/', views.reset_password, name="reset_password"),
+    # path('reset-password/', views.reset_password, name="reset_password"),
+    # Logout page
+    path(r'logout', views.logout_page, name="login"),
 
     # User profile page
-    #path('user/<int:user_id>/', views.user_profile, name="user_profile"),
+    # path('user/<int:user_id>/', views.user_profile, name="user_profile"),
+    path(r'profile/', views.register, name="profile"),
 ]

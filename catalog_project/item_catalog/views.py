@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Item
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import DetailView, UpdateView, ListView, CreateView, DeleteView
+from django.http import HttpResponse, HttpResponseNotFound
+from django.template import loader
 
 class ItemListView(ListView):
     model = Item
@@ -23,3 +24,8 @@ class ItemCreateView(CreateView):
 
 class ItemDetailView(DetailView):
     model = Item
+    
+# Mostly used to return error responses
+def response_not_found_404(request, exception):
+    template = loader.get_template('response-404.html')
+    return HttpResponseNotFound(template.render({}))

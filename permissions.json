@@ -3,95 +3,18 @@
     "https://medium.com/djangotube/django-roles-groups-and-permissions-introduction-a54d1070544",
     "https://docs.djangoproject.com/en/4.0/topics/auth/default/"
   ],
-  "permissions": [
-    {
-      "codename": "Add Item",
-      "name": "add_item"
-    },
-    {
-      "codename": "Delete Item",
-      "name": "delete_item"
-    },
-    {
-      "codename": "Edit Item",
-      "name": "edit_item"
-    },
-    {
-      "codename": "Rate Item",
-      "name": "rate_item"
-    },
-    {
-      "codename": "Comment",
-      "name": "comment"
-    },
-    {
-      "codename": "Message Users",
-      "name": "chat"
-    },
 
-    {
-      "codename": "Add Member",
-      "name": "add_member"
-    },
-    {
-      "codename": "Delete Member",
-      "name": "delete_member"
-    },
-    {
-      "codename": "Block Member",
-      "name": "block_member"
-    },
-    {
-      "codename": "Warn Member",
-      "name": "warn_member"
-    },
-
-    {
-      "codename": "Add Any Item",
-      "name": "add_any_item"
-    },
-    {
-      "codename": "Remove Any Item",
-      "name": "remove_any_item"
-    },
-    {
-      "codename": "Edit Any Item",
-      "name": "edit_any_item"
-    },
-
-    {
-      "codename": "Add User",
-      "name": "add_user"
-    },
-    {
-      "codename": "Delete User",
-      "name": "delete_user"
-    },
-    {
-      "codename": "Block User",
-      "name": "block_user"
-    },
-    {
-      "codename": "Warn User",
-      "name": "warn_user"
-    },
-    {
-      "codename": "Flag User",
-      "name": "flag_user"
-    },
-    {
-      "codename": "Change User Group",
-      "name": "chgrp_user"
-    }
-  ],
   "groups": {
     "Member": [
       "add_item",
-      "delete_item",
-      "edit_item",
+      "change_user_item",
+      "delete_user_item",
       "rate_item",
-      "comment",
-      "chat"
+      "add_comment",
+      "delete_comment",
+      "change_comment",
+      "add_message",
+      "change_message"
     ],
     "MemberAdmin": [
       "add_member",
@@ -100,17 +23,17 @@
       "warn_member"
     ],
     "ItemAdmin": [
-      "add_any_item",
-      "remove_any_item",
-      "edit_any_item"
+      "add_item",
+      "change_item",
+      "delete_item"
     ],
     "Superuser": [
       "add_user",
       "delete_user",
+      "change_user",
       "block_user",
-      "warn_user",
-      "flag_user",
-      "chgrp_user"
+      "add_warning",
+      "flag_user"
     ]
   }
 }
