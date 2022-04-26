@@ -11,11 +11,11 @@ urlpatterns = [
     # Register page
     path(r'register/', views.register, name="register"),
     # Reset password page
-    #path('reset-password/', views.reset_password, name="reset_password"),
+    # path('reset-password/', views.reset_password, name="reset_password"),
     # Logout page
     path(r'logout/', views.logout_page, name="login"),
 
     # User profile page
-    #path('user/<int:user_id>/', views.user_profile, name="user_profile"),
+    # path('user/<int:user_id>/', views.user_profile, name="user_profile"),
     path(r'profile/', views.register, name="profile"),
 ]
