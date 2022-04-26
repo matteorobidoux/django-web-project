@@ -23,3 +23,11 @@ class Dashboard(generic.ListView):
         end_users = 5*page
         return User.objects.all()[start_users:end_users]
 
+<<<<<<< HEAD
+# Create your views here.
+def dashboard(request):
+    # Load template from templates/administration/dashboard.html
+    template = loader.get_template('dashboard.html')
+    return HttpResponse(template.render({}, request)) p
+=======
+>>>>>>> main
