@@ -1,0 +1,46 @@
+<td>
+    <a href="{%url 'warn_user' target_user.id %}">
+        <button type = 'submit' class="action-button-1">
+            Warn
+        </button>
+    </a>
+</td>
+<td>
+    <form action="{% url 'flag_user' target_user.id %}" method="POST">
+        {% csrf_token %}
+        <button type = 'submit' class="action-button-1">
+            {% if not target_user.profile.flagged %}
+            Flag
+            {% else %}
+            Unflag
+            {% endif%}
+        </button>
+    </form>
+</td>
+<td>
+    <form action="{% url 'edit_user' target_user.id %}" method="POST">
+        {% csrf_token %}
+        <button type = 'submit' class="action-button-1">
+            Edit
+        </button>
+    </form>
+</td>
+<td>
+    <a href="{%url 'delete_user' target_user.id %}">
+        <button type = 'submit' class="action-button-1">
+            Delete
+        </button>
+    </a>
+</td>
+<td>
+    <form action="{% url 'block_user' target_user.id %}" method="POST">
+        {% csrf_token %}
+        <button type = 'submit' class="action-button-1">
+            {% if not target_user.profile.blocked %}
+            Block
+            {% else %}
+            Unblock
+            {% endif%}
+        </button>
+    </form>
+</td>

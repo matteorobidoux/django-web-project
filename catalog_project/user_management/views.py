@@ -55,3 +55,8 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     return redirect('/')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("/")

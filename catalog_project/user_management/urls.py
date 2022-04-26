@@ -5,7 +5,6 @@ from . import views
 urlpatterns = [
     # User manager for user admins
     path('manage-users/', views.manage_users, name='manage_users'),
-
     # Login page
     path(r'login/', views.login_page, name="login"),
     # Register page
@@ -13,7 +12,7 @@ urlpatterns = [
     # Reset password page
     # path('reset-password/', views.reset_password, name="reset_password"),
     # Logout page
-    path(r'logout/', views.logout_page, name="login"),
+    path(r'logout', views.logout_page, name="login"),
 
     # User profile page
     # path('user/<int:user_id>/', views.user_profile, name="user_profile"),

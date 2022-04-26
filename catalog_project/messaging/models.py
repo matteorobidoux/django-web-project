@@ -8,7 +8,7 @@ CUTOFF_LENGTH = 50
 # Represents messages sent between users
 class Message(models.Model):
     content = models.TextField(max_length=500)
-    from_user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_sender')
+    from_user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='user_sender', null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_reciever')
 
