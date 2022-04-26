@@ -19,21 +19,25 @@ STATUS_CHOICES = (
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    #owner = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=30, choices=TYPE_CHOICES, default='practical')
     field = models.CharField(max_length=100)
-    keyword_list = models.CharField(max_length=200)
+    keyword_list = models.CharField(max_length=200, verbose_name='Keyword List (Seperate with commas)')
     content = models.TextField()
     url = models.URLField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='planned')
-    rate = models.DecimalField(default=0.0, decimal_places=1, max_digits=3, validators=[
-        MaxValueValidator(5.0),
-        MinValueValidator(0.0)
-    ])
-    snapshot = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    #rate = models.DecimalField(default=0.0, decimal_places=1, max_digits=3, validators=[
+        #MaxValueValidator(5.0),
+        #MinValueValidator(0.0)
+    #])
+    snapshot = models.ImageField(default='default.jpg', upload_to='project_photos')
+    date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        super(Item, self).save(*args, **kwargs)
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
