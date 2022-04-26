@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.template import loader
-from django.views import generic
-from django.contrib.auth.models import User, Group
+from django.views import generic, View
+from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from user_management.models import Warning, Profile
 
@@ -53,62 +52,79 @@ class Dashboard(generic.ListView):
 
         return super(Dashboard, self).dispatch(request, *args, **kwargs)
 
-# Dashboard functions
-def warn_user(request, id):
-    issuer = request.user
-    user = User.objects.get(id=id)
-    if not issuer.has_perm('warn_user'):
-        return Http404("Page not found")
+""" Dashboard functions """
 
-    if request.method == "POST":
+# View that checks for the permission
+class AuthView(View):
+    # Checks if the user has the permission, throws a 404 if they don't
+    def check_auth(self, request):
+        if not request.user.has_perm(self.permission):
+            return Http404("Page not found")
+
+    # Gets the user object based on kwargs
+    def get_user(self, kwargs):
+        return User.objects.get(id=kwargs["id"])
+
+# The user warning view
+class WarnUser(AuthView):
+    permission = "warn_user"
+
+    # Post executes the warning onto the user
+    def post(self, request, *args, **kwargs):
+        self.check_auth(request)
+
         message = request.POST.get('warning-message')
-        warning = Warning(message=message,user=user)
+        warning = Warning(message=message,user=self.get_user(kwargs))
         warning.save()
-    else:
+        return redirect('/admin')
+
+    # Get shows the warning form page
+    def get(self, request, *args, **kwargs):
+        self.check_auth(request)
+
         template = loader.get_template('warn-user.html')
         context = {
-            'target_user': user
+            'target_user': self.get_user(kwargs)
         }
         return HttpResponse(template.render(context, request))
-    return redirect('/admin')
 
-
-# Dashboard functions
-def flag_user(request, id):
-    issuer = request.user
-    if not issuer.has_perm('flag_user'):
-        raise Http404("Page not found")
-
-    if request.method == 'POST':
-        user = User.objects.get(id=id)
+class FlagUser(AuthView):
+    permission = "flag_user"
+    def post(self, request, *args, **kwargs):
+        self.check_auth(request)
+        user = self.get_user(kwargs)
         profile = Profile.objects.get(user=user)
+
         profile.flagged = not profile.flagged
         profile.save()
-    return redirect('/admin')
+        return redirect('/admin')
 
-# Dashboard functions
-def edit_user(request, id):
-    issuer = request.user
-    if not issuer.has_perm('change_user'):
-        raise Http404("Page not found")
+class EditUser(AuthView):
+    permission = "change_user"
 
-    if request.method == 'POST':
+    def post(self, request, *args, **kwargs):
+        self.check_auth(request)
+
         print(f"Edited user {id}")
-    return redirect('/admin')
+        return redirect('/admin')
 
-# Dashboard functions
-def delete_user(request, id):
-    issuer = request.user
-    if not issuer.has_perm('delete_user'):
-        raise Http404("Page not found")
+class DeleteUser(AuthView):
+    permission = "delete_user"
 
-    user = User.objects.get(id=id)
-    if request.method == "POST":
+    # Post executes the deletion
+    def post(self, request, *args, **kwargs):
+        self.check_auth(request)
+        user = self.get_user(kwargs)
         user.delete()
-    else:
+        print(f"Deleted {user}")
+        return redirect('/admin')
+
+    # Get shows the deletion confirmation page
+    def get(self, request, *args, **kwargs):
+        self.check_auth(request)
+
         template = loader.get_template('delete-user.html')
         context = {
-            'target_user': user
+            'target_user': self.get_user(kwargs)
         }
         return HttpResponse(template.render(context, request))
-    return redirect('/admin')

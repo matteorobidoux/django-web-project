@@ -11,7 +11,7 @@
             <h2>
                 Delete user {{ target_user.username }}?
             </h2>
-            <form action="{% url 'delete_user' user.id %}" method="POST">
+            <form action="{% url 'delete_user' target_user.id %}" method="POST">
                 {% csrf_token %}
                 <section class="inner-form-block button-container">
                     <button type = 'submit' class="action-button-1">
