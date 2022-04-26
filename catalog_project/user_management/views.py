@@ -24,15 +24,22 @@ def register(request):
     template_name = 'registration/register.html'
     if request.method == 'POST':
         reg_form = NewUserForm(request.POST)
-
         if reg_form.is_valid():
-            user = reg_form.cleaned_data.get('username')
-            reg_form.save()
-            messages.success(request, f'Registration successful for {user}.')
-            return redirect('/login/')
-        messages.error(request, 'Unsuccessful registration. Invalid information.')
+            user = reg_form.save()
+            user.refresh_from_db()
+            user.profile.username = reg_form.cleaned_data.get('username')
+            user.profile.email = reg_form.cleaned_data.get('email')
+            user.save()
+            user = authenticate(username=user.profile.username, password=reg_form.cleaned_data.get('password2'))
+            login(request, user)
+            return redirect('/')
+            # user = reg_form.cleaned_data.get('username')
+            # reg_form.save()
+            # messages.success(request, f'Registration successful for {user}.')
+            # return redirect('/login/')
+        return render(request, template_name, {'reg_form': reg_form})
     else:
-        reg_form = UserCreationForm()
+        reg_form = NewUserForm()
     return render(request=request, template_name=template_name, context={'reg_form': reg_form})
 
 
