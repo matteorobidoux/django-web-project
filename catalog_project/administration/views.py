@@ -3,8 +3,8 @@ from django.template import loader
 from django.views import generic, View
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from user_management.models import Warning, Profile
 from django.contrib.auth.mixins import PermissionRequiredMixin
+import actions
 
 # Redirects you to page 1 when you open up the admin dashboard
 def dashboard_redirect(request):
@@ -20,78 +20,56 @@ class Dashboard(PermissionRequiredMixin, generic.ListView):
     paginate_by = 3
 
 """ Dashboard functions """
-
-# View that checks for the permission
-class AuthView(PermissionRequiredMixin, View):
-    # Gets the user object based on kwargs
-    def get_user(self, kwargs):
-        return User.objects.get(id=kwargs["id"])
-
 # The user warning view
-class WarnUser(AuthView):
+class WarnUser(PermissionRequiredMixin, View):
     permission_required = "warn_user"
 
     # Post executes the warning onto the user
     def post(self, request, *args, **kwargs):
-        message = request.POST.get('warning-message')
-        warning = Warning(message=message,user=self.get_user(kwargs))
-        warning.save()
+        actions.warn_user(request, kwargs["id"])
         return redirect('/admin')
 
     # Get shows the warning form page
     def get(self, request, *args, **kwargs):
+        user = actions.get_user(kwargs["id"])
         template = loader.get_template('warn-user.html')
         context = {
-            'target_user': self.get_user(kwargs)
+            'target_user': user
         }
         return HttpResponse(template.render(context, request))
 
-class FlagUser(AuthView):
-    permission_required = "flag_user"
-    def post(self, request, *args, **kwargs):
-        self.check_auth(request)
-        user = self.get_user(kwargs)
-        profile = Profile.objects.get(user=user)
+class FlagUser(PermissionRequiredMixin, View):
+    permission_required = 'flag_user'
 
-        profile.flagged = not profile.flagged
-        profile.save()
+    def post(self, request, *args, **kwargs):
+        actions.flag_user(request, kwargs['id'])
         return redirect('/admin')
 
-class BlockUser(AuthView):
+class BlockUser(PermissionRequiredMixin, View):
     permission_required = "flag_user"
-    def post(self, request, *args, **kwargs):
-        self.check_auth(request)
-        user = self.get_user(kwargs)
-        profile = Profile.objects.get(user=user)
 
-        profile.blocked = not profile.blocked
-        profile.save()
+    def post(self, request, *args, **kwargs):
+        actions.block_user(request, kwargs['id'])
         return redirect('/admin')
 
-class EditUser(AuthView):
+class EditUser(PermissionRequiredMixin, View):
     permission_required = "change_user"
 
     def post(self, request, *args, **kwargs):
-        self.check_auth(request)
 
         print(f"Edited user {id}")
         return redirect('/admin')
 
-class DeleteUser(AuthView):
+class DeleteUser(PermissionRequiredMixin, View):
     permission_required = "delete_user"
 
     # Post executes the deletion
-    def post(self, request, *args, **kwargs):
-        self.check_auth(request)
-        user = self.get_user(kwargs)
-        user.delete()
-        print(f"Deleted {user}")
+    def delete(self, request, *args, **kwargs):
+        actions.delete_user(request, kwargs['id'])
         return redirect('/admin')
 
     # Get shows the deletion confirmation page
     def get(self, request, *args, **kwargs):
-        self.check_auth(request)
-
         template = loader.get_template('delete-user.html')
         context = {
             'target_user': self.get_user(kwargs)
