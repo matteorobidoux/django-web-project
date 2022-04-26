@@ -23,11 +23,6 @@ class Dashboard(generic.ListView):
     # Get the users based on the page given as an argument
     def get_queryset(self):
         page = self.kwargs["page"]
-<<<<<<< HEAD
-        start_users = 5*(page-1)
-        end_users = 5*page
-        return User.objects.all()[start_users:end_users]
-=======
         start_users = self.max_per_page*(page-1)
         end_users = self.max_per_page*page
         return User.objects.all()[start_users:end_users]
@@ -133,4 +128,3 @@ class DeleteUser(AuthView):
             'target_user': self.get_user(kwargs)
         }
         return HttpResponse(template.render(context, request))
->>>>>>> d2865b04b86cbdad0ad9b9fc725d7fa513fbb4af

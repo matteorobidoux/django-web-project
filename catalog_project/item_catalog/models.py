@@ -27,7 +27,7 @@ class Item(models.Model):
         )
 
     name = models.CharField(max_length=100)
-    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=30, choices=TYPE_CHOICES, default='practical')
     field = models.CharField(max_length=100)
     keyword_list = models.CharField(max_length=200, verbose_name='Keyword List (Seperate with commas)')
