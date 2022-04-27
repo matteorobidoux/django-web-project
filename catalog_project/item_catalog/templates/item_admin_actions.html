@@ -1,6 +1,6 @@
 {% load item_admin %}
 
-<section>
+<section id="item-admin-actions">
    {% if perms.item_catalog.can_change_project %}
    <a href="{% url 'edit_project' item.id %}">
     <button class="action-button-2">

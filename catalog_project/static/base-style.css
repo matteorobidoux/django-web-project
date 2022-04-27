@@ -27,11 +27,51 @@ body {
   .site-header .navbar-nav .nav-link.active {
     font-weight: 500;
   }
+
+  .nav-title {
+    font-size: 22px;
+  }
+
+  .explore-title{
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .detail-title{
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 50px;
+  }
+
+  .keyword-list {
+    color: #428bca;
+  }
   
+  .detail-box {
+    border: 2px solid #dddddd;
+    padding: 20px;
+    min-width: 400px;
+    max-width: 400px;
+  }
+
+  .detail-img {
+    height: 400px;
+    min-width: 400px;
+    max-width: 400px;
+    margin-right: 30px;
+    border: 2px solid #dddddd;
+  }
+
+  .detail-content{
+    font-size: 25px;
+    border: 2px solid #dddddd;
+    padding: 20px;
+  }
+
   .content-section {
     background: #ffffff;
     padding: 10px 20px;
-    border: 1px solid #dddddd;
+    border: 1.5px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
   }
@@ -50,9 +90,14 @@ body {
   }
   
   .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
+    height: 200px;
+    width: 200px;
+    margin-right: 30px;
+    border: 2px solid #dddddd;
+  }
+
+  .item-username {
+    font-size: 22px;
   }
   
   .article-metadata {
