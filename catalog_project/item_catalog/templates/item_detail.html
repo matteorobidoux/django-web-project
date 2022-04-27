@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
 {% block content %}
     <h1 class="detail-title"> {{ object.name }} </h1>
     <div class="container">
@@ -37,4 +39,25 @@
             </div>
         </div>
     </div>
+    {% if user.is_authenticated %}
+        <h3> Comments... </h3>
+        <hr>
+        {% if not post.comments.all %}
+            No Comments Yet...<a href="{% url 'project-comment' object.pk %}"> Add One</a>
+            <br> </br>
+        {% else %}
+            <a href="{% url 'project-comment' object.pk %}"> Add Comment</a>
+            <br></br> 
+            {% for comment in post.comments.all %}
+                <strong>
+                    {{ comment.commenter }} - 
+                    {{ comment.timestamp }}
+                </strong>
+                <br></br>
+                {{ comment.content }}
+                <br></br>
+            {% endfor %}
+        {% endif %}
+        <hr>
+    {% endif %}
 {% endblock content %}

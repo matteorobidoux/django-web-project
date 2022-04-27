@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Item
+from .models import Item, Comment
 from django.views.generic import DetailView, UpdateView, ListView, CreateView, DeleteView
 from django.urls import reverse_lazy
 from django.http import HttpResponse, request, HttpResponseNotFound, request
@@ -40,7 +40,19 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = 'item_detail.html'
 
+class AddCommentView(CreateView):
+    model = Comment
+    fields = ['content']
+    template_name = 'comment.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.item_id = self.kwargs['pk']
+        form.instance.commenter = self.request.user
+        return super().form_valid(form)
+
 # Mostly used to return error responses
 def response_not_found_404(request, exception):
     template = loader.get_template('response-404.html')
     return HttpResponseNotFound(template.render({}))
+
