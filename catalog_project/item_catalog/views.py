@@ -47,8 +47,10 @@ class AddCommentView(CreateView):
     success_url = '/'
 
     def form_valid(self, form):
-        form.instance.item_id = self.kwargs['pk']
-        form.instance.commenter = self.request.user
+        obj = form.save(commit=False)
+        obj.commenter = self.request.user
+        obj.item_id = self.kwargs['pk']
+        obj.save
         return super().form_valid(form)
 
 # Mostly used to return error responses

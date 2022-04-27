@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -65,5 +64,5 @@ class Like(models.Model):
 class Comment(models.Model):
     content = models.TextField(max_length=300)
     commenter = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name="comments", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
