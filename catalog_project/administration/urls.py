@@ -13,9 +13,9 @@ urlpatterns = [
     path('warn_user/<int:id>/', views.WarnUser.as_view(), name="warn_user"),
     path('delete_user/<int:id>/', views.DeleteUser.as_view(), name="delete_user"),
     path('flag_user/<int:id>/', views.FlagUser.as_view(), name="flag_user"),
-    path('edit_user/<int:id>/', views.EditUser.as_view(), name="edit_user"),
     path('block_user/<int:id>/', views.BlockUser.as_view(), name="block_user"),
 
+    path('edit/<int:user_id>/', views.EditUserView.as_view(), name="edit_user"),
     # User editor view
     #path('edit-user/<int:user_id>/', views.edit_user, name="edit_user"),
     # User creator view

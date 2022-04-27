@@ -24,7 +24,7 @@ class Profile(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return f'{self.user.name} Profile'
+        return f'{self.user.username} Profile'
 
 
 @receiver(post_save, sender=User)
@@ -32,6 +32,7 @@ def update_profile_signal(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
+
 
 class Warning(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)

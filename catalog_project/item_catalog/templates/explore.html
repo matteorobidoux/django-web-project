@@ -13,6 +13,7 @@
                 <p class="article-content"> Type: {{ item.type }}</p>
                 <p class="article-content"> Field: {{ item.field }}</p>
             </div>
+            {% include 'item_admin_actions.html' with item=item %}
         </article>
     {% endfor %}
     {% if is_paginated %}

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Item
 from django.views.generic import DetailView, UpdateView, ListView, CreateView, DeleteView
+from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseNotFound
 from django.template import loader
 
@@ -21,6 +22,18 @@ class ItemCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class ItemEditView(UpdateView):
+    model = Item
+    success_url = '/'
+    fields = ['name', 'type', 'field', 'keyword_list', 'content', 'status', 'url', 'snapshot']
+    template_name = 'edit_project.html'
+
+class ItemDeleteView(DeleteView):
+    model = Item
+    success_url = reverse_lazy('explore-projects')
+    template_name = 'delete_project.html'
+
 
 # Mostly used to return error responses
 def response_not_found_404(request, exception):

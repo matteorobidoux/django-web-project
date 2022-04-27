@@ -1,11 +1,9 @@
-from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .user_form import NewUserForm
-
 
 # Create your views here.
 
@@ -64,6 +62,5 @@ def logout_page(request):
     return redirect('/')
 
 
-def logout_user(request):
-    logout(request)
-    return redirect("/")
+
+

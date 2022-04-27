@@ -1,0 +1,16 @@
+{% load item_admin %}
+
+{% if user|in_group:"ItemAdmin" %}
+<section>
+   <a href="{% url 'edit_project' item.id %}">
+    <button class="action-button-2">
+      Edit Item
+    </button>
+  </a>
+  <a href="{% url 'delete_project' item.id %}">
+    <button class="action-button-2">
+      Delete Item
+    </button>
+  </a>
+</section>
+{% endif %}
