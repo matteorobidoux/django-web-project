@@ -1,4 +1,40 @@
-{% extends "blog/base.html" %}
+{% extends "base.html" %}
 {% block content %}
-    
+    <h1 class="detail-title"> {{ object.name }} </h1>
+    <div class="container">
+        <div class="row">
+            <div>
+                <img class="detail-img" src="{{ object.snapshot.url }}">
+            </div>
+            <div class="mr-auto">
+            </div>
+            <div class="detail-box">
+                <h3>
+                    <p class="article-content"> Type: {{ object.type }}</p>
+                    <p class="article-content"> Field: {{ object.field }}</p>
+                    <p class="article-content"> Status: {{ object.status }}</p>
+                    <div class="container">
+                        <div class="row">
+                            <p class="article-content"> Keywords: </p>
+                            <p class="keyword-list ml-2"> {{ object.get_keywords }}</p>
+                        </div>
+                    </div>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <h2 class="explore-title mt-4"> Project Content </h2>
+    <p class="detail-content"> {{ object.content }} </p>
+    <div class="container mb-5">
+        <div class="row">
+            <div>
+                <footer> <a href="{{ object.url }}"> Link To URL</a> </footer>
+            </div>
+            <div class="mr-auto">
+            </div>
+            <div>
+                <footer> {{ object.date_posted }} </footer>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

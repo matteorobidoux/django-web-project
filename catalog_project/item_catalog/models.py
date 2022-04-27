@@ -44,6 +44,13 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
+    def get_keywords(self):
+        new_keywords = ""
+        for keyword in self.keyword_list.split(","):
+            new_keyword = "#" + keyword
+            new_keywords += new_keyword + " "
+        return new_keywords
+
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
 

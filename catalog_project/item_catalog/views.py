@@ -26,6 +26,7 @@ class ItemCreateView(CreateView):
 
 class ItemDetailView(DetailView):
     model = Item
+    template_name = 'item_detail.html'
 
 # Mostly used to return error responses
 def response_not_found_404(request, exception):
