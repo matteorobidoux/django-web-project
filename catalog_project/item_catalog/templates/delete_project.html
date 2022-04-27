@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'action-style.css' %}">
+<title> Delete user </title>
+{% endblock %}
+{% block content %}
+
+<section class="content-block">
+    <h2>Delete "{{ object }}"?</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <section class="inner-form-block button-container">
+            <button class="action-button-1" type="submit">
+                Yes
+            </button>
+            <a href="/">
+                <button type="button" class="action-button-1">
+                    No
+                </button>
+            </a>
+        </section>
+    </form>
+</section>
+{% endblock %}

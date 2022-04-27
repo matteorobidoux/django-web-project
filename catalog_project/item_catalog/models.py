@@ -54,10 +54,12 @@ class Item(models.Model):
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
 
+
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+
 
 class Comment(models.Model):
     content = models.TextField(max_length=300)

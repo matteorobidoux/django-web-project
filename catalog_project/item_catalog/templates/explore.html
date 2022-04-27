@@ -19,6 +19,7 @@
                     <p class="keyword-list ml-2"> {{ item.get_keywords }}</p>
                 </div>
             </div>
+            {% include 'item_admin_actions.html' with item=item %}
         </article>
     {% endfor %}
     {% if is_paginated %}

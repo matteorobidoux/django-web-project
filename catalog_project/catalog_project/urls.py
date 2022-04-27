@@ -18,11 +18,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
     path('django-admin/', admin.site.urls),
     path('admin/', include('administration.urls'), name='admin'),
     path('', include('item_catalog.urls'), name='item_catalog'),
     path('messages/', include('messaging.urls'), name='messaging'),
     path('', include('user_management.urls'), name='user_management'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, STATICFILES_DIRS=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 handler404 = 'item_catalog.views.response_not_found_404'
+

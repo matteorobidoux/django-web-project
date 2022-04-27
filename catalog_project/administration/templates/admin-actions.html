@@ -18,12 +18,11 @@
     </form>
 </td>
 <td>
-    <form action="{% url 'edit_user' target_user.id %}" method="POST">
-        {% csrf_token %}
+    <a href="{%url 'edit_user' target_user.id %}">
         <button type = 'submit' class="action-button-1">
             Edit
         </button>
-    </form>
+    </a>
 </td>
 <td>
     <a href="{%url 'delete_user' target_user.id %}">
