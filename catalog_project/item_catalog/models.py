@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -58,6 +59,12 @@ class Item(models.Model):
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
 
+        img = Image.open(self.snapshot.path)
+        
+        if img.height > 400 or img.width > 400:
+            output_size = (400,400)
+            img.thumbnail(output_size)
+            img.save(self.snapshot.path)
 
 class Comment(models.Model):
     content = models.TextField(max_length=300)

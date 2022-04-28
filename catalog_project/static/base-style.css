@@ -66,6 +66,7 @@ body {
     font-size: 25px;
     border: 2px solid #dddddd;
     padding: 20px;
+    overflow-wrap: break-word;
   }
 
   .content-section {

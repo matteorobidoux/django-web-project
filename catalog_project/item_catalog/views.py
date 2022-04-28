@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import Item, Comment
 from django.views.generic import DetailView, UpdateView, ListView, CreateView, DeleteView
 from django.urls import reverse, reverse_lazy
@@ -49,6 +49,7 @@ class AddCommentView(CreateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.commenter = self.request.user
+        obj.item_id = self.kwargs['pk']
         obj.save
         return super().form_valid(form)
 
