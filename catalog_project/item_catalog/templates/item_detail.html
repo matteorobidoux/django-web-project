@@ -27,7 +27,7 @@
     </div>
     <h2 class="explore-title mt-4"> Project Content </h2>
     <p class="detail-content"> {{ object.content }} </p>
-    <div class="container mb-5">
+    <div class="container mb-4">
         <div class="row">
             <div>
                 <footer> <a href="{{ object.url }}"> Link To URL</a> </footer>
@@ -40,15 +40,28 @@
         </div>
     </div>
     {% if user.is_authenticated %}
+        <div class="mb-5 container">
+            <div class="row">
+                <div>
+                    <form method="POST" action="{% url 'like-project' object.pk %}">
+                        {% csrf_token %}
+                        <button type="submit", name="item_id", value="{{ item.id }}", class="btn btn-primary btn-sm">
+                            Like
+                        </button>
+                    </form>
+                </div>
+                <div class="ml-2">
+                    <p> - {{ object.total_likes }} {% if object.total_likes == 1 %} Like {% else %} Likes {% endif %} </p>
+                </div>
+            </div>
+        </div>
         <h3> Comments... </h3>
         <hr>
-        {% if not item.comments.all %}
+        {% if not object.comments.all %}
             No Comments Yet...<a href="{% url 'project-comment' object.pk %}"> Add One</a>
             <br> </br>
         {% else %}
-            <a href="{% url 'project-comment' object.pk %}"> Add Comment</a>
-            <br></br> 
-            {% for comment in item.comments.all %}
+            {% for comment in object.comments.all %}
                 <strong>
                     {{ comment.commenter }} - 
                     {{ comment.timestamp }}
@@ -56,8 +69,11 @@
                 <br></br>
                 {{ comment.content }}
                 <br></br>
+                <hr>
             {% endfor %}
+            <div class="mb-4">
+                <a href="{% url 'project-comment' item.pk %}"> Add Comment</a>
+            </div>
         {% endif %}
-        <hr>
     {% endif %}
 {% endblock content %}

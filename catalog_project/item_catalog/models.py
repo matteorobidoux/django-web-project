@@ -39,6 +39,7 @@ class Item(models.Model):
         MinValueValidator(0.0)
     ])
     snapshot = models.ImageField(default='default.jpg', upload_to='project_photos')
+    likes = models.ManyToManyField(User, related_name='item_likes', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -51,14 +52,11 @@ class Item(models.Model):
             new_keywords += new_keyword + " "
         return new_keywords
 
+    def total_likes(self):
+        return self.likes.count()
+
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
-
-
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
 
 
 class Comment(models.Model):
