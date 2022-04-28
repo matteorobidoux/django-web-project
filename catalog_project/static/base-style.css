@@ -13,7 +13,7 @@ body {
   }
   
   .bg-steel {
-    background-color: #5f788a;
+    background-color: #393939;
   }
   
   .site-header .navbar-nav .nav-link {
@@ -82,7 +82,7 @@ body {
   }
   
   a.article-title:hover {
-    color: #428bca;
+    color: #9a9b9c;
     text-decoration: none;
   }
   
@@ -99,58 +99,54 @@ body {
 
   .item-username {
     font-size: 22px;
+    color:#444444;
+    font-weight: 550;
   }
-  
-  .article-metadata {
-    padding-bottom: 1px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
-  }
-  
-  .article-metadata a:hover {
-    color: #333;
+
+  .item-username:hover {
+    color: #9a9b9c;
     text-decoration: none;
   }
-  
-  .article-svg {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
-  }
-  
-  .account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-  }
-  
-  .account-heading {
-    font-size: 2.5rem;
+
+  .url-link {
+    color:#444444;
+    font-weight: 510;
   }
 
-.action-button-1,.action-button-2 {
-    border-radius: 4px;
-    border-style: none;
-    padding: 4px;
-}
+  .url-link:hover {
+    color: #9a9b9c;
+    text-decoration: none;
+  }
 
-.action-button-1 {
-    background: white;
-    color: #5f788a;
-}
+  .rate {
+    display: inline-block;
+    border: 0;
+  }
 
-.action-button-1:active {
-    background: #5f788a;
-    color: white;
-}
+  .rate > input {
+    display: none;
+  }
 
-.action-button-2 {
-    color: white;
-    background: #5f788a;
-}
+  .rate > label {
+    float: right;
+  }
 
-.action-button-2:active {
-    color: #5f788a;
-    background: white;
-}
+  .rate > label:before {
+    display: inline-block;
+    font-family: FontAwesome;
+    content: "\F005";
+    margin: 0;
+    font-size: 1.1rem;
+    padding: 0.3rem 0.2rem;
+    cursor: pointer;
+  }
+
+  .rate .half-star:before {
+    content: "\F089";
+    position: absolute;
+    padding: right 0;
+  }
+
+  input:checked ~ label, label:hover ~ label {
+    color: #FFB503;
+  }

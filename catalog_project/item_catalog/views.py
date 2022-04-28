@@ -58,6 +58,11 @@ def LikeView(request, pk):
     item.likes.add(request.user)
     return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
 
+def RateView(request, pk):
+    item = get_object_or_404(Item, id=request.POST.get('item_id'))
+    item.rating.add(request.user)
+    return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
+
 # Mostly used to return error responses
 def response_not_found_404(request, exception):
     template = loader.get_template('response-404.html')

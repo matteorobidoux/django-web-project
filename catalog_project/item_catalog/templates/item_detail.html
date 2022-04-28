@@ -30,7 +30,7 @@
     <div class="container mb-4">
         <div class="row">
             <div>
-                <footer> <a href="{{ object.url }}"> Link To URL</a> </footer>
+                <footer> <a class="url-link" href="{{ object.url }}"> Link To URL</a> </footer>
             </div>
             <div class="mr-auto">
             </div>
@@ -40,7 +40,7 @@
         </div>
     </div>
     {% if user.is_authenticated %}
-        <div class="mb-5 container">
+        <div class="container mb-3">
             <div class="row">
                 <div>
                     <form method="POST" action="{% url 'like-project' object.pk %}">
@@ -53,12 +53,38 @@
                 <div class="ml-2">
                     <p> - {{ object.total_likes }} {% if object.total_likes == 1 %} Like {% else %} Likes {% endif %} </p>
                 </div>
+                <div class="mr-auto">
+
+                </div>
+                <div class="mr-2">
+                    <button type="submit", name="item_id", value="{{ item.id }}", class="btn btn-outline btn-sm">
+                        Rate
+                    </button>
+                </div>
+                <div>
+                    <form action="{% url 'rate-project' object.pk %}" method="POST">
+                        {% csrf_token %}
+                        <div class="rate">
+                            <input type="radio" name="rating" id="rating10" value="5"><label for="rating10" title="5"></label>
+                            <input type="radio" name="rating" id="rating9" value="4.5"><label for="rating9" title="4.5" class="half-star"></label>
+                            <input type="radio" name="rating" id="rating8" value="4"><label for="rating8" title="4"></label>
+                            <input type="radio" name="rating" id="rating7" value="3.5"><label for="rating7" title="3.5" class="half-star"></label>
+                            <input type="radio" name="rating" id="rating6" value="3"><label for="rating6" title="3"></label>
+                            <input type="radio" name="rating" id="rating5" value="2.5"><label for="rating5" title="2.5" class="half-star"></label>
+                            <input type="radio" name="rating" id="rating4" value="2"><label for="rating4" title="2"></label>
+                            <input type="radio" name="rating" id="rating3" value="1.5"><label for="rating3" title="1.5" class="half-star"></label>
+                            <input type="radio" name="rating" id="rating2" value="1"><label for="rating2" title="1"></label>
+                            <input type="radio" name="rating" id="rating1" value="0.5"><label for="rating1" title="0.5" class="half-star"></label>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
         <h3> Comments... </h3>
         <hr>
         {% if not object.comments.all %}
-            No Comments Yet...<a href="{% url 'project-comment' object.pk %}"> Add One</a>
+            No Comments Yet...<a class="url-link ml-2" href="{% url 'project-comment' object.pk %}"> Add One</a>
             <br> </br>
         {% else %}
             {% for comment in object.comments.all %}
@@ -72,7 +98,7 @@
                 <hr>
             {% endfor %}
             <div class="mb-4">
-                <a href="{% url 'project-comment' item.pk %}"> Add Comment</a>
+                <a class="url-link ml-2" href="{% url 'project-comment' item.pk %}"> Add Comment</a>
             </div>
         {% endif %}
     {% endif %}

@@ -6,16 +6,16 @@ from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 TYPE_CHOICES = (
-    ('practical', 'PRACTICAL'),
-    ('theoretical', 'THEORETICAL'),
-    ('fundamental research', 'FUNDAMENTAL RESEARCH'),
-    ('imperical', 'IMPERICAL')
+    ('Practical', 'PRACTICAL'),
+    ('Theoretical', 'THEORETICAL'),
+    ('Fundamental research', 'FUNDAMENTAL RESEARCH'),
+    ('Imperical', 'IMPERICAL')
 )
 
 STATUS_CHOICES = (
-    ('completed', 'COMPLETED'),
-    ('ongoing', 'ONGOING'),
-    ('planned', 'PLANNED')
+    ('Completed', 'COMPLETED'),
+    ('Ongoing', 'ONGOING'),
+    ('Planned', 'PLANNED')
 )
 
 class Item(models.Model):
@@ -41,6 +41,7 @@ class Item(models.Model):
     ])
     snapshot = models.ImageField(default='default.jpg', upload_to='project_photos')
     likes = models.ManyToManyField(User, related_name='item_likes', blank=True)
+    rating = models.ManyToManyField(User, related_name='ratings', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -55,6 +56,9 @@ class Item(models.Model):
 
     def total_likes(self):
         return self.likes.count()
+
+    def average_rating(self):
+        return self.rating
 
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
