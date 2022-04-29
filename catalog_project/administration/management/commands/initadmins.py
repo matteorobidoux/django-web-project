@@ -46,20 +46,20 @@ class Command(BaseCommand):
         print("Added permissions to groups.")
 
         # add nasr
-        superuser = User.objects.create_user('nasr', 'nasr@notanemail.com', '123', id=1)
+        superuser = User.objects.create_user('nasr', 'nasr@notanemail.com', '123')
         superuser.groups.add(superuser_group)
 
         # add user_manager1
-        member_admin = User.objects.create_user('user_manager1', 'admin1@notanemail.com', '456', id=2)
+        member_admin = User.objects.create_user('user_manager1', 'admin1@notanemail.com', '456')
         member_admin.groups.add(member_admin_group)
 
         # add item_manager1
-        item_admin = User.objects.create_user('item_manager1', 'admin2@notanemail.com', '789', id=3)
+        item_admin = User.objects.create_user('item_manager1', 'admin2@notanemail.com', '789')
         item_admin.groups.add(item_admin_group)
 
         print("Added users")
         # add the dev, which can access the django-admin for development purposes
-        dev = User.objects.create_superuser("dev", "", "dev", id=4)
+        dev = User.objects.create_superuser("dev", "", "dev")
         dev.groups.add(superuser_group)
 
         print("Added dev user")

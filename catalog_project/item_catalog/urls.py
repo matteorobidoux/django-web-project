@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ItemCreateView, ItemListView, ItemEditView, ItemDeleteView, ItemDetailView
+from .views import ItemCreateView, ItemListView, ItemEditView, ItemDeleteView, ItemDetailView, AddCommentView
 
 urlpatterns = [
     # Index page
@@ -8,5 +8,6 @@ urlpatterns = [
     path('project/new/', ItemCreateView.as_view(), name='new-project'),
     path('project/edit/<int:pk>', ItemEditView.as_view(), name='edit_project'),
     path('project/delete/<int:pk>', ItemDeleteView.as_view(), name='delete_project'),
-    path('project/<int:pk>/', ItemDetailView.as_view(), name='project-detail')
+    path('project/<int:pk>/', ItemDetailView.as_view(), name='project-detail'),
+    path('project/<int:pk>/comment', AddCommentView.as_view(), name='project-comment'),
 ]

@@ -63,6 +63,6 @@ class Like(models.Model):
 
 class Comment(models.Model):
     content = models.TextField(max_length=300)
-    commenter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name="comments", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
