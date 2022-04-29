@@ -18,6 +18,7 @@
                     <p class="article-content"> Keywords: </p>
                     <p class="keyword-list ml-2"> {{ item.get_keywords }}</p>
                 </div>
+                <p class="article-content"> Rating: {{ item.avg_rating }} </p>
             </div>
             {% include 'item_admin_actions.html' with item=item %}
         </article>

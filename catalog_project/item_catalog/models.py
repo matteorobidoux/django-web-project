@@ -41,7 +41,6 @@ class Item(models.Model):
     ])
     snapshot = models.ImageField(default='default.jpg', upload_to='project_photos')
     likes = models.ManyToManyField(User, related_name='item_likes', blank=True)
-    rating = models.ManyToManyField(User, related_name='ratings', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -57,8 +56,16 @@ class Item(models.Model):
     def total_likes(self):
         return self.likes.count()
 
-    def average_rating(self):
-        return self.rating
+    def avg_rating(self):
+        sum = 0
+        ratings = Rating.objects.filter(item=self)
+        for rating in ratings:
+            sum += rating.rate
+
+        if len(ratings) > 0:
+            return sum / len(ratings)
+        else:
+            return 0.0
 
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
@@ -75,3 +82,8 @@ class Comment(models.Model):
     commenter = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name="comments", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class Rating(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    user =  models.ForeignKey(User, on_delete=models.CASCADE)
+    rate = models.FloatField()
