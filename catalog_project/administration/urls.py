@@ -15,7 +15,8 @@ urlpatterns = [
     path('flag_user/<int:id>/', views.FlagUser.as_view(), name="flag_user"),
     path('block_user/<int:id>/', views.BlockUser.as_view(), name="block_user"),
 
-    path('edit/<int:user_id>/', views.EditUserView.as_view(), name="edit_user"),
+    path('edit/<int:user_id>/', views.EditUserView.as_view(), name="admin_edit_user"),
+    path('create/', views.UserCreateView.as_view(success_url="/admin/"), name="admin_create_user"),
     # User editor view
     #path('edit-user/<int:user_id>/', views.edit_user, name="edit_user"),
     # User creator view

@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from . import actions
 from .forms import UserUpdateForm, ProfileUpdateForm
+from django.views.generic.edit import CreateView
 from django.contrib import messages
 
 
@@ -16,6 +17,7 @@ class Dashboard(PermissionRequiredMixin, generic.ListView):
     model = User
     context_object_name = 'user_list'
     template_name = 'dashboard.html'
+    ordering = ['id']
     paginate_by = 3
 
 
@@ -112,3 +114,10 @@ class EditUserView(PermissionRequiredMixin, View):
         }
         template = loader.get_template('edit-user.html')
         return HttpResponse(template.render(context, request))
+
+
+class UserCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = 'can_create_user'
+    model = User
+    template_name = 'create-user.html'
+    fields = ('username', 'email', 'password', 'groups')
