@@ -76,7 +76,7 @@ body {
     color: white;
   }
 
-  .dark-content-block>h1,h2{
+  .dark-content-block>h1,.dark-content-block>h2{
     color: white;
   }
 

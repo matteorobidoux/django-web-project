@@ -37,10 +37,10 @@ td,th {
 }
 
 tbody>tr:nth-child(odd){
-    background-color: #5f788a;
+    background-color: #393939;
 }
 tr:nth-child(even),thead>tr {
-    background-color: #6f91a8;
+    background-color: #6f6f6f;
 }
 td button{
     min-width: 100%;
