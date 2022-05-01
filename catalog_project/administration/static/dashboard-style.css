@@ -12,7 +12,8 @@
     width:30%;
 }
 #lefthand-block,#righthand-block{
-    height: 80vh;
+    min-height: 80vh;
+    margin-bottom: 5vh;
 }
 #righthand-block>.content-section{
     margin-bottom: 1%;
@@ -32,8 +33,12 @@
     font-size: 1.7vmin;
 }
 #user-create{
-    min-height: 30%;
+    min-height: 25%;
 }
 #logs{
-    min-height: 70%;
+    min-height: 65%;
+}
+.row {
+    margin-left: 0;
+    margin-right: 0;
 }

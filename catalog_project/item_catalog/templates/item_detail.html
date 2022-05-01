@@ -27,10 +27,10 @@
     </div>
     <h2 class="explore-title mt-4"> Project Content </h2>
     <p class="detail-content"> {{ object.content }} </p>
-    <div class="container mb-5">
+    <div class="container mb-4">
         <div class="row">
             <div>
-                <footer> <a href="{{ object.url }}"> Link To URL</a> </footer>
+                <footer> <a class="url-link" href="{{ object.url }}"> Link To URL</a> </footer>
             </div>
             <div class="mr-auto">
             </div>
@@ -40,15 +40,53 @@
         </div>
     </div>
     {% if user.is_authenticated %}
+        <div class="container mb-3">
+            <div class="row">
+                <div>
+                    <form method="POST" action="{% url 'like-project' object.pk %}">
+                        {% csrf_token %}
+                        <button type="submit", name="item_id", value="{{ item.id }}", class="btn btn-primary btn-sm">
+                            Like
+                        </button>
+                    </form>
+                </div>
+                <div class="ml-2">
+                    <p> - {{ object.total_likes }} {% if object.total_likes == 1 %} Like {% else %} Likes {% endif %} </p>
+                </div>
+                <div class="mr-auto">
+
+                </div>
+                <div>
+                    <form  method="POST" action="{% url 'rate-project' object.pk %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="rate">
+                            <input type="radio" name="rate" id="rating10" value="5.0" /><label for="rating10" title="5"></label>
+                            <input type="radio" name="rate" id="rating9" value="4.5" /><label for="rating9" title="4.5" class="half-star"></label>
+                            <input type="radio" name="rate" id="rating8" value="4.0" /><label for="rating8" title="4"></label>
+                            <input type="radio" name="rate" id="rating7" value="3.5" /><label for="rating7" title="3.5" class="half-star"></label>
+                            <input type="radio" name="rate" id="rating6" value="3.0" /><label for="rating6" title="3"></label>
+                            <input type="radio" name="rate" id="rating5" value="2.5" /><label for="rating5" title="2.5" class="half-star"></label>
+                            <input type="radio" name="rate" id="rating4" value="2.0" /><label for="rating4" title="2"></label>
+                            <input type="radio" name="rate" id="rating3" value="1.5" /><label for="rating3" title="1.5" class="half-star"></label>
+                            <input type="radio" name="rate" id="rating2" value="1.0" /><label for="rating2" title="1"></label>
+                            <input type="radio" name="rate" id="rating1" value="0.5" /><label for="rating1" title="0.5" class="half-star"></label>
+                            <button type="submit" class="btn btn-outline btn-sm mr-2">
+                                Rate
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br></br>
         <h3> Comments... </h3>
         <hr>
-        {% if not item.comments.all %}
-            No Comments Yet...<a href="{% url 'project-comment' object.pk %}"> Add One</a>
+        {% if not object.comments.all %}
+            No Comments Yet...<a class="url-link ml-2" href="{% url 'project-comment' object.pk %}"> Add One</a>
             <br> </br>
         {% else %}
-            <a href="{% url 'project-comment' object.pk %}"> Add Comment</a>
-            <br></br> 
-            {% for comment in item.comments.all %}
+            {% for comment in object.comments.all %}
                 <strong>
                     {{ comment.commenter }} - 
                     {{ comment.timestamp }}
@@ -56,8 +94,11 @@
                 <br></br>
                 {{ comment.content }}
                 <br></br>
+                <hr>
             {% endfor %}
+            <div class="mb-4">
+                <a class="url-link ml-2" href="{% url 'project-comment' item.pk %}"> Add Comment</a>
+            </div>
         {% endif %}
-        <hr>
     {% endif %}
 {% endblock content %}

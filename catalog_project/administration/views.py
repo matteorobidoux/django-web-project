@@ -11,6 +11,7 @@ from django.views.generic.edit import CreateView, DeleteView
 from django.contrib import messages
 from django.forms.models import model_to_dict
 from django.contrib.admin.models import LogEntry
+from item_catalog.views import ModelSearchListView
 
 """ Generic User management views """
 
@@ -123,7 +124,9 @@ class UserCreateView(PermissionRequiredMixin, generic.TemplateView):
 
 
 # Main dashboard interface when you open the dashboard. Uses the page as an argument to filter users.
-class Dashboard(PermissionRequiredMixin, generic.ListView):
+class Dashboard(PermissionRequiredMixin, ModelSearchListView):
+    search_redirect = '/admin'
+    sort_fields = ('id', 'username', 'email')
     permission_required = "view_dashboard"
     # Default model is user.
     model = User

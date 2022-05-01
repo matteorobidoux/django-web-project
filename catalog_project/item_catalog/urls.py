@@ -1,6 +1,7 @@
+from django.shortcuts import redirect
 from django.urls import path
 from . import views
-from .views import ItemCreateView, ItemListView, ItemEditView, ItemDeleteView, ItemDetailView, AddCommentView
+from .views import ItemCreateView, ItemListView, ItemEditView, ItemDeleteView, ItemDetailView, AddCommentView, LikeView, RateView
 
 urlpatterns = [
     # Index page
@@ -10,4 +11,6 @@ urlpatterns = [
     path('project/delete/<int:pk>', ItemDeleteView.as_view(), name='delete_project'),
     path('project/<int:pk>/', ItemDetailView.as_view(), name='project-detail'),
     path('project/<int:pk>/comment', AddCommentView.as_view(), name='project-comment'),
+    path('like/<int:pk>', LikeView, name="like-project"),
+    path('rate/<int:pk>', RateView, name="rate-project"), 
 ]

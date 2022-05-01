@@ -2,6 +2,7 @@
 
 {% block content %}
     <h1 class="explore-title"> Projects </h1>
+    {% include 'project-search.html' %}
     {% for item in items %}
         <article class="media content-section">
             <img class="article-img" src="{{ item.snapshot.url }}">
@@ -23,6 +24,7 @@
                     <p class="article-content"> Keywords: </p>
                     <p class="keyword-list ml-2"> {{ item.get_keywords }}</p>
                 </div>
+                <p class="article-content"> Rating: {{ item.avg_rating }} </p>
             </div>
         </article>
     {% endfor %}

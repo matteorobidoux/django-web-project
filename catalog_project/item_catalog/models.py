@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -5,16 +6,16 @@ from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 TYPE_CHOICES = (
-    ('practical', 'PRACTICAL'),
-    ('theoretical', 'THEORETICAL'),
-    ('fundamental research', 'FUNDAMENTAL RESEARCH'),
-    ('imperical', 'IMPERICAL')
+    ('Practical', 'PRACTICAL'),
+    ('Theoretical', 'THEORETICAL'),
+    ('Fundamental research', 'FUNDAMENTAL RESEARCH'),
+    ('Imperical', 'IMPERICAL')
 )
 
 STATUS_CHOICES = (
-    ('completed', 'COMPLETED'),
-    ('ongoing', 'ONGOING'),
-    ('planned', 'PLANNED')
+    ('Completed', 'COMPLETED'),
+    ('Ongoing', 'ONGOING'),
+    ('Planned', 'PLANNED')
 )
 
 class Item(models.Model):
@@ -34,11 +35,8 @@ class Item(models.Model):
     content = models.TextField()
     url = models.URLField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='planned')
-    rate = models.DecimalField(default=0.0, decimal_places=1, max_digits=3, validators=[
-        MaxValueValidator(5.0),
-        MinValueValidator(0.0)
-    ])
     snapshot = models.ImageField(default='default.jpg', upload_to='project_photos')
+    likes = models.ManyToManyField(User, related_name='item_likes', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -51,18 +49,39 @@ class Item(models.Model):
             new_keywords += new_keyword + " "
         return new_keywords
 
+    def total_likes(self):
+        return self.likes.count()
+
+    def avg_rating(self):
+        sum = 0
+        ratings = Rating.objects.filter(item=self)
+        for rating in ratings:
+            sum += rating.rate
+
+        if len(ratings) > 0:
+            return sum / len(ratings)
+        else:
+            return 0.0
+
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
 
-
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
-
+        img = Image.open(self.snapshot.path)
+        
+        if img.height > 400 or img.width > 400:
+            output_size = (400,400)
+            img.thumbnail(output_size)
+            img.save(self.snapshot.path)
 
 class Comment(models.Model):
     content = models.TextField(max_length=300)
     commenter = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name="comments", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class Rating(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    user =  models.ForeignKey(User, on_delete=models.CASCADE)
+    rate = models.FloatField(
+        validators=[MinValueValidator(0.0),MaxValueValidator(5.0)],
+    )
