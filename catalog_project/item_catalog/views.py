@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Item, Comment
 from django.views.generic import DetailView, UpdateView, ListView, CreateView, DeleteView
 from django.urls import reverse_lazy
@@ -12,6 +12,27 @@ class ItemListView(ListView):
     context_object_name = 'items'
     ordering = ['-date_posted']
     paginate_by = 5
+
+    def post(self, request, *args, **kwargs):
+        filter = request.POST.get('search-query', '')
+        search = request.POST.get('filter-by', '')
+
+        filter_arg = f'?filter={filter}' if filter else ''
+        search_arg = f'?search={search}' if search else ''
+
+        appended = f'{filter_arg}&{search_arg}' if filter_arg and search_arg else filter_arg+search_arg
+        return redirect(f'/explore/{appended}')
+
+    def get_queryset(self):
+        context = super().get_queryset()
+        search = self.request.GET.get('search', 'give-default-value')
+        filter = self.request.GET.get('filter')
+        kwargs = {
+            filter: search
+        }
+        if filter and search:
+            context.filter(**kwargs)
+
 
 class ItemCreateView(CreateView):
     model = Item
