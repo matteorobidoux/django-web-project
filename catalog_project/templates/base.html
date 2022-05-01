@@ -33,6 +33,9 @@
                         {% if user.is_authenticated %}
                             <span class="nav-item nav-link">Welcome back, {{ user.username }}!</span>
                             <a class="nav-item nav-link" href="/project/new/">New Project</a>
+                            {% if perms.item_catalog.view_dashboard %}
+                            <a class="nav-item nav-link" href="/admin/">Admin Dashboard</a>
+                            {% endif %}
                             <a class="nav-item nav-link" href="#">Profile</a>
                             <a class="nav-item nav-link" href="#">Inbox</a>
                             <a class="nav-item nav-link" href="/logout">Logout</a>
@@ -46,7 +49,7 @@
             </nav>
           </header>
 
-          <main role="main" class="container">
+          <main role="main" class="container main-container">
               {% block content %}
               {% endblock %}
           </main>
