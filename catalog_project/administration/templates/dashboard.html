@@ -3,6 +3,8 @@
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'admin-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'pagination-style.css' %}">
 <title> Admin Dashboard </title>
 {% endblock %}
 {% block content %}
@@ -23,6 +25,9 @@
                         </th>
                         <th class="group-data">
                             Group
+                        </th>
+                        <th colspan="5">
+
                         </th>
                     </tr>
                 </thead>
@@ -48,16 +53,16 @@
         <div class="mr-auto">
         </div>
         <div id="righthand-block">
-            <section class="content-section">
-                <h2>User creation</h2>
+            <section class="content-section" id="user-create">
+                <h2>User Creation</h2>
                 <a href="{%url 'admin_create_user' %}" class="section-link">
                     <h4>Create a new user here</h4>
                 </a>
             </section>
-            <section class="content-section">
-                <h2>Logs</h2>
+            <section class="content-section" id="logs">
+                <h2>Recent Logs</h2>
                 {% for log in logs %}
-                <section>
+                <section class="log">
                     <span class="log-username">
                         {{ log.user }}
                     </span>
@@ -68,8 +73,8 @@
                 {% empty %}
                     Nothing has been logged.
                 {% endfor %}
-                <a href="{%url 'admin_create_user' %}" class="section-link">
-                    <p>See more</p>
+                <a href="{%url 'logs' %}" class="section-link">
+                    <p>More</p>
                 </a>
             </section>
         </div>

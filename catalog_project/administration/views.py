@@ -119,7 +119,7 @@ class UserCreateView(PermissionRequiredMixin, generic.TemplateView):
                 return redirect('')
 
 
-""" Dashboard class """
+""" Main pages """
 
 
 # Main dashboard interface when you open the dashboard. Uses the page as an argument to filter users.
@@ -138,6 +138,14 @@ class Dashboard(PermissionRequiredMixin, generic.ListView):
         context['logs'] = LogEntry.objects.all()[:10]
         return context
 
+
+class LogView(PermissionRequiredMixin, generic.ListView):
+    permission_required = "view_dashboard"
+    model = LogEntry
+    context_object_name = 'logs'
+    template_name = 'logs.html'
+    ordering = ['-action_time']
+    paginate_by = 20
 
 """ Dashboard functions """
 

@@ -11,7 +11,9 @@
         </button >
     </a>
     <span class="page-num">
-        Page {{ page_obj.number }}
+        <p>
+            Page {{ page_obj.number }}
+        </p>
     </span>
     <a {% if page_obj.has_next %} href="?page={{ page_obj.next_page_number }}" {% endif %} >
         <button class="page-button action-button-2" {% if not page_obj.has_next %} disabled {% endif %}>

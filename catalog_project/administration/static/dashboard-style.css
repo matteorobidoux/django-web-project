@@ -1,0 +1,39 @@
+.container {
+    max-width: 100vw;
+}
+.content-section {
+    padding: 2em 1em;
+}
+
+#lefthand-block{
+    width:65%;
+}
+#righthand-block{
+    width:30%;
+}
+#lefthand-block,#righthand-block{
+    height: 80vh;
+}
+#righthand-block>.content-section{
+    margin-bottom: 1%;
+}
+.content-section>.section-link>p{
+    margin-top: 1em;
+    margin-bottom: 0em;
+    font-size: 120%;
+}
+
+
+.log-username{
+    font-size: 2.5vmin;
+    font-weight: bold;
+}
+.log-action{
+    font-size: 1.7vmin;
+}
+#user-create{
+    min-height: 30%;
+}
+#logs{
+    min-height: 70%;
+}
