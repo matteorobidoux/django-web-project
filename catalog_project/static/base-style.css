@@ -3,7 +3,12 @@ body {
     color: #333333;
     margin-top: 5rem;
   }
-
+  .container {
+    max-width: 100%;
+  }
+  .main-container {
+    max-width: 1140px;
+  }
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
@@ -221,6 +226,7 @@ body {
     border: 1.5px solid #dddddd;
     margin-bottom: 20px;
   }
+
   .search-container{
     display: flex;
     flex-direction: row;
