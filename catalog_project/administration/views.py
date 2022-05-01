@@ -29,7 +29,7 @@ class PostLastPage:
 # A view for confirming the deletion of a user
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
 class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
-    permission_required = "delete_user"
+    permission_required = "auth.delete_user"
     template_name = 'delete-user.html'
     model = User
     success_url = PostLastPage.no_next_redirect
@@ -127,13 +127,16 @@ class UserCreateView(PermissionRequiredMixin, generic.TemplateView):
 class Dashboard(PermissionRequiredMixin, ModelSearchListView):
     search_redirect = '/admin'
     sort_fields = ('id', 'username', 'email')
-    permission_required = "view_dashboard"
+    permission_required = 'administration.view_dashboard'
     # Default model is user.
     model = User
     context_object_name = 'user_list'
     template_name = 'dashboard.html'
     ordering = ['id']
     paginate_by = 10
+    def get(self, request, *args, **kwargs):
+        print(request.user.get_user_permissions())
+        return super().get(request, *args, **kwargs)
 
     # Adds the admin logs to the context data
     def get_context_data(self, *args, object_list=None, **kwargs):
@@ -143,7 +146,7 @@ class Dashboard(PermissionRequiredMixin, ModelSearchListView):
 
 
 class LogView(PermissionRequiredMixin, generic.ListView):
-    permission_required = "view_dashboard"
+    permission_required = 'administration.view_dashboard'
     model = LogEntry
     context_object_name = 'logs'
     template_name = 'logs.html'
@@ -161,7 +164,7 @@ class ActionView(View):
 
 # The user warning view (POST AND GET)
 class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
-    permission_required = "warn_user"
+    permission_required = "user_management.add_warning"
     template_name = 'warn-user.html'
 
     # Post executes the warning onto the user
@@ -180,7 +183,7 @@ class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
 # User flagging view handler (POST ONLY)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
 class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
-    permission_required = 'flag_user'
+    permission_required = 'administration.flag_user'
 
     def post(self, request, *args, **kwargs):
         actions.flag_user(request, kwargs['pk'])
@@ -191,7 +194,7 @@ class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
 # User blocking view handler (POST)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
 class BlockUser(PermissionRequiredMixin, PostLastPage, ActionView):
-    permission_required = "block_user"
+    permission_required = "administration.block_user"
 
     def post(self, request, *args, **kwargs):
         actions.block_user(request, kwargs['pk'])
@@ -204,7 +207,7 @@ class BlockUser(PermissionRequiredMixin, PostLastPage, ActionView):
 class AdminUserEditView(EditUserView):
     success_url = reverse_lazy('admin_board')
 
-    permission_required = 'change_user'
+    permission_required = 'auth.change_user'
     template_name = 'edit-user.html'
     initial_user = ('username', 'email')
     initial_profile = ('image', 'flagged', 'blocked')
@@ -214,7 +217,7 @@ class AdminUserEditView(EditUserView):
 class AdminUserCreateView(UserCreateView):
     success_url = reverse_lazy('admin_board')
 
-    permission_required = "can_create_user"
+    permission_required = "auth.add_user"
     template_name = 'create-user.html'
 
 

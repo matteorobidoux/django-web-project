@@ -67,14 +67,14 @@ class ItemCreateView(CreateView):
         return super().form_valid(form)
 
 class ItemManageEditView(PermissionRequiredMixin, UpdateView):
-    permission_required = "can_change_project"
+    permission_required = "item_catalog.change_item"
     model = Item
     success_url = '/'
     fields = ['name', 'type', 'field', 'keyword_list', 'content', 'status', 'url', 'snapshot']
     template_name = 'edit_project.html'
 
 class ItemManageDeleteView(PermissionRequiredMixin, DeleteView):
-    permission_required = "can_delete_project"
+    permission_required = "item_datalog.delete_item"
     model = Item
     success_url = reverse_lazy('explore-projects')
     template_name = 'delete_project.html'
