@@ -1,3 +1,4 @@
+from .forms import RateForm
 from django.contrib.auth.models import User
 from django.http import (HttpResponse, HttpResponseNotFound,
                          HttpResponseRedirect, request)

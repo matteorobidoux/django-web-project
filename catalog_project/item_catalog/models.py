@@ -35,10 +35,6 @@ class Item(models.Model):
     content = models.TextField()
     url = models.URLField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='planned')
-    rate = models.DecimalField(default=0.0, decimal_places=1, max_digits=3, validators=[
-        MaxValueValidator(5.0),
-        MinValueValidator(0.0)
-    ])
     snapshot = models.ImageField(default='default.jpg', upload_to='project_photos')
     likes = models.ManyToManyField(User, related_name='item_likes', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
@@ -86,4 +82,6 @@ class Comment(models.Model):
 class Rating(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user =  models.ForeignKey(User, on_delete=models.CASCADE)
-    rate = models.FloatField()
+    rate = models.FloatField(
+        validators=[MinValueValidator(0.0),MaxValueValidator(5.0)],
+    )
