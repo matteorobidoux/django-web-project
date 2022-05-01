@@ -1,9 +1,13 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
-from .user_form import NewUserForm
+
+from .models import Profile
+from .user_form import NewUserForm, NewMemberForm
+
 
 # Create your views here.
 
@@ -22,23 +26,25 @@ def register(request):
     template_name = 'registration/register.html'
     if request.method == 'POST':
         reg_form = NewUserForm(request.POST)
+        member_form = NewMemberForm(request.POST, request.FILES)
+
         if reg_form.is_valid():
             user = reg_form.save()
-            user.refresh_from_db()
-            user.profile.username = reg_form.cleaned_data.get('username')
-            user.profile.email = reg_form.cleaned_data.get('email')
             user.save()
-            user = authenticate(username=user.profile.username, password=reg_form.cleaned_data.get('password2'))
+            profile = member_form.save(commit=False)
+            profile.user = user
+            if member_form.is_valid():
+                if 'image' in request.FILES:
+                    profile.image = request.FILES['image']
+            profile.save()
+            user = authenticate(username=profile.user.username, password=reg_form.cleaned_data.get('password2'))
             login(request, user)
             return redirect('/')
-            # user = reg_form.cleaned_data.get('username')
-            # reg_form.save()
-            # messages.success(request, f'Registration successful for {user}.')
-            # return redirect('/login/')
-        return render(request, template_name, {'reg_form': reg_form})
+        return render(request, template_name, {'reg_form': reg_form, 'member_form': member_form})
     else:
         reg_form = NewUserForm()
-    return render(request=request, template_name=template_name, context={'reg_form': reg_form})
+        member_form = NewMemberForm()
+    return render(request=request, template_name=template_name, context={'reg_form': reg_form, 'member_form': member_form})
 
 
 def login_page(request):

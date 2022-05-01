@@ -27,13 +27,6 @@ class Profile(models.Model):
         return f'{self.user.username} Profile'
 
 
-@receiver(post_save, sender=User)
-def update_profile_signal(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-    instance.profile.save()
-
-
 class Warning(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.CharField(max_length=100)
