@@ -1,6 +1,6 @@
 {% load item_admin %}
-
-<span class="item-admin-actions">
+{% if request.user.id != item.owner.id %}
+<span class="item-actions">
    {% if perms.item_catalog.can_change_project %}
    <a href="{% url 'edit_project' item.id %}">
     <button class="action-button-2">
@@ -16,3 +16,4 @@
   </a>
     {% endif %}
 </span>
+{% endif %}

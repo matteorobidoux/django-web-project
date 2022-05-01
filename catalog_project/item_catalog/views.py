@@ -1,14 +1,15 @@
 from django.http import (HttpResponse, HttpResponseNotFound,
-                         HttpResponseRedirect, request)
+                         HttpResponseRedirect, request, Http404)
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
+from django.views.generic.detail import SingleObjectMixin
 
 from .forms import RateForm
 from .models import Comment, Item, Rating
-from django.forms.models import model_to_dict
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class ModelSearchListView(ListView):
     search_redirect = ''
@@ -65,20 +66,50 @@ class ItemCreateView(CreateView):
         obj.save
         return super().form_valid(form)
 
-class ItemEditView(UpdateView):
+class ItemManageEditView(PermissionRequiredMixin, UpdateView):
+    permission_required = "can_change_project"
     model = Item
     success_url = '/'
     fields = ['name', 'type', 'field', 'keyword_list', 'content', 'status', 'url', 'snapshot']
     template_name = 'edit_project.html'
 
-class ItemDeleteView(DeleteView):
+class ItemManageDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "can_delete_project"
     model = Item
     success_url = reverse_lazy('explore-projects')
     template_name = 'delete_project.html'
 
+class SelfAuditMixin(SingleObjectMixin):
+    def get_object(self, queryset=None):
+        object = super().get_object()
+        if object:
+            if self.request.user.id == object.owner.id:
+                return object
+            else:
+                raise Http404
+
+
+class ItemEditView(SelfAuditMixin, UpdateView):
+    model = Item
+    success_url = '/'
+    fields = ['name', 'type', 'field', 'keyword_list', 'content', 'status', 'url', 'snapshot']
+    template_name = 'edit_project.html'
+
+
+class ItemDeleteView(SelfAuditMixin, DeleteView):
+    model = Item
+    success_url = reverse_lazy('explore-projects')
+    template_name = 'delete_project.html'
+
+
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'item_detail.html'
+
+    def post(self, request, *args, **kwargs):
+        if request.user.id == self.object.owner.id:
+            super().post(request, *args, **kwargs)
+        return
 
 class AddCommentView(CreateView):
     model = Comment
@@ -90,11 +121,11 @@ class AddCommentView(CreateView):
         obj = form.save(commit=False)
         obj.commenter = self.request.user
         obj.item_id = self.kwargs['pk']
-        obj.save
+        obj.save()
         return super().form_valid(form)
 
 def LikeView(request, pk):
-    item = get_object_or_404(Item, id=request.POST.get('item_id'))
+    item = get_object_or_404(Item, id=pk)
     item.likes.add(request.user)
     return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
 

@@ -75,6 +75,11 @@ body {
     border-radius: 4px;
     color: white;
   }
+
+  .dark-content-block>h1,h2{
+    color: white;
+  }
+
   .content-section {
     background: #ffffff;
     padding: 10px 20px;

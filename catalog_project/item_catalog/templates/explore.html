@@ -15,6 +15,7 @@
                     <div class="mr-auto">
                     </div>
                     {% include 'item_admin_actions.html' with item=item %}
+                    {% include 'self_item_actions.html' with item=item %}
                 </div>
                 <h2><a class="article-title" href="{% url 'project-detail' item.pk %}">{{ item.name }}</a></h2>
                 <p class="article-content"> Type: {{ item.type }}</p>
