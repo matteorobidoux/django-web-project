@@ -1,0 +1,44 @@
+.page-select{
+    width: 100%;
+}
+.page-num {
+    background: white;
+    color: #5f788a;
+    border: solid 1px #5f788a;
+}
+.page-button,.page-num{
+    padding: 4px;
+    margin: 0 2px;
+    border-radius: 4px;
+    height: 100%;
+    font-size: 1.5vmin;
+}
+.page-button{
+    width: 100%;
+}
+.page-select>*{
+    width: 5%;
+}
+
+.page-num{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 8%;
+}
+.page-num>p{
+    margin: auto;
+    font-size: 1.5vmin;
+}
+
+.page-button:disabled{
+    background: #6f6f6f;
+}
+
+.page-select{
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 7vmin;
+}

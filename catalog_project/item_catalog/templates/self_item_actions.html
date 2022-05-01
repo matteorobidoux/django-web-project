@@ -1,0 +1,14 @@
+{% if request.user.id == item.owner.id %}
+<span class="item-actions">
+   <a href="{% url 'edit_own_project' item.id %}">
+    <button class="btn btn-outline-info">
+      Edit Item
+    </button>
+  </a>
+  <a href="{% url 'delete_own_project' item.id %}">
+    <button class="btn btn-outline-info">
+      Delete Item
+    </button>
+  </a>
+</span>
+{% endif %}

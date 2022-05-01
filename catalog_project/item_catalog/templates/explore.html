@@ -2,13 +2,20 @@
 
 {% block content %}
     <h1 class="explore-title"> Projects </h1>
+    {% include 'project-search.html' %}
     {% for item in items %}
         <article class="media content-section">
             <img class="article-img" src="{{ item.snapshot.url }}">
             <div class="media-body">
-                <div class="article-metadata">
-                    <a class="item-username mr-2" href="#"> {{ item.owner.username }}</a>
-                    <small class="text-muted">{{ item.date_posted }}</small>
+                <div class="article-metadata row">
+                    <div>
+                        <a class="item-username mr-2" href="#"> {{ item.owner.username }}</a>
+                        <small class="text-muted">{{ item.date_posted }}</small>
+                    </div>
+                    <div class="mr-auto">
+                    </div>
+                    {% include 'item_admin_actions.html' with item=item %}
+                    {% include 'self_item_actions.html' with item=item %}
                 </div>
                 <h2><a class="article-title" href="{% url 'project-detail' item.pk %}">{{ item.name }}</a></h2>
                 <p class="article-content"> Type: {{ item.type }}</p>
@@ -20,7 +27,6 @@
                 </div>
                 <p class="article-content"> Rating: {{ item.avg_rating }} </p>
             </div>
-            {% include 'item_admin_actions.html' with item=item %}
         </article>
     {% endfor %}
     {% if is_paginated %}
