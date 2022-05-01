@@ -7,12 +7,13 @@
 {% endblock %}
 {% block content %}
     <section id="content-section">
-        <section class="content-block">
+        <section class="dark-content-block">
             <h2>
-                Write a warning message for {{ target_user.username }}
+                Write a warning message for {{ object.username }}
             </h2>
             <form action="{% url 'warn_user' user.id %}" method="POST">
                 {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
                 <section class="inner-form-block">
                     <textarea id="warning-message" name="warning-message"></textarea>
                 </section>
@@ -20,8 +21,8 @@
                     <button type = 'submit' class="action-button-1">
                         Warn
                     </button>
-                        <a href="admin/">
-                            <button class="action-button-1">
+                        <a href="{{ request.GET.next }}">
+                            <button type="button" class="action-button-1">
                                 Go back
                             </button>
                         </a>

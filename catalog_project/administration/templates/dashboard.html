@@ -8,70 +8,71 @@
 {% block content %}
 <section id="content-section">
     <section>
-        <h1>Admin dashboard.</h1>
-        List of all users registered on the website:
+        <h1>Superuser dashboard</h1>
     </section>
-    <section>
-        <a href="{%url 'admin_create_user' %}">
-            <button class="action-button-2">
-                Create new user
-            </button>
-        </a>
-    </section>
-    <table class="content-block">
-        <thead>
-            <th>
-                ID
-            </th>
-            <th>
-                Username
-            </th>
-            <th>
-                Group
-            </th>
-        </thead>
-        <tbody>
-        {% for target_user in user_list %}
-            <tr>
-                <td>
-                    {{ target_user.id }}
-                </td>
-                <td>
-                    {{ target_user.username }}
-                </td>
-                <td>
-                    {{ target_user.groups.all.0 }}
-                </td>
-                {% include 'admin-actions.html' with target_user=target_user %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <section class="page-select">
-
-        <a href="?page=1">
-            <button class="page-button action-button-2"{% if not page_obj.has_previous %} disabled {% endif %}>
-                &lt;&lt;
-            </button>
-        </a>
-        <a {% if page_obj.has_previous %} href="?page={{ page_obj.previous_page_number }}" {% endif %}>
-            <button class="page-button action-button-2" {% if not page_obj.has_previous %} disabled {% endif %}>
-                &lt;
-            </button >
-        </a>
-        <span class="page-num">
-            Page {{ page_obj.number }}
-        </span>
-        <a {% if page_obj.has_next %} href="?page={{ page_obj.next_page_number }}" {% endif %} >
-            <button class="page-button action-button-2" {% if not page_obj.has_next %} disabled {% endif %}>
-                &gt;
-            </button>
-        </a>
-        <a {% if page_obj.has_next %} href="?page={{ page_obj.paginator.num_pages }}" {% endif %}>
-            <button class="page-button action-button-2" {% if not page_obj.has_next %} disabled {% endif %}>
-                &gt;&gt;
-            </button>
-        </a>
+    <section class="row">
+        <section id="lefthand-block">
+            <table class="dark-content-block">
+                <thead>
+                    <tr>
+                        <th class="id-data">
+                            ID
+                        </th>
+                        <th class="username-data">
+                            Username
+                        </th>
+                        <th class="group-data">
+                            Group
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for target_user in user_list %}
+                    <tr>
+                        <td class="id-data">
+                            {{ target_user.id }}
+                        </td>
+                        <td>
+                            {{ target_user.username }}
+                        </td>
+                        <td>
+                            {{ target_user.groups.all.0 }}
+                        </td>
+                        {% include 'admin-actions.html' with target_user=target_user %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% include 'page-select.html' %}
+        </section>
+        <div class="mr-auto">
+        </div>
+        <div id="righthand-block">
+            <section class="content-section">
+                <h2>User creation</h2>
+                <a href="{%url 'admin_create_user' %}" class="section-link">
+                    <h4>Create a new user here</h4>
+                </a>
+            </section>
+            <section class="content-section">
+                <h2>Logs</h2>
+                {% for log in logs %}
+                <section>
+                    <span class="log-username">
+                        {{ log.user }}
+                    </span>
+                    <span class="log-action">
+                        {{ log.object_repr }}
+                    </span>
+                </section>
+                {% empty %}
+                    Nothing has been logged.
+                {% endfor %}
+                <a href="{%url 'admin_create_user' %}" class="section-link">
+                    <p>See more</p>
+                </a>
+            </section>
+        </div>
     </section>
 </section>
 {% endblock %}

@@ -5,19 +5,33 @@
 {% endblock %}
 {% block content %}
     <h1>Edit User</h1>
-    <section>
+    <article class="media content-section">
         <div>
-            <img src="{{ target_user.profile.image.url }}" width="100" height="100">
+            <img class="article-img" src="{{ object.profile.image.url }}" width="100" height="100">
         </div>
-        <div>
-            <h3>{{ target_user.username }}</h3>
-            <p> {{ target_user.email }} </p>
+        <div class="media-body">
+            <div class="article-metadata">
+                <h3 class="article-content">{{ object.username }}</h3>
+                <p class="article-content"> {{ object.email }} </p>
+            </div>
+            <p class="row-container">
+                <p>
+                    {{ object.groups.all.0 }}
+                </p>
+                <p>
+                    Blocked: {% if object.profile.blocked %}Yes{% else %}No{% endif %}
+                </p>
+                <p>
+                    Flagged: {% if object.profile.flagged %}Yes{% else %}No{% endif %}
+                </p>
+            </p>
         </div>
-    </section>
+    </article>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ user_form|crispy }}
         {{ profile_form|crispy }}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
         <input type="submit" value="Change"/>
     </form>
 {% endblock %}

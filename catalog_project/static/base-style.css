@@ -68,6 +68,12 @@ body {
     padding: 20px;
   }
 
+.dark-content-block {
+    padding: 1em;
+    background-color: #5f788a;
+    border-radius: 4px;
+    color: white;
+}
   .content-section {
     background: #ffffff;
     padding: 10px 20px;
@@ -75,7 +81,7 @@ body {
     border-radius: 3px;
     margin-bottom: 20px;
   }
-  
+
   .article-title {
     color: #444444;
   }
@@ -152,4 +158,8 @@ body {
 .action-button-2:active {
     color: #5f788a;
     background: white;
+}
+
+.item-admin-actions button{
+    width: 150px;
 }
