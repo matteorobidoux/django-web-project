@@ -75,7 +75,7 @@ def RateView(request, pk):
             form = RateForm(request.POST)
             if form.is_valid():
                 data = Rating()
-                data.rate = form.cleaned_data['rating']
+                data.rate = form.cleaned_data['rate']
                 data.item_id = pk
                 data.user_id = request.user.id
                 data.save()

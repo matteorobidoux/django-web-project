@@ -4,4 +4,5 @@ from .models import Rating
 class RateForm(forms.ModelForm):
     class Meta:
         model = Rating
-        fields = ['rate',]
+        fields = ['rate']
+        exclude = ['user', 'item',]
