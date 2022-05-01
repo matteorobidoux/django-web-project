@@ -33,7 +33,8 @@
       "change_user",
       "block_user",
       "add_warning",
-      "flag_user"
+      "flag_user",
+      "view_dashboard"
     ]
   }
 }
