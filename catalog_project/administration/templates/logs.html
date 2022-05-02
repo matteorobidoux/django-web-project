@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'log-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'pagination-style.css' %}">
+<title> Admin Logs </title>
+{% endblock %}
+{% block content %}
+<section id="content-section">
+    <section>
+        <h1>Logs</h1>
+    </section>
+    <section class="row">
+        <table class="dark-content-block">
+            <thead>
+                <tr>
+                    <th class="action-time-data">
+                        Date
+                    </th>
+                    <th class="user-data">
+                        User
+                    </th>
+                    <th class="action-data">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td class="action-time-data">
+                        {{ log.action_time }}
+                    </td>
+                    <td class="user-data">
+                        {{ log.user.username }}
+                    </td>
+                    <td class="action-data">
+                        {{ log.object_repr }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include 'page-select.html' %}
+    </section>
+</section>
+{% endblock %}

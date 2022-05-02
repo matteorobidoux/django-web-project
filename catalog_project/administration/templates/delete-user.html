@@ -7,12 +7,14 @@
 {% endblock %}
 {% block content %}
     <section id="content-section">
-        <section class="content-block">
+        <section class="dark-content-block">
             <h2>
-                Delete user {{ target_user.username }}?
+                Delete user {{ object.username }}?
             </h2>
-            <form action="{% url 'delete_user' target_user.id %}" method="POST">
+            <form action="{% url 'delete_user' object.id %}" method="POST">
                 {% csrf_token %}
+                {{ form }}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
                 <section class="inner-form-block button-container">
                     <button type = 'submit' class="action-button-1">
                         Delete

@@ -54,7 +54,7 @@ class Command(BaseCommand):
         member_admin.groups.add(member_admin_group)
 
         # add item_manager1
-        item_admin = User.objects.create_user('item_manager1', 'admin2@notanemail.com', '789')
+        item_admin = User.objects.create_user(' ', 'admin2@notanemail.com', '789')
         item_admin.groups.add(item_admin_group)
 
         print("Added users")

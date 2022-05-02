@@ -7,10 +7,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import DetailView
-
 from .models import Profile
 from .user_form import NewUserForm, NewMemberForm
-
+from .user_form import NewUserForm
+from django.contrib.auth.models import Group
+from django.views.generic import View
 
 # Create your views here.
 
@@ -42,6 +43,11 @@ def register(request):
 
         if reg_form.is_valid():
             user = reg_form.save()
+            user.refresh_from_db()
+            user.profile.username = reg_form.cleaned_data.get('username')
+            user.profile.email = reg_form.cleaned_data.get('email')
+            member_group = Group.objects.get(name='Member')
+            user.groups.add(member_group)
             user.save()
             profile = member_form.save(commit=False)
             profile.user = user
@@ -68,6 +74,8 @@ def login_page(request):
             password = login_form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
+                if user.profile.blocked:
+                    return redirect('/blocked/')
                 login(request, user)
                 return redirect('/')
     else:
@@ -80,5 +88,8 @@ def logout_page(request):
     return redirect('/')
 
 
+def blocked(request):
+    template = loader.get_template('blocked.html')
+    return HttpResponse(template.render({}, request))
 
 
