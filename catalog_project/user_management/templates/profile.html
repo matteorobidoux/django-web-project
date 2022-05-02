@@ -5,7 +5,7 @@
 {% block content %}
 <div class="profile-page">
     <img class="profile-pic" src="{{ profile.image.url }}">
-    <h1 class="profile-name center">{{ request.user.username }}'s page</h1>
+    <h1 class="profile-name center">{{ profile.user.username }}'s page</h1>
     <h2 class="user-headers">First Name</h2>
     <p class="user-info">{{ user.first_name }}</p>
     <h2 class="user-headers">Last Name</h2>

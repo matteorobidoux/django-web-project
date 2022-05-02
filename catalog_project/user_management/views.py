@@ -1,10 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
+from django.views.generic import DetailView
 
 from .models import Profile
 from .user_form import NewUserForm, NewMemberForm
@@ -18,10 +20,18 @@ def manage_users(request):
     return HttpResponse(template.render({}, request))
 
 
-def home(request):
+def profile_page(request, username=None):
+    if not request.user.is_authenticated:
+        messages.info(request, 'Please login to view profiles')
+        return redirect('/login')
     template = loader.get_template('profile.html')
-    profile = request.user.profile
-    return HttpResponse(template.render({'profile': profile}, request))
+    if username:
+        user_page = get_object_or_404(User, username=username)
+        profile = user_page.profile
+    else:
+        user_page = request.user.username
+        profile = request.user.profile
+    return HttpResponse(template.render({'profile': profile, 'user': user_page}, request))
 
 
 def register(request):

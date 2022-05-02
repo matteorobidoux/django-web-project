@@ -33,7 +33,7 @@
                         {% if user.is_authenticated %}
                             <span class="nav-item nav-link">Welcome back, {{ user.username }}!</span>
                             <a class="nav-item nav-link" href="/project/new/">New Project</a>
-                            <a class="nav-item nav-link" href="/profile">Profile</a>
+                            <a class="nav-item nav-link" href="/profile/{{ user.username }}">Profile</a>
                             <a class="nav-item nav-link" href="#">Inbox</a>
                             <a class="nav-item nav-link" href="/logout">Logout</a>
                         {% else %}
