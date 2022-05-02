@@ -43,11 +43,8 @@ def register(request):
 
         if reg_form.is_valid():
             user = reg_form.save()
-            user.refresh_from_db()
-            user.profile.username = reg_form.cleaned_data.get('username')
-            user.profile.email = reg_form.cleaned_data.get('email')
-            member_group = Group.objects.get(name='Member')
-            user.groups.add(member_group)
+            # member_group = Group.objects.get(name='Member')
+            # user.groups.add(member_group)
             user.save()
             profile = member_form.save(commit=False)
             profile.user = user
