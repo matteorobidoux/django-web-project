@@ -16,5 +16,5 @@ urlpatterns = [
 
     # User profile page
     # path('user/<int:user_id>/', views.user_profile, name="user_profile"),
-    path(r'profile/', views.register, name="profile"),
+    path(r'profile/', views.home, name="profile"),
 ]

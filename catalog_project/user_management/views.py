@@ -1,4 +1,5 @@
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -18,8 +19,9 @@ def manage_users(request):
 
 
 def home(request):
-    template = loader.get_template('manage-users.html')
-    return HttpResponse(template.render({}, request))
+    template = loader.get_template('profile.html')
+    profile = request.user.profile
+    return HttpResponse(template.render({'profile': profile}, request))
 
 
 def register(request):

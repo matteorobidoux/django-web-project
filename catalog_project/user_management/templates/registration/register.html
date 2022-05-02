@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
     <h1>Register</h1>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in reg_form %}
             <p>
