@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'item-detail-style.css' %}">
+    <title> Project: {{ object.name }} </title>
+{% endblock %}
 {% block content %}
     <h1 class="detail-title"> {{ object.name }} </h1>
     <div class="container">
@@ -11,6 +16,10 @@
             <div class="mr-auto">
             </div>
             <div class="detail-box">
+                <div class="item-actions-container">
+                    {% include 'item_admin_actions.html' %}
+                    {% include 'self_item_actions.html' %}
+                </div>
                 <h3>
                     <p class="article-content"> Type: {{ object.type }}</p>
                     <p class="article-content"> Field: {{ object.field }}</p>
@@ -26,7 +35,7 @@
         </div>
     </div>
     <h2 class="explore-title mt-4"> Project Content </h2>
-    <p class="detail-content"> {{ object.content }} </p>
+    <div class="detail-content"> {{ object.content|linebreaks }} </div>
     <div class="container mb-4">
         <div class="row">
             <div>
