@@ -31,12 +31,12 @@
                   </div>
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
-                            <span class="nav-item nav-link">Welcome back, {{ user.username }}!</span>
+                            <span class="nav-item nav-link">Welcome back, {{ request.user.username }}!</span>
                             <a class="nav-item nav-link" href="/project/new/">New Project</a>
                             {% if perms.administration.view_dashboard %}
                             <a class="nav-item nav-link" href="/admin/">Admin Dashboard</a>
                             {% endif %}
-                            <a class="nav-item nav-link" href="#">Profile</a>
+                            <a class="nav-item nav-link" href="/profile/{{ user.username }}">Profile</a>
                             <a class="nav-item nav-link" href="#">Inbox</a>
                             <a class="nav-item nav-link" href="/logout">Logout</a>
                         {% else %}

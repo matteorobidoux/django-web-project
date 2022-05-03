@@ -1,8 +1,14 @@
+from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
+from django.views.generic import DetailView
+from .models import Profile
+from .user_form import NewUserForm, NewMemberForm
 from .user_form import NewUserForm
 from django.contrib.auth.models import Group
 from django.views.generic import View
@@ -15,34 +21,45 @@ def manage_users(request):
     return HttpResponse(template.render({}, request))
 
 
-def home(request):
-    template = loader.get_template('manage-users.html')
-    return HttpResponse(template.render({}, request))
+def profile_page(request, username=None):
+    if not request.user.is_authenticated:
+        messages.info(request, 'Please login to view profiles')
+        return redirect('/login')
+    template = loader.get_template('profile.html')
+    if username:
+        user_page = get_object_or_404(User, username=username)
+        profile = user_page.profile
+    else:
+        user_page = request.user.username
+        profile = request.user.profile
+    return HttpResponse(template.render({'profile': profile, 'user': user_page}, request))
 
 
 def register(request):
     template_name = 'registration/register.html'
     if request.method == 'POST':
         reg_form = NewUserForm(request.POST)
+        member_form = NewMemberForm(request.POST, request.FILES)
+
         if reg_form.is_valid():
             user = reg_form.save()
-            user.refresh_from_db()
-            user.profile.username = reg_form.cleaned_data.get('username')
-            user.profile.email = reg_form.cleaned_data.get('email')
             member_group = Group.objects.get(name='Member')
             user.groups.add(member_group)
             user.save()
-            user = authenticate(username=user.profile.username, password=reg_form.cleaned_data.get('password2'))
+            profile = member_form.save(commit=False)
+            profile.user = user
+            if member_form.is_valid():
+                if 'image' in request.FILES:
+                    profile.image = request.FILES['image']
+            profile.save()
+            user = authenticate(username=profile.user.username, password=reg_form.cleaned_data.get('password2'))
             login(request, user)
             return redirect('/')
-            # user = reg_form.cleaned_data.get('username')
-            # reg_form.save()
-            # messages.success(request, f'Registration successful for {user}.')
-            # return redirect('/login/')
-        return render(request, template_name, {'reg_form': reg_form})
+        return render(request, template_name, {'reg_form': reg_form, 'member_form': member_form})
     else:
         reg_form = NewUserForm()
-    return render(request=request, template_name=template_name, context={'reg_form': reg_form})
+        member_form = NewMemberForm()
+    return render(request=request, template_name=template_name, context={'reg_form': reg_form, 'member_form': member_form})
 
 
 def login_page(request):

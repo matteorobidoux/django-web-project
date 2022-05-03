@@ -1,6 +1,5 @@
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.template import loader
 from django.views import generic, View
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -105,7 +104,7 @@ class UserCreateView(PermissionRequiredMixin, generic.TemplateView):
 
     # Post saves the edits on the user and profile
     def post(self, request, *args, **kwargs):
-        user_form = self.user_form_model(request.POST)
+        user_form = self.user_form_model(request.POST, request.FILES)
 
         if user_form.is_valid():
             user = user_form.save()
@@ -152,6 +151,7 @@ class LogView(PermissionRequiredMixin, generic.ListView):
     template_name = 'logs.html'
     ordering = ['-action_time']
     paginate_by = 20
+
 
 """ Dashboard functions """
 
@@ -200,7 +200,6 @@ class BlockUser(PermissionRequiredMixin, PostLastPage, ActionView):
         actions.block_user(request, kwargs['pk'])
 
         return super().post(request, *args, **kwargs)
-
 
 
 # User editing view for superuser
