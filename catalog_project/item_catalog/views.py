@@ -126,6 +126,7 @@ class AddCommentView(CreateView):
 
 def LikeView(request, pk):
     item = get_object_or_404(Item, id=pk)
+    print(item)
     item.likes.add(request.user)
     return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
 
