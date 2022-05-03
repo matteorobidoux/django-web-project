@@ -91,10 +91,11 @@ class SelfAuditMixin(SingleObjectMixin):
 
 class ItemEditView(SelfAuditMixin, UpdateView):
     model = Item
-    success_url = '/'
     fields = ['name', 'type', 'field', 'keyword_list', 'content', 'status', 'url', 'snapshot']
     template_name = 'edit_project.html'
 
+    def get_success_url(self):
+        return reverse('project-detail', kwargs={'pk': self.object.pk})
 
 class ItemDeleteView(SelfAuditMixin, DeleteView):
     model = Item
