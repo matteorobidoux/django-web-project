@@ -16,7 +16,7 @@
             </div>
         </div>
         {% for convo in convos %}
-            <a href="{% url 'messages' convo.sender.pk convo.receiver.pk %}">
+            <a href="{% url 'messages' convo.receiver.pk convo.sender.pk %}">
                 <div class="row mb-3">
                     <div class="card col-md-9 p-4">
                         <div>

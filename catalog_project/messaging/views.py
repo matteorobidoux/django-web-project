@@ -1,4 +1,6 @@
+from .forms import MessageForm
 from django.dispatch import receiver
+from django.views import View
 from .models import Message
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse,request
@@ -41,3 +43,20 @@ class MessageList(ListView):
         convos = super(MessageList, self).get_queryset()
         convos = convos.filter(Q(sender=user_sender, receiver=user_receiver) | Q(receiver=user_sender, sender = user_receiver))
         return convos
+
+class CreateMessage(View):
+    def post(self, request, *args, **kwargs):
+            form = MessageForm(request.POST)
+            if form.is_valid():
+                data = Message()
+                data.content = form.cleaned_data['content']
+                if self.request.user == User.objects.get(pk=self.kwargs['pkr']):
+                    data.sender = self.request.user
+                    data.receiver = User.objects.get(pk=self.kwargs['pks'])
+                else:
+                    data.sender = self.request.user
+                    data.receiver = User.objects.get(pk=self.kwargs['pkr'])
+                data.save()
+                return redirect('messages', pkr=self.kwargs['pkr'], pks=self.kwargs['pks'])
+            else:
+                return redirect('messages', pkr=self.kwargs['pkr'], pks=self.kwargs['pks'])

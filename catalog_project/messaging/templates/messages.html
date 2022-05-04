@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
    {% for message in messages %}
         <p> {{ message.content }} </p>
     {% endfor %}
+    <div class="row">
+        <div class="card col-md-12 p-3 shadow-sm">
+            <form method="POST" action="{% url 'create-message' messages.0.receiver.pk messages.0.sender.pk %}">
+                {% csrf_token %}
+                <textarea name="content"> </textarea>
+                {{ form | crispy }}
+                <div clas="d-grid gap-2 mt-3">
+                    <button class="btn btn-light" type="submit"> Send Message </button> 
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
