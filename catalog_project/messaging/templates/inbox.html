@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <h3> Your DMs </h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <form method="GET" action="{% url 'create-convo' %}">
+                    <button class="btn btn-outline p-3" type="submit"> Start a Convo </button>
+                </form>
+            </div>
+        </div>
+        {% for convo in convos %}
+            <a href="{% url 'messages' convo.sender.pk convo.receiver.pk %}">
+                <div class="row mb-3">
+                    <div class="card col-md-9 p-4">
+                        <div>
+                            <h5> {{ convo.sender }} <i class=" ml-2 mr-2 fa fa-paper-plane"></i> {{ convo.receiver }} </h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock content %}

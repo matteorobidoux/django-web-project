@@ -235,7 +235,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 300px;
-    height 300px;
+    height: 300px;
   }
 
   .user-headers {
@@ -264,7 +264,8 @@ body {
   .msg {
     font-size: 20px;
     color: red;
-
+  }
+  
   .search-nav{
     padding: 1em;
     background: #ffffff;
@@ -276,7 +277,6 @@ body {
   .search-container{
     display: flex;
     flex-direction: row;
-    align-children: center;
     margin-left: 0;
     margin-right: 0;
   }

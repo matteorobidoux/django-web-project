@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}
-    Messages
-{% endblock %}
+
 {% block content %}
-    <h1>Messages.</h1>
-    <p>
-        You're now in the messaging app. This doesn't do anything
-    </p>
+   {% for message in messages %}
+        <p> {{ message.content }} </p>
+    {% endfor %}
 {% endblock %}
