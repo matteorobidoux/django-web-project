@@ -19,6 +19,8 @@ class UserCreateForm(NewUserForm):
                 group.user_set.add(user)
 
         return user
+
+
 # An update form for the user
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()

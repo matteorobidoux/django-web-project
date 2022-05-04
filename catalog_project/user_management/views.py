@@ -9,11 +9,11 @@ from django.template import loader
 from django.views.generic import DetailView
 from .models import Profile
 from .user_form import NewUserForm, NewMemberForm
-from .user_form import NewUserForm
+
 from django.contrib.auth.models import Group
 from django.views.generic import View
-
-# Create your views here.
+from django.urls import reverse_lazy, reverse
+from administration.views import EditUserView
 
 
 def manage_users(request):
@@ -88,5 +88,3 @@ def logout_page(request):
 def blocked(request):
     template = loader.get_template('blocked.html')
     return HttpResponse(template.render({}, request))
-
-

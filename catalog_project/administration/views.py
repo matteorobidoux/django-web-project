@@ -44,7 +44,15 @@ class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
 class EditUserView(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
     user_form_model = UserUpdateForm
     profile_form_model = ProfileForm
-    success_url = reverse_lazy('admin_board')
+    success_url = None
+
+    def get_success_url(self):
+        if self.success_url is None:
+            actions.edit_user(self.request, self.object.id)
+            next_page = self.request.POST.get('next', '/')
+            return next_page
+        else:
+            return self.success_url
 
     # Getting initial data involves the two dictionaries representing the data inside the user and profile.
     def get_initial_data(self, kwargs):
@@ -76,13 +84,15 @@ class EditUserView(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
         user_form = self.user_form_model(request.POST, instance=user)
         profile_form = self.profile_form_model(request.POST, request.FILES, instance=user.profile)
 
+        self.object = user
+
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             messages.success(request, "Profile has been updated")
-            actions.edit_user(request, user.id)
-            next_page = request.POST.get('next', '/')
-            return HttpResponseRedirect(next_page)
+
+            return HttpResponseRedirect(self.get_success_url())
+
 
 
 # A view for creating a User
