@@ -15,8 +15,10 @@ urlpatterns = [
     path(r'logout', views.logout_page, name="login"),
 
     # User profile page
-    # path('user/<int:user_id>/', views.user_profile, name="user_profile"),
     path(r'profile/<str:username>/', views.profile_page, name="user_profile"),
+    # User editing page
+    #path('profile/edit/<int:pk>/', views.ManagerUserEditView.as_view(), name="manager_edit_user"),
+
     # Blocked user
     path('blocked/', views.blocked, name='blocked')
 ]

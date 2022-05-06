@@ -9,3 +9,8 @@ class SitePermissions(models.Model):
             ("flag_user", "Flag User"),
             ("view_dashboard", "View dashboard")
         )
+
+
+class Flag(models.Model):
+    user = models.ForeignKey(User, models.SET_NULL, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)

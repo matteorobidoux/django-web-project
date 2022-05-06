@@ -5,6 +5,7 @@
 {% block content %}
 <div class="profile-page">
     <img class="profile-pic" src="{{ profile.image.url }}">
+
     <h1 class="profile-name center">{{ profile.user.username }}'s page</h1>
     <h2 class="user-headers">First Name</h2>
     <p class="user-info">{{ user.first_name }}</p>
@@ -12,6 +13,6 @@
     <p class="user-info">{{ user.last_name }}</p>
     <h2 class="user-headers">Email</h2>
     <p class="user-info">{{ user.email }}</p>
-    <button class="edit-profile center">Edit Profile</button>
+
 </div>
 {% endblock %}

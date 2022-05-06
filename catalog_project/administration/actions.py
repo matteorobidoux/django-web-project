@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from user_management.models import Warning, Profile
+from item_catalog.models import Item
+from .models import Flag
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 
 
@@ -29,6 +31,9 @@ def flag_user(request, id):
     user = get_user(id)
     profile = user.profile
     profile.flagged = not profile.flagged
+    if profile.flagged:
+        Flag(user=user).save()
+
     profile.save()
 
     action_name = "Flagged" if profile.flagged else "Unflagged"
@@ -81,6 +86,32 @@ def delete_user(request, id):
         user_id=request.user.id,
         content_type_id=ContentType.objects.get_for_model(User).pk,
         object_id=user.id,
+        object_repr=log_message,
+        action_flag=DELETION
+    )
+    log.save()
+
+
+def edit_item(request, id):
+    item = Item.objects.get(id=id)
+    log_message = f'Edited {item.name}'
+    log = LogEntry.objects.log_action(
+        user_id=request.user.id,
+        content_type_id=ContentType.objects.get_for_model(Item).pk,
+        object_id=item.id,
+        object_repr=log_message,
+        action_flag=CHANGE
+    )
+    log.save()
+
+
+def delete_item(request, id):
+    item = Item.objects.get(id=id)
+    log_message = f'Deleted {item.name}'
+    log = LogEntry.objects.log_action(
+        user_id=request.user.id,
+        content_type_id=ContentType.objects.get_for_model(Item).pk,
+        object_id=item.id,
         object_repr=log_message,
         action_flag=DELETION
     )
