@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% load static %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static 'item-detail-style.css' %}">
     <title> Project: {{ object.name }} </title>
 {% endblock %}
+
 {% block content %}
     <h1 class="detail-title"> {{ object.name }} </h1>
     <div class="container">
@@ -20,7 +19,7 @@
                     {% include 'item_admin_actions.html' %}
                     {% include 'self_item_actions.html' %}
                 </div>
-                <h3>
+                <h3 class="mt-3">
                     <p class="article-content"> Type: {{ object.type }}</p>
                     <p class="article-content"> Field: {{ object.field }}</p>
                     <p class="article-content"> Status: {{ object.status }}</p>
@@ -92,7 +91,7 @@
         <h3> Comments... </h3>
         <hr>
         {% if not object.comments.all %}
-            No Comments Yet...<a class="url-link ml-2" href="{% url 'project-comment' object.pk %}"> Add One</a>
+            No Comments Yet...
             <br> </br>
         {% else %}
             {% for comment in object.comments.all %}
@@ -105,9 +104,16 @@
                 <br></br>
                 <hr>
             {% endfor %}
-            <div class="mb-4">
-                <a class="url-link ml-2" href="{% url 'project-comment' item.pk %}"> Add Comment</a>
-            </div>
         {% endif %}
+        <div class="mb-4">
+            <form method="POST" action="{% url 'project-comment' object.pk %}">
+                {% csrf_token %}
+                <textarea class="form-control" rows='3' name="content" required> </textarea>
+                {{ form | crispy }}
+                <div class="mt-3">
+                    <button class="comment-button btn btn-light" type="submit"> Add Comment </button>
+                </div>
+            </form>
+        </div>
     {% endif %}
 {% endblock content %}

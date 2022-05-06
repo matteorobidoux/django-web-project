@@ -1,10 +1,61 @@
 {% extends 'base.html' %}
-{% block title %}
-    Messages
-{% endblock %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-    <h1>Messages.</h1>
-    <p>
-        You're now in the messaging app. This doesn't do anything
-    </p>
+    
+<div class="container">
+    <div class="row">
+        <div class="card col-md-12 mt-3 p-3 shadow-sm">
+            {% if  messages.0.receiver == request.user %}
+                <h5> @{{  messages.0.sender }}</h5>
+            {% else %}
+                <h5>@{{  messages.0.receiver }}</h5>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if messages.all.count == 1 %}
+        <div class="row my-5">
+            <div class="col-md-12">
+                <p class="empty-text"> No Messages </p>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="message-div mt-3">
+        {% for message in messages %}
+            <div class="row">
+                <div class="col-md-12 my-1">
+                    {% if message.sender == request.user %}
+                        {% if message.content != "" %}
+                            <div class="sent-message my-3">
+                                <p> {{ message.content }}</p>
+                                <small class="float-right"> {{ message.timestamp }}</small>
+                            </div>
+                        {% endif %}
+                    {% elif message.receiver == request.user %}
+                        {% if message.content != "" %}
+                            <div class="received-message my-3">
+                                <p> {{ message.content }}</p>
+                                <small class="float-right"> {{ message.timestamp }}</small>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mb-3">
+        <div class="form-div card col-md-12 mt-3 p-3 shadow-sm">
+            <form method="POST" action="{% url 'create-message' messages.0.receiver.pk messages.0.sender.pk %}">
+                {% csrf_token %}
+                <textarea class="form-control" rows='5' name="content" required> </textarea>
+                {{ form | crispy }}
+                <div class="send-message-div mt-3">
+                    <button class="send-message-button btn btn-light" type="submit"> Send Message </button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

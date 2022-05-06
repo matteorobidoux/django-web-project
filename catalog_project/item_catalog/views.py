@@ -3,10 +3,11 @@ from django.http import (HttpResponse, HttpResponseNotFound,
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from django.views.generic.detail import SingleObjectMixin
-from .forms import RateForm
+from .forms import RateForm, CommentForm
 from .models import Comment, Item, Rating
 from administration import actions
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -126,22 +127,23 @@ class ItemDetailView(DetailView):
         return
 
 
-class AddCommentView(CreateView):
-    model = Comment
-    fields = ['content']
-    template_name = 'comment.html'
-    success_url = '/'
-
-    def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.commenter = self.request.user
-        obj.item_id = self.kwargs['pk']
-        obj.save()
-        return super().form_valid(form)
+class AddCommentView(View):
+    def post(self, request, *args, **kwargs):
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                data = Comment()
+                data.content = form.cleaned_data['content']
+                data.commenter = self.request.user
+                data.item = Item.objects.get(pk=self.kwargs['pk'])
+                data.save()
+                return redirect('project-detail', pk=self.kwargs['pk'])
+            else:
+                return redirect('project-detail', pk=self.kwargs['pk'])
 
 
 def LikeView(request, pk):
     item = get_object_or_404(Item, id=pk)
+    print(item)
     item.likes.add(request.user)
     return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
 
