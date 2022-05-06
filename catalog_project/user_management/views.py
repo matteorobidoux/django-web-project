@@ -1,14 +1,14 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import DetailView
 from .models import Profile
-from .user_form import NewUserForm, NewMemberForm
+from .user_form import NewUserForm, NewMemberForm, UpdateUserForm, UpdateProfileForm
 
 from django.contrib.auth.models import Group
 from django.views.generic import View
@@ -84,6 +84,37 @@ def logout_page(request):
     logout(request)
     return redirect('/')
 
+def update_profile(request, username):
+    user_page = get_object_or_404(User, username=username)
+    profile = user_page.profile
+    template = loader.get_template('update.html')
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            return redirect('/')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=profile)
+    return HttpResponse(template.render({'profile_form': profile_form, 'user_form': user_form}, request))
+
+def change_password(request, username):
+    if request.method == 'POST':
+        pass_form = PasswordChangeForm(request.user, request.POST)
+        if pass_form.is_valid():
+            user = pass_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was updated')
+            return redirect('/')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        pass_form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {'pass_form': pass_form})
 
 def blocked(request):
     template = loader.get_template('blocked.html')

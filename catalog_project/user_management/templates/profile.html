@@ -13,6 +13,10 @@
     <p class="user-info">{{ user.last_name }}</p>
     <h2 class="user-headers">Email</h2>
     <p class="user-info">{{ user.email }}</p>
-
+    {% if request.user.username == profile.user.username %}
+        <a class="edit-profile center" href="/profile/{{ user.username }}/edit">Edit Profile</a>
+        <br>
+        <a class="edit-profile center" href="/profile/{{ user.username }}/password">Edit Password</a>
+    {% endif %}
 </div>
 {% endblock %}

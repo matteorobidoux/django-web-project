@@ -16,8 +16,12 @@ urlpatterns = [
 
     # User profile page
     path(r'profile/<str:username>/', views.profile_page, name="user_profile"),
+    # User update page
+    path(r'profile/<str:username>/edit', views.update_profile, name="edit_profile"),
+    # Profile update page
+    path(r'profile/<str:username>/password', views.change_password, name="edit_password"),
     # User editing page
-    #path('profile/edit/<int:pk>/', views.ManagerUserEditView.as_view(), name="manager_edit_user"),
+    # path('profile/edit/<int:pk>/', views.ManagerUserEditView.as_view(), name="manager_edit_user"),
 
     # Blocked user
     path('blocked/', views.blocked, name='blocked')

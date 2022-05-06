@@ -27,3 +27,15 @@ class NewMemberForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('image', )
+
+
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', )
+
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('image', )
