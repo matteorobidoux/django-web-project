@@ -248,7 +248,7 @@ input:checked ~ label, label:hover ~ label {
   font-size: 30px;
 }
 
-.edit-profile {
+.button {
   border: none;
   background-color: #008CBA;
   color: white;
@@ -259,7 +259,7 @@ input:checked ~ label, label:hover ~ label {
   width: 200px;
 }
 
-.edit-profile:hover {
+.button:hover {
   background-color: #006080;
 }
 

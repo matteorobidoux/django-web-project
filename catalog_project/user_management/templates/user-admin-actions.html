@@ -1,0 +1,41 @@
+<td>
+    <a href="/useradmin/warn_user/{{ target_user.id }}?next={{ request.get_full_path|urlencode }}">
+        <button type = 'submit' class="action-button-1">
+            Warn
+        </button>
+    </a>
+</td>
+<td>
+    <form action="{% url 'flag_user' target_user.id %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type = 'submit' class="action-button-1">
+            {% if not target_user.profile.flagged %}
+            Flag
+            {% else %}
+            Unflag
+            {% endif%}
+        </button>
+    </form>
+</td>
+<td>
+    <a href="/useradmin/delete_user/{{ target_user.id }}?next={{ request.get_full_path|urlencode }}">
+        <button type = 'submit' class="action-button-1">
+            Delete
+        </button>
+    </a>
+</td>
+<td>
+    <form action="/useradmin/block_user/{{ target_user.id }}/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
+        <button type = 'submit' class="action-button-1">
+            {% if not target_user.profile.blocked %}
+            Block
+            {% else %}
+            Unblock
+            {% endif%}
+        </button>
+    </form>
+</td>

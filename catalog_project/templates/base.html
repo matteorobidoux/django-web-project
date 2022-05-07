@@ -37,6 +37,8 @@
                             <a class="nav-item nav-link" href="/project/new/">New Project</a>
                             {% if perms.administration.view_dashboard %}
                             <a class="nav-item nav-link" href="/admin/">Admin Dashboard</a>
+                            {% elif perms.user_management.block_member %}
+                            <a class="nav-item nav-link" href="/useradmin/">User Admin Dashboard</a>
                             {% endif %}
                             <a class="nav-item nav-link" href="/profile/{{ user.username }}">Profile</a>
                             <a class="nav-item nav-link" href="/messages/">Inbox</a>

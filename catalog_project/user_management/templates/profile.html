@@ -4,8 +4,14 @@
 {% endblock %}
 {% block content %}
 <div class="profile-page">
+    {% if perms.user_management.flag_user %}
+    <br>
+        <a class="button" href="/profile/warn/{{ profile.user.id }}">Warn User</a>
+        <a class="button" href="/profile/flag/{{ profile.user.id }}">Flag User</a>
+        <a class="button" href="/profile/block/{{ profile.user.id }}">Block User</a>
+        <a class="button" href="/profile/delete/{{ profile.user.id }}">Delete User</a>
+    {% endif %}
     <img class="profile-pic" src="{{ profile.image.url }}">
-
     <h1 class="profile-name center">{{ profile.user.username }}'s page</h1>
     <h2 class="user-headers">First Name</h2>
     <p class="user-info">{{ user.first_name }}</p>
@@ -14,9 +20,9 @@
     <h2 class="user-headers">Email</h2>
     <p class="user-info">{{ user.email }}</p>
     {% if request.user.username == profile.user.username %}
-        <a class="edit-profile center" href="/profile/{{ user.username }}/edit">Edit Profile</a>
+        <a class="button center" href="/profile/{{ user.username }}/edit">Edit Profile</a>
         <br>
-        <a class="edit-profile center" href="/profile/{{ user.username }}/password">Edit Password</a>
+        <a class="button center" href="/profile/{{ user.username }}/password">Edit Password</a>
     {% endif %}
 </div>
 {% endblock %}

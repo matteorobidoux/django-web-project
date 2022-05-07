@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'action-style.css' %}">
+<title> Delete user </title>
+{% endblock %}
+{% block content %}
+    <section id="content-section">
+        <section class="dark-content-block">
+            <h2>
+                Delete user {{ object.username }}?
+            </h2>
+            <form action="{% url 'delete_user' object.id %}" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                <section class="inner-form-block button-container">
+                    <button type = 'submit' class="action-button-1">
+                        Delete
+                    </button>
+                    <a href="/admin">
+                        <button type="button" class="action-button-1">
+                            Go back
+                        </button>
+                    </a>
+                </section>
+            </form>
+        </section>
+    </section>
+{% endblock %}

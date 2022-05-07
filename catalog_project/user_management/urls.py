@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     # User manager for user admins
-    path('manage-users/', views.manage_users, name='manage_users'),
+    path('useradmin/', views.manage_users, name='manage_users'),
     # Login page
     path(r'login/', views.login_page, name="login"),
     # Register page
@@ -20,8 +20,17 @@ urlpatterns = [
     path(r'profile/<str:username>/edit', views.update_profile, name="edit_profile"),
     # Profile update page
     path(r'profile/<str:username>/password', views.change_password, name="edit_password"),
-    # User editing page
-    # path('profile/edit/<int:pk>/', views.ManagerUserEditView.as_view(), name="manager_edit_user"),
+
+    # Warn user view
+    path('useradmin/warn_user/<int:pk>/', views.WarnUser.as_view(), name="warn_user"),
+    # Flag user view (POST)
+    path('/useradmin/flag_user/<int:pk>/', views.FlagUser.as_view(), name="flag_user"),
+    # Block user view (POST)
+    path('useradmin/block_user/<int:pk>/', views.BlockUser.as_view(), name="block_user"),
+    # Create user view
+    path('useradmin/create/', views.AdminUserCreateView.as_view(success_url="/admin/"), name="admin_create_user"),
+    # Delete user view
+    path('useradmin/delete_user/<int:pk>/', views.DeleteUserView.as_view(), name="delete_user"),
 
     # Blocked user
     path('blocked/', views.blocked, name='blocked')

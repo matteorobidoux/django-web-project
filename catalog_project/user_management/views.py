@@ -1,12 +1,14 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.template import loader
-from django.views.generic import DetailView
+from django.views import generic
+from django.views.generic import DetailView, DeleteView
 from .models import Profile
 from .user_form import NewUserForm, NewMemberForm, UpdateUserForm, UpdateProfileForm
 
@@ -15,10 +17,18 @@ from django.views.generic import View
 from django.urls import reverse_lazy, reverse
 from administration.views import EditUserView
 
+from administration import actions
+from administration.views import ActionView, PostLastPage, UserCreateView
+
 
 def manage_users(request):
-    template = loader.get_template('manage-users.html')
-    return HttpResponse(template.render({}, request))
+    if request.user.has_perm('user_management.block_member'):
+        template = loader.get_template('manage-users.html')
+        User = get_user_model()
+        users = User.objects.all()
+        return HttpResponse(template.render({'users': users}, request))
+    else:
+        return HttpResponseForbidden()
 
 
 def profile_page(request, username=None):
@@ -59,7 +69,8 @@ def register(request):
     else:
         reg_form = NewUserForm()
         member_form = NewMemberForm()
-    return render(request=request, template_name=template_name, context={'reg_form': reg_form, 'member_form': member_form})
+    return render(request=request, template_name=template_name,
+                  context={'reg_form': reg_form, 'member_form': member_form})
 
 
 def login_page(request):
@@ -84,6 +95,7 @@ def logout_page(request):
     logout(request)
     return redirect('/')
 
+
 def update_profile(request, username):
     user_page = get_object_or_404(User, username=username)
     profile = user_page.profile
@@ -102,6 +114,7 @@ def update_profile(request, username):
         profile_form = UpdateProfileForm(instance=profile)
     return HttpResponse(template.render({'profile_form': profile_form, 'user_form': user_form}, request))
 
+
 def change_password(request, username):
     if request.method == 'POST':
         pass_form = PasswordChangeForm(request.user, request.POST)
@@ -116,6 +129,68 @@ def change_password(request, username):
         pass_form = PasswordChangeForm(request.user)
     return render(request, 'change_password.html', {'pass_form': pass_form})
 
+
 def blocked(request):
     template = loader.get_template('blocked.html')
     return HttpResponse(template.render({}, request))
+
+
+class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
+    permission_required = "user_management.warn_member"
+    template_name = 'warn-user.html'
+
+    # Post executes the warning onto the user
+    def post(self, request, *args, **kwargs):
+        actions.warn_user(request, kwargs['pk'])
+        return super().post(request, *args, **kwargs)
+
+    # Sets the context data to include the user object
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = actions.get_user(kwargs['pk'])
+        context['object'] = user
+        return context
+
+
+# User flagging view handler (POST ONLY)
+# Make sure that you have the ?next attribute in the POST header to take the user back to their last page
+class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
+    permission_required = 'user_management.flag_member'
+
+    def post(self, request, *args, **kwargs):
+        actions.flag_user(request, kwargs['pk'])
+
+        return super().post(request, *args, **kwargs)
+
+
+# User blocking view handler (POST)
+# Make sure that you have the ?next attribute in the POST header to take the user back to their last page
+class BlockUser(PermissionRequiredMixin, PostLastPage, ActionView):
+    permission_required = "user_management.block_member"
+
+    def post(self, request, *args, **kwargs):
+        actions.block_user(request, kwargs['pk'])
+
+        return super().post(request, *args, **kwargs)
+
+
+# User creation view for superuser
+class AdminUserCreateView(UserCreateView):
+    success_url = reverse_lazy('admin_board')
+
+    permission_required = "user_management.add_member"
+    template_name = 'user-admin-create-user.html'
+
+
+# A view for confirming the deletion of a user
+# Make sure that you have the ?next attribute in the POST header to take the user back to their last page
+class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
+    permission_required = "user_management.delete_member"
+    template_name = 'delete-user.html'
+    model = User
+    success_url = PostLastPage.no_next_redirect
+
+    def post(self, request, *args, **kwargs):
+        actions.delete_user(request, kwargs['pk'])
+
+        return super().post(request, *args, **kwargs)

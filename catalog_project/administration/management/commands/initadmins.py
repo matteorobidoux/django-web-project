@@ -48,18 +48,23 @@ class Command(BaseCommand):
         # add nasr
         superuser = User.objects.create_user('nasr', 'nasr@notanemail.com', '123')
         superuser.groups.add(superuser_group)
+        Profile.objects.create(user=superuser)
+
 
         # add user_manager1
         member_admin = User.objects.create_user('user_manager1', 'admin1@notanemail.com', '456')
         member_admin.groups.add(member_admin_group)
+        Profile.objects.create(user=member_admin)
 
         # add item_manager1
-        item_admin = User.objects.create_user(' ', 'admin2@notanemail.com', '789')
+        item_admin = User.objects.create_user('item_manager1', 'admin2@notanemail.com', '789')
         item_admin.groups.add(item_admin_group)
+        Profile.objects.create(user=item_admin)
 
         print("Added users")
         # add the dev, which can access the django-admin for development purposes
         dev = User.objects.create_superuser("dev", "", "dev")
         dev.groups.add(superuser_group)
+        Profile.objects.create(user=dev)
 
         print("Added dev user")
