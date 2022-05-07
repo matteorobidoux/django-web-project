@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.http import (HttpResponse, HttpResponseNotFound,
                          HttpResponseRedirect, request, Http404)
 from django.shortcuts import get_object_or_404, redirect, render
@@ -41,36 +42,67 @@ class ModelSearchListView(ListView):
 
         return redirect(f'{self.search_redirect}/{appended}')
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        if not self.request.user.has_perm('item_catalog.add_itemflag'):
-            queryset = queryset.exclude(flagged=True)
-
+    def get_filter_attributes(self):
         search = self.request.GET.get('search')
         filter = self.request.GET.get('filter')
+
+        return search, filter
+
+    def get_filter(self, queryset):
+        search, filter = self.get_filter_attributes()
+
         field_names = [ field.name for field in self.model._meta.get_fields()]
         if filter in field_names:
             kwargs = {
-                f'{filter}__contains': search
+                f'{filter}__istartswith': search
             }
             if filter and search:
                 queryset = queryset.filter(**kwargs)
 
+        return queryset
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = self.get_filter(queryset)
+
         keyword = self.request.GET.get('keyword')
         if keyword:
-            queryset = queryset.filter(keyword_list__contains=keyword)
+            queryset = queryset.filter(keyword_list__icontains=keyword)
         return queryset
 
 
 class ItemListView(ModelSearchListView):
     search_redirect = ''
 
-    sort_fields = ('name', 'status', 'type', 'field')
+    sort_fields = ('name', 'status', 'type', 'field', 'owner', 'average rate')
     model = Item
     template_name = 'explore.html'
     context_object_name = 'items'
     ordering = ['-date_posted']
     paginate_by = 5
+
+    def get_filter_attributes(self):
+        search, filter = super().get_filter_attributes()
+        if filter == 'owner':
+            filter = 'owner__username'
+        return search, filter
+
+    def get_filter(self, queryset):
+        search, filter = self.get_filter_attributes()
+        queryset = super().get_filter(queryset)
+
+        if filter == "owner__username":
+            queryset = queryset.filter(owner__username__icontains=search)
+        elif filter == "average rate":
+            queryset = queryset.annotate(average_rate=Avg('rating__rate')).filter(average_rate__startswith=search)
+        return queryset
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if not self.request.user.has_perm('item_catalog.add_itemflag'):
+            queryset = queryset.exclude(flagged=True)
+
+        return queryset
 
 
 class ItemCreateView(CreateView):
