@@ -19,13 +19,13 @@ class Command(BaseCommand):
         # Get json perms file
         permissions_path = "permissions.json"
 
-        permissions_json_file = open(permissions_path)
+        permissions_json_file = open(permissions_path, encoding='utf8')
         self.permissions_file = json.load(permissions_json_file)
         permissions_json_file.close()
 
         # Get post data file
         posts_path = "posts.json"
-        posts_json_file = open(posts_path)
+        posts_json_file = open(posts_path, encoding='utf8')
         self.posts_file = json.load(posts_json_file)
         posts_json_file.close()
 

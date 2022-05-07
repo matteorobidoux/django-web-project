@@ -248,7 +248,7 @@ input:checked ~ label, label:hover ~ label {
   font-size: 30px;
 }
 
-.edit-profile {
+.button {
   border: none;
   background-color: #008CBA;
   color: white;
@@ -259,7 +259,7 @@ input:checked ~ label, label:hover ~ label {
   width: 200px;
 }
 
-.edit-profile:hover {
+.button:hover {
   background-color: #006080;
 }
 
@@ -311,4 +311,19 @@ input:checked ~ label, label:hover ~ label {
 .search-nav .action-button-2{
   width: 20%;
   height: 30px;
+}
+
+.dropdown {
+  display: none;
+  background-color: white;
+  border: solid 2px lightgray;
+}
+
+.notifications:hover .dropdown {
+  display: block;
+  position: absolute;
+}
+
+.single-notif {
+  border: dotted 3px lightgray;
 }

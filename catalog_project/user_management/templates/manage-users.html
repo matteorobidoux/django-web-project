@@ -1,10 +1,54 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}
     Manage Users
 {% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'pagination-style.css' %}">
+<title> User Admin Dashboard </title>
+{% endblock %}
 {% block content %}
+{% if perms.user_management.block_member %}
     <h1>Manage users</h1>
-    <p>
-        You're now in the user manager. This doesn't do anything
-    </p>
+    <br>
+    <a class="button" href="/useradmin/create">Create User</a>
+    <br><br>
+    <table class="dark-content-block">
+        <thead>
+            <tr>
+                <th class="id-data">
+                    ID
+                </th>
+                <th class="username-data">
+                    Username
+                </th>
+                <th class="group-data">
+                    Group
+                </th>
+                <th colspan="4">
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td class="id-data">
+                    {{ user.id }}
+                </td>
+                <td>
+                    {{ user.username }}
+                </td>
+                <td>
+                    {{ user.groups.all.0 }}
+                </td>
+                {% include 'user-admin-actions.html' with target_user=user %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
 {% endblock %}

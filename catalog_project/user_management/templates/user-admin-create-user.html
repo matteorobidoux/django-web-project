@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Create user
+{% endblock %}
+{% block content %}
+    <h1>Create Member</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form | crispy }}
+        {{ member_form | crispy }}
+        <input type="submit" value="Create"/>
+    </form>
+{% endblock %}

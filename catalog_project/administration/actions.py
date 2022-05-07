@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from notifications.signals import notify
 from user_management.models import Warning, Profile
 from item_catalog.models import Item
 from .models import Flag
@@ -24,6 +25,7 @@ def warn_user(request, id):
         object_repr=log_message,
         action_flag=ADDITION
     )
+    notify.send(request.user, recipient=warning.user, verb='Warning', description=warning.message)
     log.save()
 
 
