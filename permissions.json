@@ -20,12 +20,14 @@
       "add_member",
       "delete_member",
       "block_member",
-      "warn_member"
+      "warn_member",
+      "add_userflag"
     ],
     "ItemAdmin": [
       "add_item",
       "change_item",
-      "delete_item"
+      "delete_item",
+      "add_itemflag"
     ],
     "Superuser": [
       "add_user",
@@ -33,7 +35,7 @@
       "change_user",
       "block_user",
       "add_warning",
-      "flag_user",
+      "add_userflag",
       "view_dashboard"
     ]
   }

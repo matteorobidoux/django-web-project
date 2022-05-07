@@ -10,20 +10,9 @@ from django.views.generic.edit import CreateView, DeleteView
 from django.contrib import messages
 from django.forms.models import model_to_dict
 from django.contrib.admin.models import LogEntry
-from item_catalog.views import ModelSearchListView
+from item_catalog.views import ModelSearchListView, PostLastPage
 
 """ Generic User management views """
-
-
-# View that redirects the user to the last page they were on upon POSTing
-class PostLastPage:
-    no_next_redirect = reverse_lazy('admin_board')
-
-    # Post redirects you to 'next' if it exists
-    def post(self, request, *args, **kwargs):
-        next_page = request.POST.get('next', self.no_next_redirect)
-        return HttpResponseRedirect(next_page)
-
 
 # A view for confirming the deletion of a user
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
@@ -193,7 +182,7 @@ class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
 # User flagging view handler (POST ONLY)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
 class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
-    permission_required = 'administration.flag_user'
+    permission_required = 'administration.add_userflag'
 
     def post(self, request, *args, **kwargs):
         actions.flag_user(request, kwargs['pk'])

@@ -39,9 +39,34 @@ td,th {
 tbody>tr:nth-child(odd){
     background-color: #393939;
 }
+
+tbody>tr{
+    animation-name: article-load;
+    animation-duration: 1s;
+}
+
+@keyframes user-flag-animation {
+  from {
+    background-color: #ffffff;
+  }
+  to {
+    background-color: #ffd64f;
+  }
+}
+
+tbody>tr.flagged-box {
+    background-color: #ffd64f;
+    animation-duration: 1s;
+    animation-name: user-flag-animation;
+}
+tr.flagged-box td{
+    color: black;
+}
+
 tr:nth-child(even),thead>tr {
     background-color: #6f6f6f;
 }
 td button{
     min-width: 100%;
 }
+

@@ -13,6 +13,16 @@ from administration import actions
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
+# View that redirects the user to the last page they were on upon POSTing
+class PostLastPage:
+    no_next_redirect = reverse_lazy('admin_board')
+
+    # Post redirects you to 'next' if it exists
+    def post(self, request, *args, **kwargs):
+        next_page = request.POST.get('next', self.no_next_redirect)
+        return HttpResponseRedirect(next_page)
+
+
 class ModelSearchListView(ListView):
     search_redirect = ''
     def get_context_data(self, *args, object_list=None, **kwargs):
@@ -33,6 +43,9 @@ class ModelSearchListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        if not self.request.user.has_perm('item_catalog.add_itemflag'):
+            queryset = queryset.exclude(flagged=True)
+
         search = self.request.GET.get('search')
         filter = self.request.GET.get('filter')
         field_names = [ field.name for field in self.model._meta.get_fields()]
@@ -43,6 +56,9 @@ class ModelSearchListView(ListView):
             if filter and search:
                 queryset = queryset.filter(**kwargs)
 
+        keyword = self.request.GET.get('keyword')
+        if keyword:
+            queryset = queryset.filter(keyword_list__contains=keyword)
         return queryset
 
 
@@ -55,6 +71,7 @@ class ItemListView(ModelSearchListView):
     context_object_name = 'items'
     ordering = ['-date_posted']
     paginate_by = 5
+
 
 class ItemCreateView(CreateView):
     model = Item
@@ -72,9 +89,11 @@ class ItemCreateView(CreateView):
 class ItemManageEditView(PermissionRequiredMixin, UpdateView):
     permission_required = "item_catalog.change_item"
     model = Item
-    success_url = '/'
     fields = ['name', 'type', 'field', 'keyword_list', 'content', 'status', 'url', 'snapshot']
     template_name = 'edit_project.html'
+
+    def get_success_url(self):
+        return reverse('project-detail', kwargs={'pk': self.object.pk})
 
     def post(self, request, *args, **kwargs):
         actions.edit_item(request,  kwargs['pk'])
@@ -82,13 +101,21 @@ class ItemManageEditView(PermissionRequiredMixin, UpdateView):
 
 
 class ItemManageDeleteView(PermissionRequiredMixin, DeleteView):
-    permission_required = "item_datalog.delete_item"
+    permission_required = "item_catalog.delete_item"
     model = Item
     success_url = reverse_lazy('explore-projects')
     template_name = 'delete_project.html'
 
     def post(self, request, *args, **kwargs):
         actions.delete_item(request, kwargs['pk'])
+        return super().post(request, *args, **kwargs)
+
+
+class ItemManageFlagView(PermissionRequiredMixin, View, PostLastPage):
+    permission_required = 'item_catalog.add_itemflag'
+
+    def post(self, request, *args, **kwargs):
+        actions.flag_item(request, kwargs['pk'])
         return super().post(request, *args, **kwargs)
 
 
@@ -117,6 +144,7 @@ class ItemDeleteView(SelfAuditMixin, DeleteView):
     template_name = 'delete_project.html'
 
 
+
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'item_detail.html'
@@ -126,6 +154,10 @@ class ItemDetailView(DetailView):
             super().post(request, *args, **kwargs)
         return
 
+    def get(self, request, *args, **kwargs):
+        if self.model.flagged and not request.user.has_perm('item_catalog.add_itemflag'):
+            raise Http404
+        return super().get(request, *args, **kwargs)
 
 class AddCommentView(View):
     def post(self, request, *args, **kwargs):

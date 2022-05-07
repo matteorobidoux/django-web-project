@@ -33,7 +33,7 @@
                 </thead>
                 <tbody>
                 {% for target_user in user_list %}
-                    <tr>
+                    <tr class="{% if target_user.profile.flagged %}flagged-box{% endif %}">
                         <td class="id-data">
                             {{ target_user.id }}
                         </td>
