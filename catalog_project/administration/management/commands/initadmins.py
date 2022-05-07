@@ -159,4 +159,3 @@ class Command(BaseCommand):
 
         if not options.get('nodev'):
             self.__add_dev()
->>>>>>> 051b7f0e63113c4181ded96c4b6037e3713f0b8a
