@@ -4,11 +4,11 @@
     Create user
 {% endblock %}
 {% block content %}
-    <h1>Create User</h1>
+    <h1>Create Member</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ user_form|crispy }}
-        {{ profile_form|crispy }}
+        {{ user_form | crispy }}
+        {{ member_form | crispy }}
         <input type="submit" value="Create"/>
     </form>
 {% endblock %}

@@ -169,17 +169,35 @@ class BlockUser(PermissionRequiredMixin, PostLastPage, ActionView):
     permission_required = "user_management.block_member"
 
     def post(self, request, *args, **kwargs):
+        print(kwargs)
         actions.block_user(request, kwargs['pk'])
 
         return super().post(request, *args, **kwargs)
 
 
 # User creation view for superuser
-class AdminUserCreateView(UserCreateView):
-    success_url = reverse_lazy('admin_board')
-
-    permission_required = "user_management.add_member"
+def AdminUserCreateView(request):
     template_name = 'user-admin-create-user.html'
+    if request.user.has_perm('user_management.add_member'):
+        user_form = NewUserForm(request.POST)
+        member_form = NewMemberForm(request.POST, request.FILES)
+        if user_form.is_valid():
+            user = user_form.save()
+            member_group = Group.objects.get(name='Member')
+            user.groups.add(member_group)
+            user.save()
+            profile = member_form.save(commit=False)
+            profile.user = user
+            if member_form.is_valid():
+                if 'image' in request.FILES:
+                    profile.image = request.FILES['image']
+            profile.save()
+            user = authenticate(username=profile.user.username, password=user_form.cleaned_data.get('password2'))
+            login(request, user)
+            return redirect('/')
+        return render(request, template_name, {'user_form': user_form, 'member_form': member_form})
+    else:
+        return HttpResponseForbidden()
 
 
 # A view for confirming the deletion of a user

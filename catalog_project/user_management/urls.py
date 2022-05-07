@@ -28,7 +28,7 @@ urlpatterns = [
     # Block user view (POST)
     path('useradmin/block_user/<int:pk>/', views.BlockUser.as_view(), name="block_user"),
     # Create user view
-    path('useradmin/create/', views.AdminUserCreateView.as_view(success_url="/admin/"), name="admin_create_user"),
+    path('useradmin/create/', views.AdminUserCreateView, name="admin_create_user"),
     # Delete user view
     path('useradmin/delete_user/<int:pk>/', views.DeleteUserView.as_view(), name="delete_user"),
 
