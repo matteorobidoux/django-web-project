@@ -275,7 +275,6 @@ input:checked ~ label, label:hover ~ label {
   border: 1.5px solid #dddddd;
   margin-bottom: 20px;
 }
-
 .search-container{
   display: flex;
   flex-direction: row;

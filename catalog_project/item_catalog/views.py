@@ -7,10 +7,11 @@ from django.views import View
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from django.views.generic.detail import SingleObjectMixin
-
 from .forms import RateForm, CommentForm
 from .models import Comment, Item, Rating
+from administration import actions
 from django.contrib.auth.mixins import PermissionRequiredMixin
+
 
 class ModelSearchListView(ListView):
     search_redirect = ''
@@ -67,6 +68,7 @@ class ItemCreateView(CreateView):
         obj.save
         return super().form_valid(form)
 
+
 class ItemManageEditView(PermissionRequiredMixin, UpdateView):
     permission_required = "item_catalog.change_item"
     model = Item
@@ -74,11 +76,21 @@ class ItemManageEditView(PermissionRequiredMixin, UpdateView):
     fields = ['name', 'type', 'field', 'keyword_list', 'content', 'status', 'url', 'snapshot']
     template_name = 'edit_project.html'
 
+    def post(self, request, *args, **kwargs):
+        actions.edit_item(request,  kwargs['pk'])
+        return super().post(request, *args, **kwargs)
+
+
 class ItemManageDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "item_datalog.delete_item"
     model = Item
     success_url = reverse_lazy('explore-projects')
     template_name = 'delete_project.html'
+
+    def post(self, request, *args, **kwargs):
+        actions.delete_item(request, kwargs['pk'])
+        return super().post(request, *args, **kwargs)
+
 
 class SelfAuditMixin(SingleObjectMixin):
     def get_object(self, queryset=None):
@@ -98,6 +110,7 @@ class ItemEditView(SelfAuditMixin, UpdateView):
     def get_success_url(self):
         return reverse('project-detail', kwargs={'pk': self.object.pk})
 
+
 class ItemDeleteView(SelfAuditMixin, DeleteView):
     model = Item
     success_url = reverse_lazy('explore-projects')
@@ -113,6 +126,7 @@ class ItemDetailView(DetailView):
             super().post(request, *args, **kwargs)
         return
 
+
 class AddCommentView(View):
     def post(self, request, *args, **kwargs):
             form = CommentForm(request.POST)
@@ -126,11 +140,13 @@ class AddCommentView(View):
             else:
                 return redirect('project-detail', pk=self.kwargs['pk'])
 
+
 def LikeView(request, pk):
     item = get_object_or_404(Item, id=pk)
     print(item)
     item.likes.add(request.user)
     return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
+
 
 def RateView(request, pk):
     if request.method == 'POST':
@@ -150,6 +166,7 @@ def RateView(request, pk):
                 return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
             else:
                 return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
+
 
 # Mostly used to return error responses
 def response_not_found_404(request, exception):
