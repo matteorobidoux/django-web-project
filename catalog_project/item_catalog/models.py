@@ -9,7 +9,7 @@ TYPE_CHOICES = (
     ('Practical', 'PRACTICAL'),
     ('Theoretical', 'THEORETICAL'),
     ('Fundamental research', 'FUNDAMENTAL RESEARCH'),
-    ('Imperical', 'IMPERICAL')
+    ('Empirical', 'Empirical')
 )
 
 STATUS_CHOICES = (
