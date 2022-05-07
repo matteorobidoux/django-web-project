@@ -13,42 +13,55 @@
 {% block content %}
 {% if perms.user_management.block_member %}
     <h1>Manage users</h1>
-    <br>
-    <a class="button" href="/useradmin/create">Create User</a>
-    <br><br>
-    <table class="dark-content-block">
-        <thead>
-            <tr>
-                <th class="id-data">
-                    ID
-                </th>
-                <th class="username-data">
-                    Username
-                </th>
-                <th class="group-data">
-                    Group
-                </th>
-                <th colspan="4">
+    <section class="row">
+        <div id="lefthand-block">
+            <table class="dark-content-block">
+                <thead>
+                    <tr>
+                        <th class="id-data">
+                            ID
+                        </th>
+                        <th class="username-data">
+                            Username
+                        </th>
+                        <th class="group-data">
+                            Group
+                        </th>
+                        <th colspan="4">
 
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td class="id-data">
-                    {{ user.id }}
-                </td>
-                <td>
-                    {{ user.username }}
-                </td>
-                <td>
-                    {{ user.groups.all.0 }}
-                </td>
-                {% include 'user-admin-actions.html' with target_user=user %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td class="id-data">
+                            {{ user.id }}
+                        </td>
+                        <td>
+                            {{ user.username }}
+                        </td>
+                        <td>
+                            {{ user.groups.all.0 }}
+                        </td>
+                        {% include 'user-admin-actions.html' with target_user=user %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% include 'page-select.html' %}
+        </div>
+        <div class="mr-auto">
+        </div>
+        <div id="righthand-block">
+            <section class="content-section" id="user-create">
+                <h2>User Creation</h2>
+                <a href="{%url 'create_member' %}" class="section-link">
+                    <h4>Create a new user here</h4>
+                </a>
+            </section>
+        </div>
+    </section>
+    {% include 'member-search.html' %}
 {% endif %}
 {% endblock %}

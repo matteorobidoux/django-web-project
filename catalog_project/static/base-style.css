@@ -317,13 +317,20 @@ input:checked ~ label, label:hover ~ label {
   display: none;
   background-color: white;
   border: solid 2px lightgray;
+  padding: 4px 16px;
 }
 
 .notifications:hover .dropdown {
   display: block;
   position: absolute;
 }
-
+.notification p{
+    text-indent: 1em;
+    margin-bottom: 4px;
+}
+.notif-separator{
+    margin-top: 0;
+}
 .single-notif {
   border: dotted 3px lightgray;
 }

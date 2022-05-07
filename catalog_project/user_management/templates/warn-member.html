@@ -3,27 +3,29 @@
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'admin-style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'action-style.css' %}">
-<title> Delete user </title>
+<title> Set a warning </title>
 {% endblock %}
 {% block content %}
     <section id="content-section">
         <section class="dark-content-block">
             <h2>
-                Delete user {{ object.username }}?
+                Write a warning message for {{ object.username }}
             </h2>
-            <form action="{% url 'delete_user' object.id %}" method="POST">
+            <form action="{% url 'warn_member' object.id %}" method="POST">
                 {% csrf_token %}
-                {{ form }}
                 <input type="hidden" name="next" value="{{ request.GET.next }}">
+                <section class="inner-form-block">
+                    <textarea id="warning-message" name="warning-message"></textarea>
+                </section>
                 <section class="inner-form-block button-container">
                     <button type = 'submit' class="action-button-1">
-                        Delete
+                        Warn
                     </button>
-                    <a href="{{ request.GET.next }}">
-                        <button type="button" class="action-button-1">
-                            Go back
-                        </button>
-                    </a>
+                        <a href="{{ request.GET.next }}">
+                            <button type="button" class="action-button-1">
+                                Go back
+                            </button>
+                        </a>
                 </section>
             </form>
         </section>

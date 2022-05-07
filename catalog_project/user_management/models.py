@@ -13,6 +13,8 @@ class Profile(models.Model):
             ("delete_member", "Delete member"),
             ("block_member", "Block member"),
             ("warn_member", "Warn member"),
+            ("flag_member", "Flag member"),
+            ("view_member_dashboard", "View member dashboard")
         )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -7,13 +7,49 @@
 {% endblock %}
 {% block content %}
 <div class="profile-page">
-    {% if perms.user_management.flag_user %}
-    <br>
-        <a class="button" href="/profile/warn/{{ profile.user.id }}">Warn User</a>
-        <a class="button" href="/profile/flag/{{ profile.user.id }}">Flag User</a>
-        <a class="button" href="/profile/block/{{ profile.user.id }}">Block User</a>
-        <a class="button" href="/profile/delete/{{ profile.user.id }}">Delete User</a>
-    {% endif %}
+    <div class="row">
+        {% if perms.user_management.warn_member %}
+        <a href="{% url 'warn_member' profile.user.id %}?next={{ request.get_full_path|urlencode }}">
+            <button class="btn btn-outline-info action-button-2">
+                Warn User
+            </button>
+        </a>
+        {% endif %}
+        {% if perms.user_management.add_userflag %}
+        <form action="{% url 'flag_member' profile.user.id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button type = 'submit' class="btn btn-outline-info action-button-2">
+                {% if not profile.flagged %}
+                Flag
+                {% else %}
+                Unflag
+                {% endif%}
+            </button>
+        </form>
+        {% endif %}
+        {% if perms.user_management.block_member %}
+        <form action="{% url 'block_member' profile.user.id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button type = 'submit' class="btn btn-outline-info action-button-2">
+                {% if not profile.blocked %}
+                Block
+                {% else %}
+                Unblock
+                {% endif%}
+            </button>
+        </form>
+        {% endif %}
+        {% if perms.user_management.delete_member %}
+        <a class="action-button-2" href="{% url 'delete_member' profile.user.id %}?next={{ request.get_full_path|urlencode }}">
+            <button class="btn btn-outline-info action-button-2">
+                Delete User
+            </button>
+        </a>
+        {% endif %}
+    </div>
+
     <img class="profile-pic" src="{{ profile.image.url }}">
     <h1 class="profile-name center">{{ profile.user.username }}'s page</h1>
     <h2 class="user-headers">First Name</h2>

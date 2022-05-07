@@ -20,7 +20,9 @@
       "add_member",
       "delete_member",
       "block_member",
-      "warn_member"
+      "warn_member",
+      "flag_user",
+      "view_member_dashboard"
     ],
     "ItemAdmin": [
       "add_item",
@@ -34,7 +36,8 @@
       "block_user",
       "add_warning",
       "flag_user",
-      "view_dashboard"
+      "view_dashboard",
+      "view_member_dashboard"
     ]
   }
 }

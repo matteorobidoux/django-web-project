@@ -51,11 +51,12 @@
                                     <span class="badge badge-danger">{{ unread_count }}</span>
                                 {% endif %}
                                 </a>
-                                <div class="dropdown">
+                                <div class="dropdown {% if request.user.notifications.unread.count == 0 %}d-none{%endif%}">
                                 {% for notification in  request.user.notifications.unread %}
-                                    <div>
+                                    <div class="notification">
                                         {{ notification.verb }} from <b>{{ notification.actor }}</b>
                                         <p>{{ notification.description }}</p>
+                                        <hr class="notif-separator">
                                     </div>
                                 {% endfor %}
                                 </div>

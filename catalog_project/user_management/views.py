@@ -20,17 +20,19 @@ from django.urls import reverse_lazy, reverse
 from administration.views import EditUserView
 
 from administration import actions
-from administration.views import ActionView, PostLastPage, UserCreateView
+from administration.views import ActionView, PostLastPage, UserCreateView, ModelSearchListView
 
 
-def manage_users(request):
-    if request.user.has_perm('user_management.block_member'):
-        template = loader.get_template('manage-users.html')
-        User = get_user_model()
-        users = User.objects.all()
-        return HttpResponse(template.render({'users': users}, request))
-    else:
-        return HttpResponseForbidden()
+class ManageUsers(PermissionRequiredMixin, ModelSearchListView):
+    search_redirect = '/useradmin'
+    sort_fields = ('id', 'username', 'email')
+    permission_required = 'user_management.view_member_dashboard'
+    # Default model is user.
+    model = User
+    context_object_name = 'users'
+    template_name = 'manage-users.html'
+    ordering = ['id']
+    paginate_by = 10
 
 
 def profile_page(request, username=None):
@@ -139,7 +141,7 @@ def blocked(request):
 
 class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
     permission_required = "user_management.warn_member"
-    template_name = 'warn-user.html'
+    template_name = 'warn-member.html'
 
     # Post executes the warning onto the user
     def post(self, request, *args, **kwargs):
@@ -157,7 +159,7 @@ class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
 # User flagging view handler (POST ONLY)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
 class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
-    permission_required = 'user_management.flag_user'
+    permission_required = ('user_management.flag_member','user_management.create_userflag')
 
     def post(self, request, *args, **kwargs):
         actions.flag_user(request, kwargs['pk'])
@@ -179,7 +181,7 @@ class BlockUser(PermissionRequiredMixin, PostLastPage, ActionView):
 
 # User creation view for superuser
 def AdminUserCreateView(request):
-    template_name = 'user-admin-create-user.html'
+    template_name = 'create-member.html'
     if request.user.has_perm('user_management.add_member'):
         user_form = NewUserForm(request.POST)
         member_form = NewMemberForm(request.POST, request.FILES)
@@ -204,7 +206,7 @@ def AdminUserCreateView(request):
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
 class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
     permission_required = "user_management.delete_member"
-    template_name = 'user-admin-delete-user.html'
+    template_name = 'delete-member.html'
     model = User
     success_url = '/useradmin/'
 
