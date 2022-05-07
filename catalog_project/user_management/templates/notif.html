@@ -17,7 +17,7 @@
     {% endfor %}
     {% for notif in notif2 %}
     <div class="single-notif">
-        <p>{{ notif.verb }} from <b>{{ notif.actor }}</b>, {{ notif.timestamp }}</p>
+        <p><b>{{ notif.verb }}</b> from <b>{{ notif.actor }}</b>, {{ notif.timestamp }}</p>
         <p>{{ notif.description }}</p>
     </div>
     <br>
