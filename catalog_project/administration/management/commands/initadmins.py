@@ -79,7 +79,6 @@ class Command(BaseCommand):
     def __create_content(self):
         for post_data in self.posts_file['posts']:
             post = Item(
-                id=post_data['id'],
                 name=post_data['name'],
                 owner=User.objects.get(id=post_data['owner']),
                 type=post_data['type'],
