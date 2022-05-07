@@ -16,6 +16,7 @@ class Command(BaseCommand):
             help='Does not create the dev user',
         )
 
+    # Gets the needed json files stored within the current working directory
     def __get_files(self):
         # Get json perms file
         permissions_path = "permissions.json"
@@ -30,12 +31,14 @@ class Command(BaseCommand):
         self.posts_file = json.load(posts_json_file)
         posts_json_file.close()
 
+    # Adds superusers to the site
     def __add_superusers(self):
         # add nasr
         superuser = User.objects.create_user('nasr', 'nasr@notanemail.com', '123')
         superuser.groups.add(self.groups['superuser'])
         Profile(user=superuser).save()
 
+    # Adds member admins to the site
     def __add_member_admins(self):
         # add user_manager1
         member_admin1 = User.objects.create_user('user_manager1', 'admin1@notanemail.com', '456')
@@ -47,6 +50,7 @@ class Command(BaseCommand):
         member_admin2.groups.add(self.groups['member_admin'])
         Profile(user=member_admin2).save()
 
+    # Adds item admins to the site
     def __add_item_admins(self):
         # add item_manager1
         item_admin1 = User.objects.create_user('item_manager1', 'admin2@notanemail.com', '789')
@@ -58,6 +62,7 @@ class Command(BaseCommand):
         item_admin2.groups.add(self.groups['item_admin'])
         Profile(user=item_admin2).save()
 
+    # Adds 10 members to the site
     def __add_members(self):
         usernames = [
             'John',
@@ -77,6 +82,7 @@ class Command(BaseCommand):
             member.groups.add(self.groups['member'])
             Profile(user=member).save()
 
+    # Creates 20 posts using the json posts file
     def __create_content(self):
         stock_comments = [
             'Wow! This is a very interesting research paper.',
@@ -106,6 +112,7 @@ class Command(BaseCommand):
             for i in range(len(post_data['field'])):
                 user_id = i % (User.objects.all().count()-1)+1
                 picked_user = User.objects.get(id=user_id)
+                # Wrap in a try/catch incase it tries to re-add an existing user
                 try:
                     rating = min((len(picked_user.username)) % 5 + (len(post_data['field']) % 5), 5)
                     rate = Rating(rate=rating, item=post, user=picked_user)
@@ -115,24 +122,25 @@ class Command(BaseCommand):
 
             # Generate comments for each post
             for i in range(len(post_data['type'])):
-                user_id = max(1, min(i, User.objects.all().count()-1))
+                user_id = i % (User.objects.all().count()-1) + 1
                 picked_user = User.objects.get(id=user_id)
-                if i%2 == 0:
-                    picked_comment = (i+len(post_data['field']))%len(stock_comments)#max(0,min(i+, len(stock_comments)-1))
+                # Create a comment for every 2 characters in a post type
+                if i % 2 == 0:
+                    picked_comment = (i+len(post_data['field'])) % len(stock_comments)
                     comment_message = stock_comments[picked_comment]
                     comment = Comment(content=comment_message, commenter=picked_user, item=post)
                     comment.save()
 
-            # Generate likes for each post
-            for i in range(int(len(post_data['keyword_list'])/2)):
-                user_id = max(1, min(i, User.objects.all().count()-1))
+            # Generate likes for each post, for every keyword they have
+            for i in range(len(post_data['keyword_list'].split(','))):
+                user_id = i % (User.objects.all().count()-1) + 1
                 picked_user = User.objects.get(id=user_id)
-                if not picked_user in post.likes.all():
+                if picked_user not in post.likes.all():
                     post.likes.add(picked_user)
-
 
         print("Created content.")
 
+    # Adds the dev user
     def __add_dev(self):
         # add the dev, which can access the django-admin for development purposes
         dev = User.objects.create_superuser("dev", "", "dev")
@@ -141,6 +149,7 @@ class Command(BaseCommand):
 
         print("Added dev user")
 
+    # Create messages sent between users
     def __create_messages(self):
         stock_messages = [
             'Hi, this is my message to you.',
@@ -174,6 +183,7 @@ class Command(BaseCommand):
         self.__add_members()
         print("Added users")
 
+    # Creates the permissions for all groups
     def __create_permissions(self):
         for group_name in self.permissions_file["groups"].keys():
             for permission_name in self.permissions_file["groups"][group_name]:
@@ -181,6 +191,7 @@ class Command(BaseCommand):
                     print(f"Permission does not exist: {permission_name}")
                     return
 
+    # Creates all 4 groups for the site
     def __create_groups(self):
         # Create groups
         superuser_group = Group.objects.create(name="Superuser")
@@ -195,7 +206,6 @@ class Command(BaseCommand):
         }
         self.groups = groups
         print("Created groups.")
-
         # Add permissions to groups
         for group_name in self.permissions_file["groups"].keys():
             group = Group.objects.get(name=group_name)
@@ -204,12 +214,14 @@ class Command(BaseCommand):
                 group.permissions.add(permission)
         print("Added permissions to groups.")
 
-    def __clear_users(self):
+    # Flushes the database
+    def __clear_database(self):
         from django.core.management import call_command
-        call_command('flush')
+        call_command('flush', interactive=False)
         print("Flushed database.")
 
     def handle(self, *args, **options):
+        # Setup files
         try:
             self.__get_files()
         except FileNotFoundError:
@@ -217,13 +229,21 @@ class Command(BaseCommand):
             print("Make sure posts.json and permissions.json are in your current working directory.")
             print("Quitting...")
             return
+        # Flush DB
+        self.__clear_database()
+        # Create DB
+        try:
+            self.__create_permissions()
+            self.__create_groups()
+            self.__create_users()
+            self.__create_content()
+            self.__create_messages()
 
-        self.__clear_users()
-        self.__create_permissions()
-        self.__create_groups()
-        self.__create_users()
-        self.__create_content()
-        self.__create_messages()
+            # Create dev on default, don't if --nodev is provided
+            if not options.get('nodev'):
+                self.__add_dev()
 
-        if not options.get('nodev'):
-            self.__add_dev()
+        except BaseException as err: # If something went wrong, flush the database
+            print(f"Failed to generate database: {err}")
+            self.__clear_database()
+            print("Quitting...")
