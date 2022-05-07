@@ -192,9 +192,7 @@ def AdminUserCreateView(request):
                 if 'image' in request.FILES:
                     profile.image = request.FILES['image']
             profile.save()
-            user = authenticate(username=profile.user.username, password=user_form.cleaned_data.get('password2'))
-            login(request, user)
-            return redirect('/')
+            return redirect('/useradmin')
         return render(request, template_name, {'user_form': user_form, 'member_form': member_form})
     else:
         return HttpResponseForbidden()
@@ -204,9 +202,9 @@ def AdminUserCreateView(request):
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
 class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
     permission_required = "user_management.delete_member"
-    template_name = 'delete-user.html'
+    template_name = 'user-admin-delete-user.html'
     model = User
-    success_url = PostLastPage.no_next_redirect
+    success_url = '/useradmin/'
 
     def post(self, request, *args, **kwargs):
         actions.delete_user(request, kwargs['pk'])
