@@ -13,7 +13,6 @@ from .models import Comment, Item, Rating
 from administration import actions
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
-
 # View that redirects the user to the last page they were on upon POSTing
 class PostLastPage:
     no_next_redirect = reverse_lazy('admin_board')
