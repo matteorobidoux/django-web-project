@@ -9,6 +9,8 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.template import loader
 from django.views import generic
 from django.views.generic import DetailView, DeleteView
+from notifications.models import Notification
+
 from .models import Profile
 from .user_form import NewUserForm, NewMemberForm, UpdateUserForm, UpdateProfileForm
 
@@ -155,7 +157,7 @@ class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
 # User flagging view handler (POST ONLY)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
 class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
-    permission_required = 'user_management.flag_member'
+    permission_required = 'user_management.flag_user'
 
     def post(self, request, *args, **kwargs):
         actions.flag_user(request, kwargs['pk'])
@@ -210,3 +212,19 @@ class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
         actions.delete_user(request, kwargs['pk'])
 
         return super().post(request, *args, **kwargs)
+
+
+def notifs(request):
+    template_name = 'notif.html'
+    username = request.user.username
+    user = User.objects.get(username=username)
+    read(request)
+    notif2 = user.notifications.read()
+    return render(request, template_name, {'notif2': notif2})
+
+
+def read(request):
+    username = request.user.username
+    user = User.objects.get(username=username)
+    user.notifications.mark_all_as_read()
+    return redirect('/notifications')

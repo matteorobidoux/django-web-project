@@ -18,7 +18,7 @@ urlpatterns = [
     path(r'profile/<str:username>/', views.profile_page, name="user_profile"),
     # User update page
     path(r'profile/<str:username>/edit', views.update_profile, name="edit_profile"),
-    # Profile update page
+    # Profile password page
     path(r'profile/<str:username>/password', views.change_password, name="edit_password"),
 
     # Warn user view
@@ -31,7 +31,10 @@ urlpatterns = [
     path('useradmin/create/', views.AdminUserCreateView, name="admin_create_user"),
     # Delete user view
     path('useradmin/delete_user/<int:pk>/', views.DeleteUserView.as_view(), name="delete_user"),
-
     # Blocked user
-    path('blocked/', views.blocked, name='blocked')
+    path('blocked/', views.blocked, name='blocked'),
+    # Notifications
+    path('notifications/', views.notifs, name='notifications'),
+    # Mark read
+    path('notifications/mark-all-as-read/', views.read, name='read')
 ]

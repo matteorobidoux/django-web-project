@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title> Notifications </title>
+{% endblock %}
+{% block title %}
+    Notifications
+{% endblock %}
+{% block content %}
+    <h1>Notifications</h1>
+    {% for notif in notif1 %}
+    <div class="single-notif">
+        <div>{{ notif.verb }} from <b>{{ notif.actor }}</b>, {{ notif.timestamp }}</div>
+        <p>{{ notif.description }}</p>
+    </div>
+    <br>
+    {% endfor %}
+    {% for notif in notif2 %}
+    <div class="single-notif">
+        <p>{{ notif.verb }} from <b>{{ notif.actor }}</b>, {{ notif.timestamp }}</p>
+        <p>{{ notif.description }}</p>
+    </div>
+    <br>
+    {% endfor %}
+{% endblock %}
