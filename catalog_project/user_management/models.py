@@ -10,7 +10,7 @@ class Profile(models.Model):
     class Meta:
         permissions = (
             ("add_member", "Add member"),
-            ("delete_member", "Add member"),
+            ("delete_member", "Delete member"),
             ("block_member", "Block member"),
             ("warn_member", "Warn member"),
         )
