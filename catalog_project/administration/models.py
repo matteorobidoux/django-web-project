@@ -12,6 +12,6 @@ class SitePermissions(models.Model):
 
 
 class UserFlag(models.Model):
-    user = models.ForeignKey(User, models.CASCADE, related_name='user_target')
+    user = models.ForeignKey(User, models.CASCADE, related_name='flag_user_target')
     timestamp = models.DateTimeField(auto_now_add=True)
-    blame = models.ForeignKey(User, models.CASCADE, related_name='user_blame')
+    blame = models.ForeignKey(User, models.CASCADE, related_name='flag_user_blame')

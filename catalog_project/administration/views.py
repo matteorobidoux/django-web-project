@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.contrib.auth.models import User
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from . import actions
 from .forms import UserUpdateForm, ProfileForm, UserCreateForm
@@ -117,8 +117,9 @@ class UserCreateView(PermissionRequiredMixin, generic.TemplateView):
             else:
                 user.delete()
                 messages.error(request, "User could not be created.")
-                return redirect('')
+                return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
 
+        return render(request, self.template_name, {'user_form': user_form, 'profile_form': self.profile_form_model()})
 
 """ Main pages """
 
