@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User, Group, Permission
 from user_management.models import Profile
-from item_catalog.models import Item
+from item_catalog.models import Item, Rating, Comment
 import json
 
 class Command(BaseCommand):
@@ -77,6 +77,17 @@ class Command(BaseCommand):
             Profile(user=member).save()
 
     def __create_content(self):
+        stock_comments = [
+            'Wow! This is a very interesting research paper.',
+            'I am very enthralled by this',
+            'This very much is not a repost of an existing paper.',
+            'You have too much free time on your hands',
+            'I find this study promising',
+            "Not sure if I agree with this one...",
+            'Amazing.',
+            '10/10',
+        ]
+
         for post_data in self.posts_file['posts']:
             post = Item(
                 name=post_data['name'],
@@ -89,6 +100,36 @@ class Command(BaseCommand):
                 status=post_data['status']
             )
             post.save()
+
+            # Generate ratings for each post
+            for i in range(len(post_data['field'])):
+                rating = max(0, min(i%5+3, 5))
+                user_id = max(1, min(i, User.objects.all().count()-1))
+                picked_user = User.objects.get(id=user_id)
+                try:
+                    rate = Rating(rate=rating, item=post, user=picked_user)
+                    rate.save()
+                except:
+                    pass
+
+            # Generate comments for each post
+            for i in range(len(post_data['type'])):
+                user_id = max(1, min(i, User.objects.all().count()-1))
+                picked_user = User.objects.get(id=user_id)
+                if i%2 == 0:
+                    picked_comment = (i+len(post_data['field']))%len(stock_comments)#max(0,min(i+, len(stock_comments)-1))
+                    comment_message = stock_comments[picked_comment]
+                    comment = Comment(content=comment_message, commenter=picked_user, item=post)
+                    comment.save()
+
+            # Generate likes for each post
+            for i in range(int(len(post_data['keyword_list'])/2)):
+                user_id = max(1, min(i, User.objects.all().count()-1))
+                picked_user = User.objects.get(id=user_id)
+                if not picked_user in post.likes.all():
+                    post.likes.add(picked_user)
+
+
         print("Created content.")
 
     def __add_dev(self):
@@ -98,6 +139,7 @@ class Command(BaseCommand):
         Profile(user=dev).save()
 
         print("Added dev user")
+
 
     def __create_users(self):
         self.__add_superusers()

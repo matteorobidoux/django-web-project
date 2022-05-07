@@ -36,7 +36,12 @@
       "block_user",
       "add_warning",
       "add_userflag",
-      "view_dashboard"
+      "view_dashboard",
+
+      "add_item",
+      "change_item",
+      "delete_item",
+      "add_itemflag"
     ]
   }
 }

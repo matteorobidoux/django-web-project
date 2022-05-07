@@ -10,7 +10,7 @@ from django.views.generic.detail import SingleObjectMixin
 from .forms import RateForm, CommentForm
 from .models import Comment, Item, Rating
 from administration import actions
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 
 # View that redirects the user to the last page they were on upon POSTing
@@ -145,9 +145,10 @@ class ItemDeleteView(SelfAuditMixin, DeleteView):
 
 
 
-class ItemDetailView(DetailView):
+class ItemDetailView(LoginRequiredMixin, DetailView):
     model = Item
     template_name = 'item_detail.html'
+    login_url = '/login/'
 
     def post(self, request, *args, **kwargs):
         if request.user.id == self.object.owner.id:
@@ -155,9 +156,10 @@ class ItemDetailView(DetailView):
         return
 
     def get(self, request, *args, **kwargs):
-        if self.model.flagged and not request.user.has_perm('item_catalog.add_itemflag'):
+        if (self.model.flagged and not request.user.has_perm('item_catalog.add_itemflag')):
             raise Http404
         return super().get(request, *args, **kwargs)
+
 
 class AddCommentView(View):
     def post(self, request, *args, **kwargs):

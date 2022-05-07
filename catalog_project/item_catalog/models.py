@@ -1,3 +1,5 @@
+import math
+
 from PIL import Image
 from django.db import models
 from django.utils import timezone
@@ -56,7 +58,7 @@ class Item(models.Model):
             sum += rating.rate
 
         if len(ratings) > 0:
-            return sum / len(ratings)
+            return math.floor(sum / len(ratings)*100)/100
         else:
             return 0.0
 
@@ -73,6 +75,7 @@ class Item(models.Model):
     def latest_flag(self):
         flag = self.flag_item_target.order_by('-timestamp')[0]
         return flag
+
 
 class Comment(models.Model):
     content = models.TextField(max_length=300)
