@@ -12,11 +12,29 @@ from django.forms.models import model_to_dict
 from django.contrib.admin.models import LogEntry
 from item_catalog.views import ModelSearchListView, PostLastPage
 
+
 """ Generic User management views """
+
+
+# Sets up the target user for a view
+class TargetUserView(View):
+    def setup(self, request, *args, **kwargs):
+        self.target = actions.get_user(kwargs['pk'])
+        return super().setup(request, *args, **kwargs)
+
+
+# Uses has_permission mixin to check if the action is being enacted on another superuser
+class CheckSuperUserMixin(PermissionRequiredMixin, TargetUserView):
+    def has_permission(self):
+        if self.target.groups.filter(name='Superuser').exists():
+            return False
+
+        return super().has_permission()
+
 
 # A view for confirming the deletion of a user
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
-class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
+class DeleteUserView(CheckSuperUserMixin, DeleteView, PostLastPage):
     permission_required = "auth.delete_user"
     template_name = 'delete-user.html'
     model = User
@@ -30,7 +48,7 @@ class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
 
 # A view for editing the user
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
-class EditUserView(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
+class EditUserView(CheckSuperUserMixin, PostLastPage, generic.TemplateView):
     user_form_model = UserUpdateForm
     profile_form_model = ProfileForm
     success_url = None
@@ -135,9 +153,6 @@ class Dashboard(PermissionRequiredMixin, ModelSearchListView):
     template_name = 'dashboard.html'
     ordering = ['id']
     paginate_by = 10
-    def get(self, request, *args, **kwargs):
-        print(request.user.get_user_permissions())
-        return super().get(request, *args, **kwargs)
 
     # Adds the admin logs to the context data
     def get_context_data(self, *args, object_list=None, **kwargs):
@@ -165,7 +180,7 @@ class ActionView(View):
 
 
 # The user warning view (POST AND GET)
-class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
+class WarnUser(CheckSuperUserMixin, PostLastPage, generic.TemplateView):
     permission_required = "user_management.add_warning"
     template_name = 'warn-user.html'
 
@@ -184,7 +199,7 @@ class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
 
 # User flagging view handler (POST ONLY)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
-class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
+class FlagUser(CheckSuperUserMixin, PostLastPage, ActionView):
     permission_required = 'administration.add_userflag'
 
     def post(self, request, *args, **kwargs):
@@ -195,7 +210,7 @@ class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
 
 # User blocking view handler (POST)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
-class BlockUser(PermissionRequiredMixin, PostLastPage, ActionView):
+class BlockUser(CheckSuperUserMixin, PostLastPage, ActionView):
     permission_required = "administration.block_user"
 
     def post(self, request, *args, **kwargs):

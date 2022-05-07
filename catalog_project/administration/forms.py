@@ -3,12 +3,6 @@ from django.contrib.auth.models import User, Group
 from user_management.models import Profile
 from user_management.user_form import NewUserForm
 from django.core.exceptions import ValidationError
-import re
-
-
-def validate_username(value):
-    if bool(re.search('\\s',value)):
-        raise ValidationError('Usernames should not contain whitespaces')
 
 
 # A creation form for the user

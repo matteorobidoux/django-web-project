@@ -37,7 +37,7 @@ td,th {
 }
 
 tbody>tr:nth-child(odd){
-    background-color: #393939;
+    background-color: #6f6f6f;
 }
 
 tbody>tr{
@@ -81,10 +81,10 @@ tr.flagged-box td,tr.flagged-box a,tr.flagged-box a:hover{
     color: black;
 }
 
-tr:nth-child(even),thead>tr {
-    background-color: #6f6f6f;
-}
 td button{
     min-width: 100%;
+}
+td button:disabled{
+    border: solid 1px #393939;
 }
 

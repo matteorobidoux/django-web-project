@@ -1,4 +1,3 @@
-{% load item_admin %}
 {% if request.user.id != item.owner.id %}
 <span class="item-actions">
    {% if perms.item_catalog.change_item %}
