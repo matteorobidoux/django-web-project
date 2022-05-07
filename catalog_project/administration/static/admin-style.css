@@ -54,12 +54,30 @@ tbody>tr{
   }
 }
 
+@keyframes fade-in {
+  from {
+    position: relative;
+    top: -100px;
+    opacity: 0.5;
+  }
+  to {
+    position: relative;
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.fade-in-box {
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+}
+
 tbody>tr.flagged-box {
     background-color: #ffd64f;
     animation-duration: 1s;
     animation-name: user-flag-animation;
 }
-tr.flagged-box td{
+tr.flagged-box td,tr.flagged-box a,tr.flagged-box a:hover{
     color: black;
 }
 

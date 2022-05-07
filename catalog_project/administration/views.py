@@ -107,9 +107,11 @@ class UserCreateView(PermissionRequiredMixin, generic.TemplateView):
 
         if user_form.is_valid():
             user = user_form.save()
-            profile_form = self.profile_form_model(request.POST, request.FILES, instance=user.profile)
+            profile_form = self.profile_form_model(request.POST, request.FILES)
             if profile_form.is_valid():
-                profile_form.save()
+                profile = profile_form.save(commit=False)
+                profile.user = user
+                profile.save()
                 messages.success(request, "User has been created")
                 return redirect(self.success_url)
             else:

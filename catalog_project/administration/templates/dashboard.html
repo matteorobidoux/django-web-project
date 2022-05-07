@@ -14,7 +14,7 @@
     </section>
     <section class="row">
         <section id="lefthand-block">
-            <table class="dark-content-block">
+            <table class="dark-content-block {% if not request.GET.page %}fade-in-box{% endif %}" >
                 <thead>
                     <tr>
                         <th class="id-data">
@@ -38,7 +38,7 @@
                             {{ target_user.id }}
                         </td>
                         <td>
-                            {{ target_user.username }}
+                            <a href="{%url 'user_profile' target_user.username %}">{{ target_user.username }}</a>
                         </td>
                         <td>
                             {{ target_user.groups.all.0 }}
@@ -53,13 +53,13 @@
         <div class="mr-auto">
         </div>
         <div id="righthand-block">
-            <section class="content-section" id="user-create">
+            <section class="content-section {% if not request.GET.page %}fade-in-box{% endif %}" id="user-create">
                 <h2>User Creation</h2>
                 <a href="{%url 'admin_create_user' %}" class="section-link">
                     <h4>Create a new user here</h4>
                 </a>
             </section>
-            <section class="content-section" id="logs">
+            <section class="content-section {% if not request.GET.page %}fade-in-box{% endif %}" id="logs">
                 <h2>Recent Logs</h2>
                 {% for log in logs %}
                 <section class="log">

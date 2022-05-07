@@ -1,11 +1,15 @@
 body {
     background: #fafafa;
     color: #333333;
-    margin-top: 5rem;
+    margin-top: 6rem;
 }
 
 .container {
   max-width: 100%;
+}
+
+.navbar {
+    box-shadow: 0px 3px 3px 1px rgba(0, 0, 0, 0.2);
 }
 
 .main-container {

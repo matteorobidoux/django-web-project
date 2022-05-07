@@ -65,7 +65,7 @@ class Command(BaseCommand):
             'Dirk',
             'Lee',
             'Rim',
-            'Nicoleta',
+            'nic',
             'Deeam',
             'Matteo',
             'Oleks'
