@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User, Group, Permission
 from user_management.models import Profile
 from item_catalog.models import Item, Rating, Comment
+from messaging.models import Message
 import json
 
 class Command(BaseCommand):
@@ -103,10 +104,10 @@ class Command(BaseCommand):
 
             # Generate ratings for each post
             for i in range(len(post_data['field'])):
-                rating = max(0, min(i%5+3, 5))
-                user_id = max(1, min(i, User.objects.all().count()-1))
+                user_id = i % (User.objects.all().count()-1)+1
                 picked_user = User.objects.get(id=user_id)
                 try:
+                    rating = min((len(picked_user.username)) % 5 + (len(post_data['field']) % 5), 5)
                     rate = Rating(rate=rating, item=post, user=picked_user)
                     rate.save()
                 except:
@@ -140,6 +141,31 @@ class Command(BaseCommand):
 
         print("Added dev user")
 
+    def __create_messages(self):
+        stock_messages = [
+            'Hi, this is my message to you.',
+            'I have an even amount of characters in my username.',
+            'How are you doing?',
+            'Did you get the groceries yet'
+        ]
+        superuser = User.objects.filter(groups__name='Superuser').first()
+        for user in User.objects.all():
+            # Create a "greeting message" sent out by the superuser
+            if user.id != superuser.id:
+                message_content = "Welcome to the site! You are one of our first test users."
+                message = Message(sender=superuser, receiver=user, content=message_content)
+                message.save()
+
+            # If the user has a username with an even amount of letters, send a message to another user.
+            # Or if they have a message sent to them, they can reply if their username has an odd amount of letters
+            if (len(user.username) % 2 == 0) or \
+                    (len(user.username) % 2 == 1 and Message.objects.filter(receiver=user).exists()):
+
+                message_content = stock_messages[len(user.username) % len(stock_messages)]
+                receiver_id = (len(user.username)+10) % (User.objects.all().count()-1)+1
+                receiver = User.objects.get(id=receiver_id)
+                message = Message(sender=user, receiver=receiver, content=message_content)
+                message.save()
 
     def __create_users(self):
         self.__add_superusers()
@@ -197,6 +223,7 @@ class Command(BaseCommand):
         self.__create_groups()
         self.__create_users()
         self.__create_content()
+        self.__create_messages()
 
         if not options.get('nodev'):
             self.__add_dev()

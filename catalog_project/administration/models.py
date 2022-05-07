@@ -6,7 +6,6 @@ class SitePermissions(models.Model):
     class Meta:
         permissions = (
             ("block_user", "Block User"),
-            ("flag_user", "Flag User"),
             ("view_dashboard", "View dashboard")
         )
 
