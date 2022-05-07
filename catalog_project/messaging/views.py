@@ -18,6 +18,36 @@ class ConvoList(ListView):
     def get_queryset(self):
         convos = super(ConvoList, self).get_queryset()
         convos = convos.filter(Q(sender=self.request.user) | Q(receiver=self.request.user))
+        id_list = []
+        rr, ss, sr, rs = True, True, True, True
+        rru, ssu, rsu, sru = '', '', '', ''
+        for convo in convos:
+            for convo2 in convos:
+                if convo.id != convo2.id:
+                    if convo2.receiver == self.request.user and convo.receiver == self.request.user and rr:
+                        if convo2.sender != convo.sender and convo.sender != rru and convo.sender != ssu and convo.sender != sru and convo.sender != rsu:
+                            id_list.append(convo.id)
+                            rr = False
+                            rru = convo.sender
+                    
+                    elif convo2.sender == self.request.user and convo.sender == self.request.user and ss:
+                        if convo2.receiver != convo.receiver and convo.receiver != ssu and convo.receiver != rru and convo.receiver != sru and convo.receiver != rsu:
+                            id_list.append(convo.id)
+                            ss = False
+                            ssu = convo.receiver
+                     
+                    elif convo2.receiver == self.request.user and convo.sender == self.request.user and rs:
+                        if convo2.sender != convo.receiver and convo.receiver != rsu and convo.receiver != ssu and convo.receiver != rru and convo.receiver != sru:
+                            id_list.append(convo.id)
+                            rs = False
+                            rsu = convo.receiver
+                    
+                    elif convo2.sender == self.request.user and convo.receiver == self.request.user and sr:
+                        if convo2.receiver != convo.sender and convo.sender != sru and convo.sender != ssu and convo.sender != rru and convo.sender != rsu:
+                            id_list.append(convo.id)      
+                            sr = False   
+                            sru = convo.sender           
+        convos = Message.objects.filter(id__in=id_list)
         return convos
 
 class CreateConvo(LoginRequiredMixin ,CreateView):

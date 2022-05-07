@@ -18,6 +18,6 @@ class Message(models.Model):
         return reverse('inbox')
 
     def __str__(self):
-        # Show ellipses if text is cut off
-        text = self.content[:CUTOFF_LENGTH]
-        return text if len(self.content) <= CUTOFF_LENGTH else text+"..."
+       
+        text = self.sender.username + " " + self.receiver.username
+        return text 
