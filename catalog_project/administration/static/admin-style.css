@@ -72,11 +72,12 @@ tbody>tr{
     animation-duration: 0.5s;
 }
 
-tbody>tr.flagged-box {
+tr.flagged-box {
     background-color: #ffd64f;
     animation-duration: 1s;
     animation-name: user-flag-animation;
 }
+
 tr.flagged-box td,tr.flagged-box a,tr.flagged-box a:hover{
     color: black;
 }

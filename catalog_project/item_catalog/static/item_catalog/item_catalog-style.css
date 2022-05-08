@@ -83,7 +83,13 @@
     border-radius: 30px;
     box-shadow: 4px 4px 4px 4px #dddddd;
   }
-  
+
+  .content-section.flagged-box {
+    background-color: #613c45;
+    animation-name: flag-animation;
+    animation-duration: 1s;
+  }
+
   .article-title {
     color: #444444;
   }
@@ -236,7 +242,20 @@
  }
 
 .grid-style {
-  max-width: max-content;
+  max-width: 31%;
+  padding: 0;
+}
+
+.grid-style>article{
+    flex-direction: column;
+    justify-content: center;
+}
+
+#grid>.container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0;
 }
 
 .format-but {

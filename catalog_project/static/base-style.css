@@ -43,7 +43,7 @@ ul {
 .nav-title{
   font-size: 160%;
   display: flex;
-  align-children: center;
+  align-content: center;
 }
 .nav-title span{
     margin: auto;
@@ -326,7 +326,7 @@ a.article-title:hover {
 .rate .half-star:before {
   content: "\F089";
   position: absolute;
-  padding: right 0;
+  padding-right: 0;
 }
 
 input:checked ~ label, label:hover ~ label {

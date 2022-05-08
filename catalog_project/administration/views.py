@@ -6,8 +6,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from . import actions
 from .forms import UserUpdateForm, ProfileForm, UserCreateForm
-from django.views.generic.edit import CreateView, DeleteView
-from django.contrib import messages
+from django.views.generic.edit import DeleteView
 from django.forms.models import model_to_dict
 from django.contrib.admin.models import LogEntry
 from item_catalog.views import ModelSearchListView, PostLastPage
@@ -96,7 +95,6 @@ class EditUserView(CheckSuperUserMixin, PostLastPage, generic.TemplateView):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, "Profile has been updated")
 
             return HttpResponseRedirect(self.get_success_url())
 
@@ -130,11 +128,9 @@ class UserCreateView(PermissionRequiredMixin, generic.TemplateView):
                 profile = profile_form.save(commit=False)
                 profile.user = user
                 profile.save()
-                messages.success(request, "User has been created")
                 return redirect(self.success_url)
             else:
                 user.delete()
-                messages.error(request, "User could not be created.")
                 return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
 
         return render(request, self.template_name, {'user_form': user_form, 'profile_form': self.profile_form_model()})
