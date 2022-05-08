@@ -20,8 +20,16 @@ from django.urls import reverse_lazy, reverse
 from administration.views import EditUserView
 
 from administration import actions
-from administration.views import ActionView, PostLastPage, UserCreateView, ModelSearchListView
+from administration.views import ActionView, PostLastPage, UserCreateView, ModelSearchListView, TargetUserView
 
+
+# Uses has_permission mixin function to check if the action is being enacted on a member
+class CheckMemberMixin(PermissionRequiredMixin, TargetUserView):
+    def has_permission(self):
+        if not self.target.groups.filter(name='Member').exists() or self.target.groups.all().count()>1 :
+            return False
+
+        return super().has_permission()
 
 class ManageUsers(PermissionRequiredMixin, ModelSearchListView):
     search_redirect = '/useradmin'
@@ -139,7 +147,7 @@ def blocked(request):
     return HttpResponse(template.render({}, request))
 
 
-class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
+class WarnUser(CheckMemberMixin, PostLastPage, generic.TemplateView):
     permission_required = "user_management.warn_member"
     template_name = 'warn-member.html'
 
@@ -158,8 +166,8 @@ class WarnUser(PermissionRequiredMixin, PostLastPage, generic.TemplateView):
 
 # User flagging view handler (POST ONLY)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
-class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
-    permission_required = ('user_management.flag_member','user_management.create_userflag')
+class FlagUser(CheckMemberMixin, PostLastPage, ActionView):
+    permission_required = 'administration.add_userflag'
 
     def post(self, request, *args, **kwargs):
         actions.flag_user(request, kwargs['pk'])
@@ -169,11 +177,10 @@ class FlagUser(PermissionRequiredMixin, PostLastPage, ActionView):
 
 # User blocking view handler (POST)
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
-class BlockUser(PermissionRequiredMixin, PostLastPage, ActionView):
+class BlockUser(CheckMemberMixin, PostLastPage, ActionView):
     permission_required = "user_management.block_member"
 
     def post(self, request, *args, **kwargs):
-        print(kwargs)
         actions.block_user(request, kwargs['pk'])
 
         return super().post(request, *args, **kwargs)
@@ -204,7 +211,7 @@ def AdminUserCreateView(request):
 
 # A view for confirming the deletion of a user
 # Make sure that you have the ?next attribute in the POST header to take the user back to their last page
-class DeleteUserView(PermissionRequiredMixin, DeleteView, PostLastPage):
+class DeleteUserView(CheckMemberMixin, DeleteView, PostLastPage):
     permission_required = "user_management.delete_member"
     template_name = 'delete-member.html'
     model = User

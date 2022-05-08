@@ -1,15 +1,16 @@
+{% load admin_tags %}
 <td>
-    <a href="/useradmin/warn_user/{{ target_user.id }}?next={{ request.get_full_path|urlencode }}">
-        <button type = 'submit' class="action-button-1">
+    <a {% if target_user|in_group:'Member'  %}  href="{%url 'warn_member' target_user.id %}?next={{ request.get_full_path|urlencode }}" {% endif %}>
+        <button type = 'submit' class="action-button-1" {% if not target_user|in_group:'Member'  %}disabled{% endif %}>
             Warn
         </button>
     </a>
 </td>
 <td>
-    <form action="{% url 'flag_user' target_user.id %}" method="POST">
+    <form action="{% url 'flag_member' target_user.id %}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <button type = 'submit' class="action-button-1">
+        <button type = 'submit' class="action-button-1" {% if not target_user|in_group:'Member' %}disabled{% endif %}>
             {% if not target_user.profile.flagged %}
             Flag
             {% else %}
@@ -19,18 +20,18 @@
     </form>
 </td>
 <td>
-    <a href="/useradmin/delete_user/{{ target_user.id }}?next={{ request.get_full_path|urlencode }}">
-        <button type = 'submit' class="action-button-1">
+    <a {% if target_user|in_group:'Member'  %} href="{%url 'delete_member' target_user.id %}?next={{ request.get_full_path|urlencode }}" {% endif %}>
+        <button type = 'submit' class="action-button-1" {% if not target_user|in_group:'Member'  %}disabled{% endif %}>
             Delete
         </button>
     </a>
 </td>
 <td>
-    <form action="/useradmin/block_user/{{ target_user.id }}/" method="POST">
+    <form action="{% url 'block_member' target_user.id %}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
 
-        <button type = 'submit' class="action-button-1">
+        <button type = 'submit' class="action-button-1" {% if not target_user|in_group:'Member'  %}disabled{% endif %}>
             {% if not target_user.profile.blocked %}
             Block
             {% else %}

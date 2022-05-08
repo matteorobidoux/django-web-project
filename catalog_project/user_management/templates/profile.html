@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block head %}
+{% load admin_tags %}
+
 <title> User profile </title>
 {% endblock %}
 {% block title %}
@@ -15,7 +17,7 @@
             </button>
         </a>
         {% endif %}
-        {% if perms.user_management.add_userflag %}
+        {% if perms.administration.add_userflag %}
         <form action="{% url 'flag_member' profile.user.id %}" method="POST">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ request.get_full_path }}">

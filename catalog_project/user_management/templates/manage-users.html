@@ -15,7 +15,7 @@
     <h1>Manage users</h1>
     <section class="row">
         <div id="lefthand-block">
-            <table class="dark-content-block">
+            <table class="dark-content-block {% if not request.GET.page %}fade-in-box{% endif %}">
                 <thead>
                     <tr>
                         <th class="id-data">
@@ -34,12 +34,12 @@
                 </thead>
                 <tbody>
                 {% for user in users %}
-                    <tr>
+                    <tr class="{% if user.profile.flagged %}flagged-box{% endif %}">
                         <td class="id-data">
                             {{ user.id }}
                         </td>
                         <td>
-                            {{ user.username }}
+                            <a href="{%url 'user_profile' user.username %}">{{ user.username }}</a>
                         </td>
                         <td>
                             {{ user.groups.all.0 }}

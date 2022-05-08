@@ -78,6 +78,10 @@ tr.flagged-box {
     animation-name: user-flag-animation;
 }
 
+tr.flagged-box:nth-child(2n+1){
+    background-color: #ffd64f;
+}
+
 tr.flagged-box td,tr.flagged-box a,tr.flagged-box a:hover{
     color: black;
 }

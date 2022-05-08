@@ -1,6 +1,5 @@
 {% load admin_tags %}
 <td>
-
     <a {% if not target_user|in_group:'Superuser'  %}  href="{%url 'warn_user' target_user.id %}?next={{ request.get_full_path|urlencode }}" {% endif %}>
         <button type = 'submit' class="action-button-1" {% if target_user|in_group:'Superuser'  %}disabled{% endif %}>
             Warn
