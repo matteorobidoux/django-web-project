@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
-    <div class="content-section">
+    <link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
+    <div class="content-section mb-3">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -10,7 +12,7 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit"> Create Project </button>
+                <button class="like-but btn btn-outline-info" type="submit"> Create Project </button>
             </div>
         </form>
     </div>

@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block head %}
     <title> Project: {{ object.name }} </title>
 {% endblock %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
     <h1 class="detail-title"> {{ object.name }} </h1>
     <div class="container">
         <div class="row">
@@ -34,7 +36,7 @@
         </div>
     </div>
     <h2 class="explore-title mt-4"> Project Content </h2>
-    <div class="detail-content"> {{ object.content|linebreaks }} </div>
+    <div class="detail-content mb-4"> {{ object.content|linebreaks }} </div>
     <div class="container mb-4">
         <div class="row">
             <div>
@@ -53,8 +55,8 @@
                 <div>
                     <form method="POST" action="{% url 'like-project' object.id %}">
                         {% csrf_token %}
-                        <button type="submit" name="item_id" value="{{ item.id }}" class="btn btn-primary btn-sm">
-                            Like
+                        <button type="submit" name="item_id" value="{{ item.id }}" class="like-but btn btn-sm">
+                            Like <i class="ml-1 fa fa-thumbs-up"></i>
                         </button>
                     </form>
                 </div>
@@ -95,17 +97,18 @@
             <br> </br>
         {% else %}
             {% for comment in object.comments.all %}
-                <strong>
-                    {{ comment.commenter }} - 
-                    {{ comment.timestamp }}
-                </strong>
-                <br></br>
-                {{ comment.content }}
-                <br></br>
-                <hr>
+                <div class="comment-post mb-4">
+                    <strong>
+                        {{ comment.commenter }} - 
+                        {{ comment.timestamp }}
+                    </strong>
+                    <br></br>
+                    {{ comment.content }}
+                </div>
             {% endfor %}
+            <hr>
         {% endif %}
-        <div class="mb-4">
+        <div class="comment-div mb-4 mt-4">
             <form method="POST" action="{% url 'project-comment' object.pk %}">
                 {% csrf_token %}
                 <textarea class="form-control" rows='3' name="content" required> </textarea>

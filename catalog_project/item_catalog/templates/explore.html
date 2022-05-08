@@ -1,51 +1,120 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <h1 class="explore-title"> Projects </h1>
     {% include 'project-search.html' %}
-    {% for item in items %}
-        <article class="media content-section">
-            <img class="article-img" src="{{ item.snapshot.url }}">
-            <div class="media-body">
-                <div class="article-metadata row">
-                    <div>
-                        <a class="item-username mr-2" href="profile/{{ item.owner.username }}">{{ item.owner.username }}</a>
-                        <small class="text-muted">{{ item.date_posted }}</small>
+    <link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
+    <button class="format-but btn mb-1" id="format-but"> Grid Format </button>
+    <div id="list">
+        {% for item in items %}
+            <article class="media content-section mb-4">
+                <img class="article-img" src="{{ item.snapshot.url }}">
+                <div class="media-body">
+                    <div class="article-metadata row">
+                        <div>
+                            <a class="item-username mr-2" href="profile/{{ item.owner.username }}">{{ item.owner.username }}</a>
+                            <small class="text-muted">{{ item.date_posted }}</small>
+                        </div>
+                        <div class="mr-auto">
+                        </div>
+                        <div class="p-1 mr-1">
+                            {% include 'item_admin_actions.html' with item=item %}
+                            {% include 'self_item_actions.html' with item=item %}
+                        </div>
                     </div>
-                    <div class="mr-auto">
+                    <h2><a class="article-title" href="{% url 'project-detail' item.pk %}">{{ item.name }}</a></h2>
+                    <p class="article-content"> Type: {{ item.type }}</p>
+                    <p class="article-content"> Field: {{ item.field }}</p>
+                    <p class="article-content"> Status: {{ item.status }}</p>
+                    <div class="row container">
+                        <p class="article-content"> Keywords: </p>
+                        <p class="keyword-list ml-2"> {{ item.get_keywords }}</p>
                     </div>
-                    {% include 'item_admin_actions.html' with item=item %}
-                    {% include 'self_item_actions.html' with item=item %}
+                    <p class="article-content"> Rating: {{ item.avg_rating }} </p>
                 </div>
-                <h2><a class="article-title" href="{% url 'project-detail' item.pk %}">{{ item.name }}</a></h2>
-                <p class="article-content"> Type: {{ item.type }}</p>
-                <p class="article-content"> Field: {{ item.field }}</p>
-                <p class="article-content"> Status: {{ item.status }}</p>
-                <div class="row container">
-                    <p class="article-content"> Keywords: </p>
-                    <p class="keyword-list ml-2"> {{ item.get_keywords }}</p>
-                </div>
-                <p class="article-content"> Rating: {{ item.avg_rating }} </p>
-            </div>
-        </article>
-    {% endfor %}
-    {% if is_paginated %}
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1"> First </a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}"> Previous </a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}"> {{ num }} </a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}"> {{ num }} </a>
-            {% endif %}
+            </article>
         {% endfor %}
+    </div>
+    <div id="grid">
+        <div class="container">
+             {% for item in items %}
+                {% if forloop.counter0|divisibleby:2 %}
+                    <div class="row">
+                {% endif %}
+                        <div class="m-2 col-md-6 grid-style">
+                            <article class="media content-section mb-4">
+                                <img class="article-img" src="{{ item.snapshot.url }}">
+                                <div class="media-body">
+                                    <div class="article-metadata row">
+                                        <div>
+                                            <a class="item-username mr-2" href="profile/{{ item.owner.username }}">{{ item.owner.username }}</a>
+                                            <small class="text-muted">{{ item.date_posted }}</small>
+                                        </div>
+                                        <div class="mr-auto"></div>
+                                        <div class="p-1 mr-1">
+                                            {% include 'item_admin_actions.html' with item=item %}
+                                            {% include 'self_item_actions.html' with item=item %}
+                                        </div>
+                                    </div>
+                                    <h2><a class="article-title" href="{% url 'project-detail' item.pk %}">{{ item.name }}</a></h2>
+                                    <p class="article-content"> Type: {{ item.type }}</p>
+                                    <p class="article-content"> Field: {{ item.field }}</p>
+                                    <p class="article-content"> Status: {{ item.status }}</p>
+                                    <div class="row container">
+                                        <p class="article-content"> Keywords: </p>
+                                        <p class="keyword-list ml-2"> {{ item.get_keywords }}</p>
+                                    </div>
+                                    <p class="article-content"> Rating: {{ item.avg_rating }} </p>
+                                </div>
+                            </article>
+                        </div>
+                {% if forloop.counter0|divisibleby:2 %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="pag-div">
+        <div class="pag-div2">
+            {% if is_paginated %}
+                {% if page_obj.has_previous %}
+                    <a class="pag-but btn mb-4" href="?page=1"> First </a>
+                    <a class="pag-but btn mb-4" href="?page={{ page_obj.previous_page_number }}"> Previous </a>
+                {% endif %}
 
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}"> Next </a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}"> Last </a>
-        {% endif %}
-    {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <a class="pag-but btn mb-4" href="?page={{ num }}"> {{ num }} </a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a class="pag-but btn mb-4" href="?page={{ num }}"> {{ num }} </a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="pag-but btn mb-4" href="?page={{ page_obj.next_page_number }}"> Next </a>
+                    <a class="pag-but btn mb-4" href="?page={{ page_obj.paginator.num_pages }}"> Last </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var list = document.getElementById("list");
+        var grid = document.getElementById("grid");
+        var but = document.getElementById("format-but");
+        grid.style.display = "none";
+        but.addEventListener("click", function() {
+            if (grid.style.display === "none") {
+                list.style.display = "none"
+                grid.style.display = "block";
+                but.textContent = "List Format"
+            } else {
+                grid.style.display = "none";
+                list.style.display = "block"
+                but.textContent = "Grid Format"
+            }
+        });
+    </script>
+
 {% endblock content %}

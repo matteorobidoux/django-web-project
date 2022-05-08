@@ -1,5 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'messaging/messaging-style.css' %}">
     <div class="box container">
         <div class="justify-content-center row">
             <div>
@@ -18,7 +21,7 @@
     <div class="mt-5">
         {% for convo in convos %}
             <a href="{% url 'messages' convo.receiver.pk convo.sender.pk %}">
-                <div class="convo-box mb-3 ml-auto mr-auto">
+                <div class="convo-box mb-4 ml-auto mr-auto">
                     <div class="convos card col p-4">
                         <div>
                             <h5> {{ convo.sender }} <i class=" ml-2 mr-2 fa fa-paper-plane"></i> {{ convo.receiver }} </h5>

@@ -1,0 +1,252 @@
+.explore-title{
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  
+  .detail-title{
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 50px;
+  }
+  
+  .keyword-list {
+    color: #428bca;
+  }
+  
+  .detail-box {
+    border: 2px solid #dddddd;
+    padding: 20px;
+    min-width: 400px;
+    max-width: 400px;
+    box-shadow: 4px 4px 4px 4px #dddddd;
+  }
+
+  .item-username:hover {
+    color: #9a9b9c;
+    text-decoration: none;
+  }
+  
+  .url-link {
+    color:#444444;
+    font-weight: 510;
+  }
+  
+  .url-link:hover {
+    color: #9a9b9c;
+    text-decoration: none;
+  }
+  
+  .detail-img {
+    height: 400px;
+    min-width: 400px;
+    max-width: 400px;
+    margin-right: 30px;
+    border: 2px solid #dddddd;
+  }
+  
+  .detail-content{
+    font-size: 25px;
+    border: 2px solid #dddddd;
+    padding: 20px;
+    overflow-wrap: break-word;
+    box-shadow: 4px 4px 4px 4px #dddddd;
+  }
+
+  .like-but {
+      background-color: #444444;
+      color: #dddddd;
+      border: 1px solid black;
+  }
+
+  .like-but:hover {
+      background-color: #9a9b9c;
+      color:#444444;
+      border: 1px solid black;
+  }
+  
+  .dark-content-block {
+    background-color: #393939;
+    padding: 1em;
+    border-radius: 4px;
+    color: white;
+  }
+  
+  .dark-content-block>h1,.dark-content-block>h2{
+    color: white;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1.5px solid #dddddd;
+    border-radius: 3px;
+    border-radius: 30px;
+    box-shadow: 4px 4px 4px 4px #dddddd;
+  }
+  
+  .article-title {
+    color: #444444;
+  }
+  
+  a.article-title:hover {
+    color: #9a9b9c;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+  }
+  
+  .article-img {
+    height: 250px;
+    width: 250px;
+    margin-top: 15px;
+    margin-right: 30px;
+    border: 2px solid #dddddd;
+    border-radius: 50%;
+  }
+  
+  .item-username {
+    font-size: 22px;
+    color:#444444;
+    font-weight: 550;
+  }
+
+  .msg {
+    font-size: 20px;
+    color: red;
+  }
+
+  .rate > label:before {
+    display: inline-block;
+    font-family: FontAwesome;
+    content: "\F005";
+    margin: 0;
+    font-size: 1.1rem;
+    padding: 0.3rem 0.2rem;
+    cursor: pointer;
+  }
+  
+  .rate .half-star:before {
+    content: "\F089";
+    position: absolute;
+    padding: right 0;
+  }
+  
+  input:checked ~ label, label:hover ~ label {
+    color: #FFB503;
+  }
+
+  .rate {
+    display: inline-block;
+    border: 0;
+  }
+  
+  .rate > input {
+    display: none;
+  }
+  
+  .rate > label {
+    float: right;
+  }
+  
+  .search-nav{
+    padding: 1em;
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1.5px solid #dddddd;
+    margin-bottom: 30px;
+    box-shadow: 3px 3px 3px 3px #dddddd;
+  }
+  .search-container{
+    display: flex;
+    flex-direction: row;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .search-section{
+    width: 70%;
+    height: 30px;
+  }
+  .filter-section{
+    width: 25%;
+    margin-left: 1em;
+    height: 30px;
+  }
+  .filter-section>select{
+    border: 4px;
+    width: 50%;
+    color: white;
+    background-color: #393939;
+    height: 100%;
+  }
+  .search-section input{
+    width: 100%;
+    height: 100%;
+  }
+  .search-nav .button-container{
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  
+  .search-nav .action-button-2{
+    width: 20%;
+    height: 30px;
+  }
+
+  .pag-but {
+      background-color: #9a9b9c;
+      color: #dddddd;
+      border: 1px solid black;
+      text-align: center;
+      font-size: large;
+  }
+
+  .pag-but:hover {
+      background-color: #dddddd;
+      color: #444444;
+      border: 1px solid black;
+  }
+
+  .pag-div {
+    display: inline;
+  }
+
+  .pag-div2 {
+    text-align: center;
+  }
+
+  .comment-post{
+      border: 1px solid #dddddd;
+      border-radius: 30px;
+      padding: 15px 15px 15px 15px;
+      box-shadow: 2px 2px 2px 2px #dddddd;
+  }
+
+  .comment-div {
+    border: 1px solid #dddddd;
+    padding: 15px 15px 15px 15px;
+    box-shadow: 2px 2px 2px 2px #dddddd;
+  }
+
+ .comment-button {
+        border: 2px solid #dddddd;
+ }
+
+.grid-style {
+  max-width: max-content;
+}
+
+.format-but {
+  margin-left: 40px;
+  border: 1px solid black;
+  font-size: small;
+  padding: 5px;
+}
+
+.format-but:hover {
+  background-color: rgb(227, 225, 225);
+  border: 1px solid black;
+}
