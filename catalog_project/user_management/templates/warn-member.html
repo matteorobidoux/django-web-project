@@ -11,7 +11,7 @@
             <h2>
                 Write a warning message for {{ object.username }}
             </h2>
-            <form action="{% url 'warn_user' object.id %}" method="POST">
+            <form action="{% url 'warn_member' object.id %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.GET.next }}">
                 <section class="inner-form-block">

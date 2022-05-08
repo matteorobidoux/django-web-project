@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from notifications.signals import notify
 
 class ConvoList(ListView):
     model = Message
@@ -86,6 +87,7 @@ class CreateMessage(View):
                 else:
                     data.sender = self.request.user
                     data.receiver = User.objects.get(pk=self.kwargs['pkr'])
+                notify.send(data.sender, recipient=data.receiver, verb='Message', description=data.content)
                 data.save()
                 return redirect('messages', pkr=self.kwargs['pkr'], pks=self.kwargs['pks'])
             else:

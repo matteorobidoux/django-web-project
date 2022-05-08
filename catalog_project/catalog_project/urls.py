@@ -28,6 +28,7 @@ urlpatterns = [
     path('messages/', include('messaging.urls'), name='messaging'),
     path('api/', include('item_api.urls'), name='api'),
     path('', include('user_management.urls'), name='user_management'),
+    path('notifications/', include('notifications.urls', namespace='notifications')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'item_catalog.views.response_not_found_404'

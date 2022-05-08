@@ -17,7 +17,7 @@ class ItemSerializer(serializers.ModelSerializer):
         return result
     class Meta:
         model = Item
-        fields = ('id', 'name', 'owner', 'type', 'field', 'keyword_list', 'content', 'likes', 'url', 'status', 'date_posted', )
+        fields = ('id', 'name', 'owner', 'type', 'field', 'keyword_list', 'content', 'likes', 'url', 'status', 'date_posted', 'snapshot')
     """"
     name = serializers.CharField(max_length=100)
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())

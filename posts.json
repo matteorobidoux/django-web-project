@@ -1,0 +1,114 @@
+{
+  "posts": [
+    {
+        "id": 1,
+        "name": "API Documentation",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Computer Science",
+        "keyword_list": "ResearchGate",
+        "content": "Documenting a REST API is important for its successful adoption. APIs expose data and services that consumers want to use. An API should be designed with an interface that the consumer can understand. API documentation is key to the app developers comprehending the API. The documentation should help the developer to learn about the API functionality and enable them to start using it easily. This chapter looks at the aspects of documenting an API and some of the tools and technologies available for API documentation, including RAML, Swagger, API Blueprint, and others.",
+        "url": "https://www.researchgate.net/publication/315468327_API_Documentation",
+        "status": "Completed"
+    },
+    {
+        "id": 2,
+        "name": "Big Data and Big Data Analytics",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Computer Science",
+        "keyword_list": "ResearchGate",
+        "content": "Big data now is a common term. However, the evolution of big data comes from twofold. The creation of the computer in the 1940s gradually provides tools for human beings to collect massive data, while the term “big data” becomes a popular slogan to represent the collection, processing, and analysis of various data [1]. The data has been exponentially growing for the last 70 decades. EMC2 [2] estimated that the world generated 1.8 zettabytes of data (1.8 multiple 21 zeros) by 2011. In fact, this figure has grown to 44 zettabytes, about 24 times in 2020. Big Data Analytics has arisen as the technical means dealing with both theory and application of big data. This chapter elaborates on the understanding of big data and its analytics. Section 1.1 briefly describes big data evolution and challenges. Section 1.2 is about big data’s current status, including its development in the world as well as in China. Section 1.3 explores big data analysis and data science problems.",
+        "url": "https://www.researchgate.net/publication/357803871_Big_Data_and_Big_Data_Analytics",
+        "status": "Completed"
+    },
+    {
+        "id": 3,
+        "name": "Denial of Service Attack on Bluetooth Low Energy",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Computer Science",
+        "keyword_list": "Security,Bluetooth",
+        "content": "Bluetooth Low Energy is a promising technology for wireless \ncommunication.  The  main  benefits  are  that  it  is  energy \nefficient and is slowly becoming ubiquitous. We can expect \nthat  the  technology  will  be  used  in  many  demanding \napplications. \nThis raises the question whether Bluetooth Low Energy  is \nsuitable for products and services that require high resilience, \nrobustness and availability. \nIn  this  paper  we  focus  on  the  availability  aspects  in  the \nconnection setup of Bluetooth Low Energy. We explore an \nattack path that allows us to do a denial of service attack on \nthe  connection  setup  mechanism.  We  refine  the  attack \nscenario  and  implement  an  exploit  using  the  Project \nUbertooth,  an  open  source  platform  for  Bluetooth \nexperimentation. We then characterize the attack vector using \nthe Common Criteria attack evaluation methodology. \nOur result indicates that it is possible to successfully mount a \ndenial of service attack that blocks the connection setup  on \nBluetooth  Low  Energy  using  standard  off-the-shelf \ncomponents. The consequence of this exploit helps us bring \nawareness  that Bluetooth  Low  Energy  may  not guarantee \navailability when an attacker has the motivation and vicinity \naccess. ",
+        "url": "https://www.researchgate.net/publication/317063884_Denial_of_Service_Attack_on_Bluetooth_Low_Energy",
+        "status": "Completed"
+    },
+    {
+        "id": 4,
+        "name": "Research on Detecting Windows Vulnerabilities Based on Security Patch Comparison",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Computer Science",
+        "keyword_list": "Security,Vulnerability",
+        "content": "By analyzing the binary executable files comparing technique, this paper presents a method to detect vulnerabilities in Windows system based on security patch comparison. The technology is mostly used for detecting vulnerabilities which are patched by Microsoft but there is no clear location and detailed information of the vulnerabilities. Finally, the result of detecting MS15-034 vulnerability experiment demonstrates the effectiveness of the technique.",
+        "url": "https://www.researchgate.net/publication/311530915_Research_on_Detecting_Windows_Vulnerabilities_Based_on_Security_Patch_Comparison",
+        "status": "Completed"
+    },
+    {
+        "id": 5,
+        "name": "The Sense of Logging in the Linux Kernel",
+        "owner": 7,
+        "type": "Empirical",
+        "field": "Software Engineering",
+        "keyword_list": "Software Engineering,Linux",
+        "content": "Logging plays a crucial role in software engineering because it is key to perform various tasks including debugging, performance analysis, and detection of anomalies. Despite the importance of log data, the practice of logging still suffers from the lack of common guidelines and best practices. Recent studies investigated logging in C/C++ and Java open-source systems. In this paper, we complement these studies by conducting the first empirical study on logging practices in the Linux kernel , one of the most elaborate open-source development projects in the computer industry. We analyze 22 Linux releases with a focus on three main aspects: the pervasiveness of logging in Linux, the types of changes made to logging statements, and the rationale behind these changes. Our findings show that logging code accounts for 3.73% of the total source code in the Linux kernel, distributed across 72.36% of Linux files. We also found that the distribution of logging statements across Linux subsystems and their components vary significantly with no apparent reasons, suggesting that developers use different criteria when logging. In addition, we observed a slow decrease in the use of logging-reduction of 9.27% between versions v4.3 and v5.3. The majority of changes in logging code are made to fix language issues, modify log levels, and upgrade logging code to use new logging libraries, with the overall goal of improving the precision and consistency of the log output. Many recommendations are derived from our findings such as the use of static analysis tools to detect log-related issues, the adoption of common writing styles to improve the quality of log messages, the development of conventions to guide developers when selecting log levels, the establishment of review sessions to review logging code, and so on. Our recommendations can serve as a basis for developing logging guidelines as well as better logging processes, tools, and techniques.",
+        "url": "https://www.researchgate.net/publication/360081286_The_Sense_of_Logging_in_the_Linux_Kernel",
+        "status": "Completed"
+    },
+    {
+        "id": 6,
+        "name": "Clones in deep learning code: what, where, and why?",
+        "owner": 7,
+        "type": "Empirical",
+        "field": "Software Engineering",
+        "keyword_list": "Code Clones,Deep Learning,Clone Taxonomy",
+        "content": "Deep Learning applications are becoming increasingly popular world-\nwide. Developers of deep learning systems like in every other context of soft-\nware development strive to write more eﬃcient code in terms of performance,\ncomplexity, and maintenance. The continuous evolution of deep learning sys-\ntems imposing tighter development timelines and their increasing complexity\nmay result in bad design decisions by the developers. Besides, due to the use\nof common frameworks and repetitive implementation of similar tasks, deep\nlearning developers are likely to use the copy-paste practice leading to clones\nin deep learning code. Code clone is considered to be a bad software devel-\nopment practice since developers can inadvertently fail to properly propagate\nchanges to all clones fragments during a maintenance activity. However, to\nthe best of our knowledge, no study has investigated code cloning practices\nin deep learning development. The majority of research on deep learning sys-\ntems mostly focusing on improving the dependability of the models. Given\nthe negative impacts of clones on software quality reported in the studies on\ntraditional systems and the inherent complexity of maintaining deep learning\nsystems (e.g., bug ﬁxing), it is very important to understand the characteris-\ntics and potential impacts of code clones on deep learning systems. This paper\nexamines the frequency, distribution, and impacts of code clones and the code\ncloning practices in deep learning systems. To accomplish this, we use the\nNiCad clone detection tool to detect clones from 59 Python, 14 C#, and 6\nJava based deep learning systems and an equal number of traditional software\nsystems. We then analyze the comparative frequency and distribution of code\nclones in deep learning systems and the traditional ones. Further, we study\nthe distribution of the detected code clones by applying a location based tax-\nHadhemi Jebnoun ·Md Saidur Rahman ·Foutse Khomh ·Biruk Asmare Muse\nE-mail: {hadhemi.jebnoun,saidur.rahman,foutse.khomh, biruk-asmare.muse}@polymtl.ca\nDGIGL, Polytechnique Montreal, QC, Canada,\n2 Jebnoun et al.\nonomy. In addition, we study the correlation between bugs and code clones to\nassess the impacts of clones on the quality of the studied systems. Finally, we\nintroduce a code clone taxonomy related to deep learning programs based on\n6 DL software systems (from 59 DL systems) and identify the deep learning\nsystem development phases in which cloning has the highest risk of faults. Our\nresults show that code cloning is a frequent practice in deep learning systems\nand that deep learning developers often clone code from ﬁles contain in dis-\ntant repositories in the system. In addition, we found that code cloning occurs\nmore frequently during DL model construction, model training, and data pre-\nprocessing. And that hyperparameters setting is the phase of deep learning\nmodel construction during which cloning is the riskiest, since it often leads to\nfaults",
+        "url": "https://www.researchgate.net/publication/359830415_Clones_in_deep_learning_code_what_where_and_why",
+        "status": "Completed"
+    },
+    {
+        "id": 7,
+        "name": "Multi-criteria Optimization Approach for the Deployment",
+        "owner": 1,
+        "type": "Empirical",
+        "field": "Networking",
+        "keyword_list": "Wireless Mesh Network,Planning problem,Multi-objective optimization,Meta-heuristic search algorithm",
+        "content": "The few studies carried out so far on planning Wireless Mesh Networks (WMNs) tend all to be mono-objective optimization models. We propose a different approach to address the planning of WMN problem that reflects as much as possible the real-life problem. Basically, an optimal (or rather a good and realistic) planning solution has to be simultaneously cheap (minimizing the deployment cost) and efficient (maximizing the throughput). To achieve this, we devise a novel generic multi-objective optimization model where the two objectives of network cost deployment and network throughput are simultaneously optimized under obvious network constraints. We then derive two instance models differing mainly in how the second objective is defined: maximizing the culmination of the flows over the entire network or minimizing the aggregation of network interferences. Obviously, a new network metric is proposed to handle this task. A comparative experimental study with different key-parameter settings on the two instance models is conducted to help network planner decide which planning optimization model to choose given their specific requirements and/or scenarios.",
+        "url": "https://www.researchgate.net/publication/228997248_Multi-criteria_optimization_approach_for_the_deployment_planning_problem_of_multi-hop_wireless_networks",
+        "status": "Completed"
+    },
+    {
+        "id": 8,
+        "name": "Detecting Distributed Denial of Service attacks using Recurrent Neural Network",
+        "owner": 7,
+        "type": "Empirical",
+        "field": "Neural Networks",
+        "keyword_list": "Distributed  Denial  of  Service  (DDoS)  Attacks, Recurrent  Neural  Network  (RNN),Knowledge  Discovery  Dataset  (KDD), Artificial Neural Network (ANN)",
+        "content": "As  the  internet  grows  and  diversity,  attackers  use  various  attacks  to  crash  the  servers  and  to  stop  specific \nsites.  Multiple  computers  and  multiple  Internet  connections  are  targeted  by  using  distributed  denial  of  service \n(DDoS)  attacks.  The  aim  of  this  paper  is  to  identify  the  best  algorithm  among  the  selected  algorithms  (i.e.,  gradient \ndescent  with  momentum  algorithm,  scaled  conjugate  gradient,  and  variable  learning  rate  gradient  descent  algorithm.  \nIn  this  study,  the  recurrent  neural  network  was  trained  to  check  the  accuracy  and  detection  of  DDoS  attacks.  The \nintention  of  this  training  was  to  allow  the  system  to  learn  and  classify  the  input  traffic  into  the  category.  The \nproposed  system's  training  was  composed  of  three  separate  algorithms  utilizing  recurrent  neural  networks.  The \nMATLAB  2018a  simulator  was  used  for  training  purpose.  Moreover,  clean  the  Knowledge  Discovery  Dataset \n(KDD)  during  design  and  include  the  values  of  protocols,  attacks,  and  flags.  The  neural  network  model  was \nsubsequently  developed,  and  the  KDD  was  trained  using  Artificial  Neural  Network  (ANN).  The  results  of  DDoS \nattacks’  detection  were  analyzed  using  MATLAB “ANN”  toolbox.  The  success  rate  of  the  variable  learning  rate \ngradient  descent  algorithm  was  99.9%  accuracy  and  the  short  timing  was  2  minutes  and  29  seconds.  The  variable \nlearning  rate  gradient  descent  algorithm  gives  better  results  than  gradient  descent  with  momentum  and  scaled \nconjugate  gradient  algorithms.    In  the  state  of  the  art,  different  algorithms  have  been  trained  in  different  neural \nnetworks  and  different  KDD  datasets  by  using  selective  DDoS  attacks  but  in  this  research  recurrent  neural  network \nwas  used  for  three  different  algorithms.  In  this  research  we  have  used  a  total  22  attacks  for  detection  of  DDoS \nattacks’ accuracy. ",
+        "url": "https://www.researchgate.net/publication/359300444_Detecting_Distributed_Denial_of_Service_attacks_using_Recurrent_Neural_Network",
+        "status": "Completed"
+    },
+    {
+        "id": 9,
+        "name": "Fish classification using extraction of appropriate feature set",
+        "owner": 7,
+        "type": "Empirical",
+        "field": "Electrical and Computer Engineering",
+        "keyword_list": "Feature selection,image retrieval,particle swarm optimization",
+        "content": "The field of wild fish classification faces many challenges such as the amount of training data, pose variation and uncontrolled environmental settings. This research work introduces a hybrid genetic algorithm (GA) that integrates the simulated annealing (SA) algorithm with a back-propagation algorithm (GSB classifier) to make the classification process. The algorithm is based on determining the suitable set of extracted features using color signature and color texture features as well as shape features. Four main classes of fish images have been classified, namely, food, garden, poison, and predatory. The proposed GSB classifier has been tested using 24 fish families with different species in each. Compared to the back-propagation (BP) algorithm, the proposed classifier has achieved a rate of 87.7% while the elder rate is 82.9%.",
+        "url": "https://www.researchgate.net/publication/359482583_Fish_classification_using_extraction_of_appropriate_feature_set",
+        "status": "Completed"
+    },
+    {
+        "id": 10,
+        "name": "Connecting reservoir computing with statistical forecasting and deep neural networks",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Nature Communications",
+        "keyword_list": "Resevoir Computing,Physiology,Artificial Neural Networks,Biosignals,Machine Learning,Biomedical Signal Processing",
+        "content": "Standfirst Among the existing machine learning frameworks, reservoir computing demonstrates fast and low-cost training, and its suitability for implementation in various physical systems. This Comment reports on how aspects of reservoir computing can be applied to classical forecasting methods to accelerate the learning process, and highlights a new approach that makes the hardware implementation of traditional machine learning algorithms practicable in electronic and photonic systems.",
+        "url": "https://www.researchgate.net/publication/357756177_Connecting_reservoir_computing_with_statistical_forecasting_and_deep_neural_networks",
+        "status": "Completed"
+    }
+  ]
+}

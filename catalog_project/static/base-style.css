@@ -108,7 +108,7 @@ ul {
   font-size: 30px;
 }
 
-.edit-profile {
+.button {
   border: none;
   background-color: #008CBA;
   color: white;
@@ -119,6 +119,78 @@ ul {
   width: 200px;
 }
 
-.edit-profile:hover {
+.button:hover {
   background-color: #006080;
+}
+
+.msg {
+  font-size: 20px;
+  color: red;
+}
+
+.search-nav{
+  padding: 1em;
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1.5px solid #dddddd;
+  margin-bottom: 20px;
+}
+.search-container{
+  display: flex;
+  flex-direction: row;
+  margin-left: 0;
+  margin-right: 0;
+}
+.search-section{
+  width: 70%;
+  height: 30px;
+}
+.filter-section{
+  width: 25%;
+  margin-left: 1em;
+  height: 30px;
+}
+.filter-section>select{
+  border: 4px;
+  width: 50%;
+  color: white;
+  background-color: #393939;
+  height: 100%;
+}
+.search-section input{
+  width: 100%;
+  height: 100%;
+}
+.search-nav .button-container{
+  width: 100%;
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.search-nav .action-button-2{
+  width: 20%;
+  height: 30px;
+}
+
+.dropdown {
+  display: none;
+  background-color: white;
+  border: solid 2px lightgray;
+  padding: 4px 16px;
+}
+
+.notifications:hover .dropdown {
+  display: block;
+  position: absolute;
+}
+.notification p{
+    text-indent: 1em;
+    margin-bottom: 4px;
+}
+.notif-separator{
+    margin-top: 0;
+}
+.single-notif {
+  border: dotted 3px lightgray;
 }
