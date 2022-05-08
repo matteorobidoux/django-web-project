@@ -37,11 +37,54 @@ td,th {
 }
 
 tbody>tr:nth-child(odd){
-    background-color: #393939;
-}
-tr:nth-child(even),thead>tr {
     background-color: #6f6f6f;
 }
+
+tbody>tr{
+    animation-name: article-load;
+    animation-duration: 1s;
+}
+
+@keyframes user-flag-animation {
+  from {
+    background-color: #ffffff;
+  }
+  to {
+    background-color: #ffd64f;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    position: relative;
+    top: -100px;
+    opacity: 0.5;
+  }
+  to {
+    position: relative;
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.fade-in-box {
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+}
+
+tbody>tr.flagged-box {
+    background-color: #ffd64f;
+    animation-duration: 1s;
+    animation-name: user-flag-animation;
+}
+tr.flagged-box td,tr.flagged-box a,tr.flagged-box a:hover{
+    color: black;
+}
+
 td button{
     min-width: 100%;
 }
+td button:disabled{
+    border: solid 1px #393939;
+}
+

@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from user_management.models import Profile
 from user_management.user_form import NewUserForm
+from django.core.exceptions import ValidationError
+
 
 # A creation form for the user
 class UserCreateForm(NewUserForm):

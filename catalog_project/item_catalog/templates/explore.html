@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pagination %}
 
 {% block content %}
     <h1 class="explore-title"> Projects </h1>
@@ -8,7 +9,7 @@
     <button class="format-but btn mb-1" id="format-but"> Grid Format </button>
     <div id="list">
         {% for item in items %}
-            <article class="media content-section mb-4">
+            <article class="media content-section {% if item.flagged %}flagged-box{% endif %}">
                 <img class="article-img" src="{{ item.snapshot.url }}">
                 <div class="media-body">
                     <div class="article-metadata row">
@@ -29,9 +30,18 @@
                     <p class="article-content"> Status: {{ item.status }}</p>
                     <div class="row container">
                         <p class="article-content"> Keywords: </p>
-                        <p class="keyword-list ml-2"> {{ item.get_keywords }}</p>
+                        <p class="keyword-list ml-2">
+                            {% for keyword in item.get_keywords %}
+                            <a href="?keyword={{ keyword }}">#{{ keyword }}</a>
+                            {% endfor %}
+                        </p>
                     </div>
                     <p class="article-content"> Rating: {{ item.avg_rating }} </p>
+                    {% if item.flagged %}
+                    <h3>
+                        <i>This item is flagged. It is only visible to Item Admins for now.</i>
+                    </h3>
+                    {% endif %}
                 </div>
             </article>
         {% endfor %}
@@ -78,23 +88,25 @@
     <div class="pag-div">
         <div class="pag-div2">
             {% if is_paginated %}
-                {% if page_obj.has_previous %}
-                    <a class="pag-but btn mb-4" href="?page=1"> First </a>
-                    <a class="pag-but btn mb-4" href="?page={{ page_obj.previous_page_number }}"> Previous </a>
-                {% endif %}
 
-                {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                        <a class="pag-but btn mb-4" href="?page={{ num }}"> {{ num }} </a>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                        <a class="pag-but btn mb-4" href="?page={{ num }}"> {{ num }} </a>
-                    {% endif %}
-                {% endfor %}
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1{{ request|nonpage_attributes }}"> First </a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}{{ request|nonpage_attributes }}"> Previous </a>
+            {% endif %}
 
-                {% if page_obj.has_next %}
-                    <a class="pag-but btn mb-4" href="?page={{ page_obj.next_page_number }}"> Next </a>
-                    <a class="pag-but btn mb-4" href="?page={{ page_obj.paginator.num_pages }}"> Last </a>
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}{{ request|nonpage_attributes }}"> {{ num }} </a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}{{ request|nonpage_attributes }}"> {{ num }} </a>
                 {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}{{ request|nonpage_attributes }}"> Next </a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}{{ request|nonpage_attributes }}"> Last </a>
+            {% endif %}
+
             {% endif %}
         </div>
     </div>

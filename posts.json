@@ -109,6 +109,116 @@
         "content": "Standfirst Among the existing machine learning frameworks, reservoir computing demonstrates fast and low-cost training, and its suitability for implementation in various physical systems. This Comment reports on how aspects of reservoir computing can be applied to classical forecasting methods to accelerate the learning process, and highlights a new approach that makes the hardware implementation of traditional machine learning algorithms practicable in electronic and photonic systems.",
         "url": "https://www.researchgate.net/publication/357756177_Connecting_reservoir_computing_with_statistical_forecasting_and_deep_neural_networks",
         "status": "Completed"
+    },
+    {
+        "id": 11,
+        "name": "Effect of service differentiation on QoS in IEEE 802.11e enhanced distributed channel access",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Engineering",
+        "keyword_list": "EDCA protocol,Medium access control,AIFS,QoS,Contention window,MATLAB",
+        "content": "The enhanced distributed channel access (EDCA) protocol is a supplement to IEEE 802.11 medium access control (MAC), ratified by IEEE 802.11e task group to support quality of service (QoS) requirements of both data and real-time applications. Previous research show that it supports priority scheme for multimedia traffic but strict QoS is not guaranteed. This can be attributed to inappropriate tuning of the medium access parameters. Thus, an in-depth analysis of the EDCA protocol and ways of tuning medium access parameters to improve QoS requirements for multimedia traffic is presented in this work. An EDCA model was developed and simulated using MATLAB to assess the effect of differentiating contention window (CW) and arbitration inter-frame space (AIFS) of different traffic on QoS parameters. The optimal performance, delay, and maximum sustainable throughput for each traffic type were computed under saturation load. Insight shows that traffic with higher priority values acquired most of the available channels and starved traffic with lower priority values. The AIFS has more influence on the QoS of EDCA protocol. It was also observed that small CW values generate higher packet drops and collision rate probability. Thus, EDCA protocol provides mechanism for service differentiation which strongly depends on channel access parameters: CW sizes and AIFS.",
+        "url": "https://www.researchgate.net/publication/357598795_Effect_of_service_differentiation_on_QoS_in_IEEE_80211e_enhanced_distributed_channel_access_a_simulation_approach",
+        "status": "Completed"
+    },
+    {
+        "id": 12,
+        "name": "A Mathematical Model for the Dynamics of Rhinopharyngitis in a Population",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Bioinformatics",
+        "keyword_list": "Basic Reproduction Number,Steady States,Local and Global Stability,Common Cold; Simulation,Rhinopharyngitis",
+        "content": "This paper considered a deterministic SIR model to investigate the transmission dynamics of common cold within a population. This study was based on the assumption that every individual in the population is susceptible to the common cold. The steady states of the model were calculated and the local and global asymptotic stability analyzed. The basic reproduction number R 0 was determined. The disease becomes endemic whenever R 0 >1 and dies out whenever R 0 <1. Simulations of the model were performed. It was found that the transmission rate is most sensitive to the disease; any attempt to reduce the transmission rate is marked by a reduction in the number of infectious individuals.",
+        "url": "https://www.researchgate.net/publication/356535776_Journal_of_Applied_Bioinformatics_Computational_Biology_A_Mathematical_Model_for_the_Dynamics_of_Rhinopharyngitis_in_a_Population",
+        "status": "Completed"
+    },
+    {
+        "id": 13,
+        "name": "Genetic variations influence brain changes in patients with attention-deficit hyperactivity disorder",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Translational Psychiatry",
+        "keyword_list": "ResearchGate",
+        "content": "Attention-deficit hyperactivity disorder (ADHD) is a neurological and neurodevelopmental childhood-onset disorder characterized by a persistent pattern of inattentiveness, impulsiveness, restlessness, and hyperactivity. These symptoms may continue in 55–66% of cases from childhood into adulthood. Even though the precise etiology of ADHD is not fully understood, it is considered as a multifactorial and heterogeneous disorder with several contributing factors such as heritability, auxiliary to neurodevelopmental issues, severe brain injuries, neuroinflammation, consanguineous marriages, premature birth, and exposure to environmental toxins. Neuroimaging and neurodevelopmental assessments may help to explore the possible role of genetic variations on ADHD neuropsychobiology. Multiple genetic studies have observed a strong genetic association with various aspects of neuropsychobiological functions, including neural abnormalities and delayed neurodevelopment in ADHD. The advancement in neuroimaging and molecular genomics offers the opportunity to analyze the impact of genetic variations alongside its dysregulated pathways on structural and functional derived brain imaging phenotypes in various neurological and psychiatric disorders, including ADHD. Recently, neuroimaging genomic studies observed a significant association of brain imaging phenotypes with genetic susceptibility in ADHD. Integrating the neuroimaging-derived phenotypes with genomics deciphers various neurobiological pathways that can be leveraged for the development of novel clinical biomarkers, new treatment modalities as well as therapeutic interventions for ADHD patients. In this review, we discuss the neurobiology of ADHD with particular emphasis on structural and functional changes in the ADHD brain and their interactions with complex genomic variations utilizing imaging genetics methodologies. We also highlight the genetic variants supposedly allied with the development of ADHD and how these, in turn, may affect the brain circuit function and related behaviors. In addition to reviewing imaging genetic studies, we also examine the need for complementary approaches at various levels of biological complexity and emphasize the importance of combining and integrating results to explore biological pathways involved in ADHD disorder. These approaches include animal models, computational biology, bioinformatics analyses, and multimodal imaging genetics studies.",
+        "url": "https://www.researchgate.net/publication/352160301_Genetic_variations_influence_brain_changes_in_patients_with_attention-deficit_hyperactivity_disorder",
+        "status": "Completed"
+    },
+    {
+        "id": 14,
+        "name": "Protein-Based Immunome Wide Association Studies (PIWAS)...",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Immunology",
+        "keyword_list": "computational immunology,antigen,immunome,bioinformatics & computational biology,immunology&inﬂammation",
+        "content": "Identification of the antigens associated with antibodies is vital to understanding immune responses in the context of infection, autoimmunity, and cancer. Discovering antigens at a proteome scale could enable broader identification of antigens that are responsible for generating an immune response or driving a disease state. Although targeted tests for known antigens can be straightforward, discovering antigens at a proteome scale using protein and peptide arrays is time consuming and expensive. We leverage Serum Epitope Repertoire Analysis (SERA), an assay based on a random bacterial display peptide library coupled with next generation sequencing (NGS), to power the development of Protein-based Immunome Wide Association Study (PIWAS). PIWAS uses proteome-based signals to discover candidate antibody-antigen epitopes that are significantly elevated in a subset of cases compared to controls. After demonstrating statistical power relative to the magnitude and prevalence of effect in synthetic data, we apply PIWAS to systemic lupus erythematosus (SLE, n=31) and observe known autoantigens, Smith and Ribosomal protein P, within the 22 highest scoring candidate protein antigens across the entire human proteome. We validate the magnitude and location of the SLE specific signal against the Smith family of proteins using a cohort of patients who are positive by predicate anti-Sm tests. To test the generalizability of the method in an additional autoimmune disease, we identified and validated autoantigenic signals to SSB, CENPA, and keratin proteins in a cohort of individuals with Sjogren’s syndrome (n=91). Collectively, these results suggest that PIWAS provides a powerful new tool to discover disease-associated serological antigens within any known proteome.",
+        "url": "https://www.researchgate.net/publication/351125370_Protein-Based_Immunome_Wide_Association_Studies_PIWAS_for_the_Discovery_of_Significant_Disease-Associated_Antigens",
+        "status": "Completed"
+    },
+    {
+        "id": 15,
+        "name": "A novel big data mining framework for reconstructing large-scale daily...",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Data Analysis",
+        "keyword_list": "MAIAC AOD,large-scale reconstruction,variation information,iteration strategy,China",
+        "content": "Satellite-based  aerosol  optical depth  (AOD) retrieval  products are  essential in  air  pollution and \nclimate change research. Unfortunately, cloud contaminations and unfavorable surface conditions \nresult in a considerable proportion of missing  AOD data. Numerous studies  have been conducted \nto  reconstruct  large-scale  AOD  data  gaps  by  utilizing  adjacent  spatiotemporal  information  or \nmodeling  AOD  data  via  various  external  geographical  data.  However,  the  erratic  variation  of \nAOD and the inconvenience of external data weaken the accuracy and e\uE02Eciency of reconstruction. \nTo  address  these  issues,  a  novel  big  data  based  iterative  variation  mining  framework  (IVMF), \nutilizing  multi-spatiotemporal information  on  AOD variations,  is proposed  to reconstruct  large- \nscale AOD data over China from 2000 to 2020. Simulated and real-data experiments are carried out \nto validate the e\uE035ectiveness and robustness of the IVMF. Results show  that the spatial patterns of \nthe reconstructed AOD are consistent with those of the original AOD in the simulated experiments. \nThe \uE037nal reconstructed AOD data strongly correlate with in-situ AOD measurements in  the real- \ndata  experiments  (correlation  coe\uE02Ecient  of  0.91).  After  reconstruction,  the  average  daily  AOD \ncoverage increases from 30.42% to  96.69% (a 218%  increase). Besides,  results reveal  that central \nChina  exhibits  severe AOD  levels, while  northwest China  presents  low AOD  levels. Overall,  the \nproposed IVMF can largely resolve the missing AOD data problem with outstanding accuracy and \ne\uE02Eciency,  and  has  great  potential  to  be  generalized  to  other  regions  and  remote sensing \nproducts.",
+        "url": "https://www.researchgate.net/publication/359382647_A_novel_big_data_mining_framework_for_reconstructing_large-scale_daily_MAIAC_AOD_data_across_China_from_2000_to_2020",
+        "status": "Completed"
+    },
+    {
+        "id": 16,
+        "name": "Protocol for inducible piggyBac transposon system for efficient...",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Molecular Biology",
+        "keyword_list": "Medical science,ResearchGate,STAR Protocols",
+        "content": "In human pluripotent stem cells (hPSCs), traditional approaches for gene overexpression have low efficiency and are often laborious. Here, we provide a relatively simple protocol for gene overexpression with the Dox-inducible PiggyBac transposon system. We detail the steps for overexpression of FLI1 and/or YAP in H1 embryonic stem cells (H1 ESCs) as an example. Our protocol can be applied to any gene of interest in a variety of hPSCs. For complete details on the use and execution of this protocol, please refer to Quan et al. (2021).",
+        "url": "https://www.researchgate.net/publication/359937480_Protocol_for_inducible_piggyBac_transposon_system_for_efficient_gene_overexpression_in_human_pluripotent_stem_cells",
+        "status": "Completed"
+    },
+    {
+        "id": 17,
+        "name": "An open quantum systems approach to proton tunnelling in DNA",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Physics",
+        "keyword_list": "DNA,ResearchGate,Proton tunneling,Open quantum systems,Molecular Biology",
+        "content": "One of the most important topics in molecular biology is the genetic stability of DNA. One threat to this stability is proton transfer along the hydrogen bonds of DNA that could lead to tautomerisation, hence creating point mutations. We present a theoretical analysis of the hydrogen bonds between the Guanine-Cytosine (G-C) nucleotide, which includes an accurate model of the structure of the base pairs, the quantum dynamics of the hydrogen bond proton, and the influence of the decoherent and dissipative cellular environment. We determine that the quantum tunnelling contribution to the proton transfer rate is several orders of magnitude larger than the classical over-the-barrier hopping. Due to the significance of the quantum tunnelling even at biological temperatures, we find that the canonical and tautomeric forms of G-C inter-convert over timescales far shorter than biological ones and hence thermal equilibrium is rapidly reached. Furthermore, we find a large tautomeric occupation probability of 1.73 × 10−4, suggesting that such proton transfer may well play a far more important role in DNA mutation than has hitherto been suggested. Our results could have far-reaching consequences for current models of genetic mutations. The genetic stability of DNA suffers from proton transfer along the hydrogen bonds that can lead to tautomerisation, creating mutations. The authors theoretically examine the tautomerisation of the GuanineCytosine (G-C) nucleotide base-pair using an open quantum systems approach, finding that the contribution of quantum tunnelling to the reaction rate outweighs classical barrier-hopping.",
+        "url": "https://www.researchgate.net/publication/360387921_An_open_quantum_systems_approach_to_proton_tunnelling_in_DNA",
+        "status": "Completed"
+    },
+    {
+        "id": 18,
+        "name": "Time Sensitive Networking Protocol Implementation for Linux End Equipment",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Networking",
+        "keyword_list": "Linux,ResearchGate,Time Sensitive Networking,IEEE",
+        "content": "By bringing industrial-grade robustness and reliability to Ethernet, Time Sensitive Networking (TSN) offers an IEEE standard communication technology that enables interoperability between standard-conformant industrial devices from any vendor. It also eliminates the need for physical separation of critical and non-critical communication networks, which allows a direct exchange of data between operation centers and companies, a concept at the heart of the Industrial Internet of Things (IIoT). This article describes creating an end-to-end TSN network using specialized PCI Express (PCIe) cards and two final Linux endpoints. For this purpose, the two primary standards of TSN, IEEE 802.1AS (regarding clock synchronization), and IEEE 802.1Qbv (regarding time scheduled traffic) have been implemented in Linux equipment as well as a configuration and monitoring system.",
+        "url": "https://www.researchgate.net/publication/360160668_Time_Sensitive_Networking_Protocol_Implementation_for_Linux_End_Equipment",
+        "status": "Completed"
+    },
+    {
+        "id": 19,
+        "name": "Software system comparison with semantic source code embeddings",
+        "owner": 7,
+        "type": "Theoretical",
+        "field": "Software Engineering",
+        "keyword_list": "Source code embeddings,Software comparison,Code similarity,code2vec,Machine learning",
+        "content": "This paper presents a novel approach for comparing software systems by calculating the robust Hausdorff distance between semantic source code embeddings of individual software components, i.e., methods. The proposed approach represents each software as a set of vectors, where every vector is a semantic source code embedding of a particular method. The code embeddings are constructed from abstract syntax trees of the methods with the help of attention-based neural network models that capture the semantics of the methods. Previous research has shown that comparing semantic source code embeddings can reveal semantic relationships between the two methods. We utilize this characteristic to estimate the semantic similarity between the two software systems by computing the robust Hausdorff distance. In the experiment, a pre-trained code2vec neural network model is used to create the source code vector representations of several open-source Java-based libraries. Several variations of the robust Hausdorff distance are evaluated. The results show that the proposed approach can effectively estimate the semantic similarity, reflecting the software library’s scopes, software evolution, and individual parts (e.g., packages) of those libraries.",
+        "url": "https://www.researchgate.net/publication/359308944_Software_system_comparison_with_semantic_source_code_embeddings",
+        "status": "Completed"
+    },
+    {
+        "id": 20,
+        "name": "A hybrid nature-inspired optimizer for wireless mesh networks design",
+        "owner": 1,
+        "type": "Theoretical",
+        "field": "Computer Communications",
+        "keyword_list": "ResearchGate,Wireless Mesh Networks,Networking",
+        "content": "Existing approaches for optimal planning of wireless mesh networks (WMNs) deployment revolves around the deployment cost as the pivotal concept to optimize. In this paper, we adopt a new approach to optimize the planning of WMNs that guarantees an acceptable level of network performance prior to its deployment. It is a simultaneous optimization process of network deployment cost and network throughput objectives while taking into account all the parameters that have a significant impact on the network efficiency. We propose three multi-objective models for WMN planning problem, namely Load-Balanced Model, Interference Model, and Flow-Capacity Model. We devise an evolutionary swarm-based algorithm that is a hybrid combination of multi-objective Particle Swarm Optimization (MOPSO) and Genetic Algorithms (GAs) to solve the three models. We use realistic network sizes (up to 100 mesh nodes) to perform a thorough comparative experimental study on these three instance models with different key-parameter settings. Finally, we use the network simulator OMNET++ to evaluate the three models in terms of the actual performance (network throughput). The results presented in this paper show that Load-Balanced Model totally supersedes the Flow-Capacity Model and performs better than the Interference Model.",
+        "url": "https://www.researchgate.net/publication/256942110_A_hybrid_nature-inspired_optimizer_for_wireless_mesh_networks_design",
+        "status": "Completed"
     }
   ]
 }

@@ -6,11 +6,11 @@ class SitePermissions(models.Model):
     class Meta:
         permissions = (
             ("block_user", "Block User"),
-            ("flag_user", "Flag User"),
             ("view_dashboard", "View dashboard")
         )
 
 
-class Flag(models.Model):
-    user = models.ForeignKey(User, models.SET_NULL, null=True)
+class UserFlag(models.Model):
+    user = models.ForeignKey(User, models.CASCADE, related_name='flag_user_target')
     timestamp = models.DateTimeField(auto_now_add=True)
+    blame = models.ForeignKey(User, models.CASCADE, related_name='flag_user_blame')

@@ -1,6 +1,8 @@
+{% load admin_tags %}
 <td>
-    <a href="{%url 'warn_user' target_user.id %}?next={{ request.get_full_path|urlencode }}">
-        <button type = 'submit' class="action-button-1">
+
+    <a {% if not target_user|in_group:'Superuser'  %}  href="{%url 'warn_user' target_user.id %}?next={{ request.get_full_path|urlencode }}" {% endif %}>
+        <button type = 'submit' class="action-button-1" {% if target_user|in_group:'Superuser'  %}disabled{% endif %}>
             Warn
         </button>
     </a>
@@ -9,7 +11,7 @@
     <form action="{% url 'flag_user' target_user.id %}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <button type = 'submit' class="action-button-1">
+        <button type = 'submit' class="action-button-1" {% if target_user|in_group:'Superuser'  %}disabled{% endif %}>
             {% if not target_user.profile.flagged %}
             Flag
             {% else %}
@@ -19,15 +21,15 @@
     </form>
 </td>
 <td>
-    <a href="{%url 'admin_edit_user' target_user.id %}?next={{ request.get_full_path|urlencode }}">
-        <button type = 'submit' class="action-button-1">
+    <a {% if not target_user|in_group:'Superuser'  %} href="{%url 'admin_edit_user' target_user.id %}?next={{ request.get_full_path|urlencode }}" {% endif %}>
+        <button type = 'submit' class="action-button-1" {% if target_user|in_group:'Superuser'  %}disabled{% endif %}>
             Edit
         </button>
     </a>
 </td>
 <td>
-    <a href="{%url 'delete_user' target_user.id %}?next={{ request.get_full_path|urlencode }}">
-        <button type = 'submit' class="action-button-1">
+    <a {% if not target_user|in_group:'Superuser'  %} href="{%url 'delete_user' target_user.id %}?next={{ request.get_full_path|urlencode }}" {% endif %}>
+        <button type = 'submit' class="action-button-1" {% if target_user|in_group:'Superuser'  %}disabled{% endif %}>
             Delete
         </button>
     </a>
@@ -37,7 +39,7 @@
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
 
-        <button type = 'submit' class="action-button-1">
+        <button type = 'submit' class="action-button-1" {% if target_user|in_group:'Superuser'  %}disabled{% endif %}>
             {% if not target_user.profile.blocked %}
             Block
             {% else %}

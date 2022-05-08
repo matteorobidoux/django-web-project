@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.http import (HttpResponse, HttpResponseNotFound,
                          HttpResponseRedirect, request, Http404)
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,7 +11,16 @@ from django.views.generic.detail import SingleObjectMixin
 from .forms import RateForm, CommentForm
 from .models import Comment, Item, Rating
 from administration import actions
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+
+# View that redirects the user to the last page they were on upon POSTing
+class PostLastPage:
+    no_next_redirect = reverse_lazy('admin_board')
+
+    # Post redirects you to 'next' if it exists
+    def post(self, request, *args, **kwargs):
+        next_page = request.POST.get('next', self.no_next_redirect)
+        return HttpResponseRedirect(next_page)
 
 
 class ModelSearchListView(ListView):
@@ -31,30 +41,68 @@ class ModelSearchListView(ListView):
 
         return redirect(f'{self.search_redirect}/{appended}')
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
+    def get_filter_attributes(self):
         search = self.request.GET.get('search')
         filter = self.request.GET.get('filter')
+
+        return search, filter
+
+    def get_filter(self, queryset):
+        search, filter = self.get_filter_attributes()
+
         field_names = [ field.name for field in self.model._meta.get_fields()]
         if filter in field_names:
             kwargs = {
-                f'{filter}__contains': search
+                f'{filter}__istartswith': search
             }
             if filter and search:
                 queryset = queryset.filter(**kwargs)
 
         return queryset
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = self.get_filter(queryset)
+
+        keyword = self.request.GET.get('keyword')
+        if keyword:
+            queryset = queryset.filter(keyword_list__icontains=keyword)
+        return queryset
+
 
 class ItemListView(ModelSearchListView):
     search_redirect = ''
 
-    sort_fields = ('name', 'status', 'type', 'field')
+    sort_fields = ('name', 'status', 'type', 'field', 'owner', 'average rate')
     model = Item
     template_name = 'explore.html'
     context_object_name = 'items'
     ordering = ['-date_posted']
     paginate_by = 5
+
+    def get_filter_attributes(self):
+        search, filter = super().get_filter_attributes()
+        if filter == 'owner':
+            filter = 'owner__username'
+        return search, filter
+
+    def get_filter(self, queryset):
+        search, filter = self.get_filter_attributes()
+        queryset = super().get_filter(queryset)
+
+        if filter == "owner__username":
+            queryset = queryset.filter(owner__username__icontains=search)
+        elif filter == "average rate":
+            queryset = queryset.annotate(average_rate=Avg('rating__rate')).filter(average_rate__startswith=search)
+        return queryset
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if not self.request.user.has_perm('item_catalog.add_itemflag'):
+            queryset = queryset.exclude(flagged=True)
+
+        return queryset
+
 
 class ItemCreateView(CreateView):
     model = Item
@@ -72,9 +120,11 @@ class ItemCreateView(CreateView):
 class ItemManageEditView(PermissionRequiredMixin, UpdateView):
     permission_required = "item_catalog.change_item"
     model = Item
-    success_url = '/'
     fields = ['name', 'type', 'field', 'keyword_list', 'content', 'status', 'url', 'snapshot']
     template_name = 'edit_project.html'
+
+    def get_success_url(self):
+        return reverse('project-detail', kwargs={'pk': self.object.pk})
 
     def post(self, request, *args, **kwargs):
         actions.edit_item(request,  kwargs['pk'])
@@ -82,13 +132,21 @@ class ItemManageEditView(PermissionRequiredMixin, UpdateView):
 
 
 class ItemManageDeleteView(PermissionRequiredMixin, DeleteView):
-    permission_required = "item_datalog.delete_item"
+    permission_required = "item_catalog.delete_item"
     model = Item
     success_url = reverse_lazy('explore-projects')
     template_name = 'delete_project.html'
 
     def post(self, request, *args, **kwargs):
         actions.delete_item(request, kwargs['pk'])
+        return super().post(request, *args, **kwargs)
+
+
+class ItemManageFlagView(PermissionRequiredMixin, View, PostLastPage):
+    permission_required = 'item_catalog.add_itemflag'
+
+    def post(self, request, *args, **kwargs):
+        actions.flag_item(request, kwargs['pk'])
         return super().post(request, *args, **kwargs)
 
 
@@ -117,14 +175,21 @@ class ItemDeleteView(SelfAuditMixin, DeleteView):
     template_name = 'delete_project.html'
 
 
-class ItemDetailView(DetailView):
+
+class ItemDetailView(LoginRequiredMixin, DetailView):
     model = Item
     template_name = 'item_detail.html'
+    login_url = '/login/'
 
     def post(self, request, *args, **kwargs):
         if request.user.id == self.object.owner.id:
             super().post(request, *args, **kwargs)
         return
+
+    def get(self, request, *args, **kwargs):
+        if (self.model.flagged and not request.user.has_perm('item_catalog.add_itemflag')):
+            raise Http404
+        return super().get(request, *args, **kwargs)
 
 
 class AddCommentView(View):

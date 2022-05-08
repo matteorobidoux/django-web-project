@@ -33,10 +33,6 @@
     margin: auto;
 }
 
-.page-button:disabled{
-    background: #6f6f6f;
-}
-
 .page-select{
     padding: 1em;
     display: flex;

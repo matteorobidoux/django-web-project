@@ -1,3 +1,5 @@
+import math
+
 from PIL import Image
 from django.db import models
 from django.utils import timezone
@@ -38,16 +40,13 @@ class Item(models.Model):
     snapshot = models.ImageField(default='default.jpg', upload_to='project_photos')
     likes = models.ManyToManyField(User, related_name='item_likes', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
+    flagged = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
 
     def get_keywords(self):
-        new_keywords = ""
-        for keyword in self.keyword_list.split(","):
-            new_keyword = "#" + keyword
-            new_keywords += new_keyword + " "
-        return new_keywords
+        return self.keyword_list.split(",")
 
     def total_likes(self):
         return self.likes.count()
@@ -59,19 +58,24 @@ class Item(models.Model):
             sum += rating.rate
 
         if len(ratings) > 0:
-            return sum / len(ratings)
+            return math.floor(sum / len(ratings)*100)/100
         else:
             return 0.0
 
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
 
+        # Reduce image resolution when adding in snapshot
         img = Image.open(self.snapshot.path)
-        
         if img.height > 400 or img.width > 400:
-            output_size = (400,400)
+            output_size = (400, 400)
             img.thumbnail(output_size)
             img.save(self.snapshot.path)
+
+    def latest_flag(self):
+        flag = self.flag_item_target.order_by('-timestamp')[0]
+        return flag
+
 
 class Comment(models.Model):
     content = models.TextField(max_length=300)
@@ -79,9 +83,19 @@ class Comment(models.Model):
     item = models.ForeignKey(Item, related_name="comments", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+
 class Rating(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user =  models.ForeignKey(User, on_delete=models.CASCADE)
     rate = models.FloatField(
         validators=[MinValueValidator(0.0),MaxValueValidator(5.0)],
     )
+
+
+class ItemFlag(models.Model):
+    item = models.ForeignKey(Item, models.CASCADE, related_name='flag_item_target')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    blame = models.ForeignKey(User, models.CASCADE, related_name='flag_item_flag')
+
+    def __str__(self):
+        return f"{self.item.name} flagged on {self.timestamp}"
