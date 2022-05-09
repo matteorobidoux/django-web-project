@@ -1,33 +1,36 @@
 {% if request.user.id != item.owner.id %}
 <span class="item-actions">
-   {% if perms.item_catalog.change_item %}
-    <a href="{% url 'edit_project' item.id %}">
-        <button class="btn action-button-2">
-          Edit Item
-        </button>
-    </a>
-    {% endif %}
-    {% if perms.item_catalog.delete_item %}
-    <a href="{% url 'delete_project' item.id %}">
-        <button class="btn action-button-2">
-          Delete Item
-        </button>
-    </a>
-    {% endif %}
+    <div class="container">
+        <div class="row">
+        {% if perms.item_catalog.change_item %}
+            <a href="{% url 'edit_project' item.id %}">
+                <button class="btn action-button-2 mr-1">
+                Edit Item
+                </button>
+            </a>
+            {% endif %}
+            {% if perms.item_catalog.delete_item %}
+            <a href="{% url 'delete_project' item.id %}">
+                <button class="btn action-button-2 mr-1">
+                Delete Item
+                </button>
+            </a>
+            {% endif %}
 
-    {% if perms.item_catalog.add_itemflag %}
-    <form method="POST" action="{% url 'flag_project' item.id %}">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <button type="submit" class="btn action-button-2">
-            {% if not item.flagged %}
-            Flag
-            {% else %}
-            Unflag
-            {% endif%}
-        </button>
-    </form>
-    {% endif %}
-
+            {% if perms.item_catalog.add_itemflag %}
+            <form method="POST" action="{% url 'flag_project' item.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit" class="btn action-button-2 mr-1">
+                    {% if not item.flagged %}
+                    Flag
+                    {% else %}
+                    Unflag
+                    {% endif%}
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
 </span>
 {% endif %}

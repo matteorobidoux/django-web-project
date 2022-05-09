@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="profile-page">
+<div class="profile-page mb-4">
     {% if user|in_group:'Member' %}
     <div class="row useradmin-actions">
         {% if perms.user_management.warn_member %}

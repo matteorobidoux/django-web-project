@@ -1,22 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'notification-style.css' %}">
 <title> Notifications </title>
 {% endblock %}
+
 {% block title %}
     Notifications
 {% endblock %}
+
 {% block content %}
-    <h1>Notifications</h1>
+    <h1 class="mb-3">Notifications</h1>
     {% for notif in notif1 %}
-    <div class="single-notif">
+    <div class="single-notif p-3">
         <div>{{ notif.verb }} from <b>{{ notif.actor }}</b>, {{ notif.timestamp }}</div>
         <p>{{ notif.description }}</p>
     </div>
     <br>
     {% endfor %}
     {% for notif in notif2 %}
-    <div class="single-notif">
+    <div class="single-notif p-3">
         <p><b>{{ notif.verb }}</b> from <b>{{ notif.actor }}</b>, {{ notif.timestamp }}</p>
         <p>{{ notif.description }}</p>
     </div>
