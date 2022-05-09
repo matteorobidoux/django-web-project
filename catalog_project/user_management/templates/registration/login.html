@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'login-style.css' %}">
+<title> Login </title>
+{% endblock %}
 
 {% block content %}
-<h2>Login</h2>
-<div class="messages">
-    {% for message in messages %}
-    <p class="msg">{{ message }}</p>
-    {% endfor %}
+<div id="login-container">
+    <div class="content-section mb-3 login-box">
+        <h2>Login</h2>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                {{ login_form | crispy }}
+                <div class="login-submit-box">
+                    <input type="submit" class="btn action-button-2" value="Login">
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-<form method="post">
-    {% csrf_token %}
-    {{ login_form | crispy }}
-    <input type="submit" value="Login">
-</form>
 {% endblock %}

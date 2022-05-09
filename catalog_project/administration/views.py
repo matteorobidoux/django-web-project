@@ -221,7 +221,7 @@ class AdminUserEditView(EditUserView):
 
     permission_required = 'auth.change_user'
     template_name = 'edit-user.html'
-    initial_user = ('username', 'email')
+    initial_user = ('username', 'email', 'first_name', 'last_name')
     initial_profile = ('image', 'flagged', 'blocked')
 
 

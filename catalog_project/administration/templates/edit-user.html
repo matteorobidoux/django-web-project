@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}
-    Edit user
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
+<title> Edit {{ object.username }} </title>
 {% endblock %}
+
 {% block content %}
     <h1>Edit User</h1>
     <article class="media content-section">
@@ -27,11 +31,13 @@
             </p>
         </div>
     </article>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ user_form|crispy }}
-        {{ profile_form|crispy }}
-        <input type="hidden" name="next" value="{{ request.GET.next }}">
-        <input type="submit" value="Change"/>
-    </form>
+    <div class="content-section mb-3">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form|crispy }}
+            {{ profile_form|crispy }}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+            <input type="submit" value="Change"/>
+        </form>
+    </div>
 {% endblock %}

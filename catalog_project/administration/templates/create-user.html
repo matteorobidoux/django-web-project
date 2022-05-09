@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}
-    Create user
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
+<title> Create User </title>
 {% endblock %}
+
 {% block content %}
     <h1>Create User</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ user_form|crispy }}
-        {{ profile_form|crispy }}
-        <input type="submit" value="Create"/>
-    </form>
+    <div class="content-section mb-3">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form|crispy }}
+            {{ profile_form|crispy }}
+            <input type="submit" value="Create"/>
+        </form>
+    </div>
 {% endblock %}

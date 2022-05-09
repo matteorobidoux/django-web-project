@@ -31,6 +31,7 @@ class CheckMemberMixin(PermissionRequiredMixin, TargetUserView):
 
         return super().has_permission()
 
+
 class ManageUsers(PermissionRequiredMixin, ModelSearchListView):
     search_redirect = '/useradmin'
     sort_fields = ('id', 'username', 'email')

@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
-{% block head %}
 {% load admin_tags %}
+{% load static %}
 
-<title> User profile </title>
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'profile-style.css' %}">
+<title> {{ user.username }}'s Profile </title>
 {% endblock %}
-{% block title %}
-    Logged in
-{% endblock %}
+
 {% block content %}
 <div class="profile-page">
-    <div class="row">
+    {% if user|in_group:'Member' %}
+    <div class="row useradmin-actions">
         {% if perms.user_management.warn_member %}
         <a href="{% url 'warn_member' profile.user.id %}?next={{ request.get_full_path|urlencode }}">
             <button class="btn btn-outline-info action-button-2">
@@ -51,19 +53,22 @@
         </a>
         {% endif %}
     </div>
+    {% endif %}
 
     <img class="profile-pic" src="{{ profile.image.url }}">
     <h1 class="profile-name center">{{ profile.user.username }}'s page</h1>
-    <h2 class="user-headers">First Name</h2>
-    <p class="user-info">{{ user.first_name }}</p>
-    <h2 class="user-headers">Last Name</h2>
-    <p class="user-info">{{ user.last_name }}</p>
-    <h2 class="user-headers">Email</h2>
-    <p class="user-info">{{ user.email }}</p>
-    {% if request.user.username == profile.user.username %}
-        <a class="button center" href="/profile/{{ user.username }}/edit">Edit Profile</a>
-        <br>
-        <a class="button center" href="/profile/{{ user.username }}/password">Edit Password</a>
-    {% endif %}
+    <div class="content-section">
+        <h2 class="user-headers">First Name</h2>
+        <p class="user-info">{{ user.first_name }}</p>
+        <h2 class="user-headers">Last Name</h2>
+        <p class="user-info">{{ user.last_name }}</p>
+        <h2 class="user-headers">Email</h2>
+        <p class="user-info">{{ user.email }}</p>
+        {% if request.user.username == profile.user.username %}
+            <a class="button center" href="/profile/{{ user.username }}/edit">Edit Profile</a>
+            <br>
+            <a class="button center" href="/profile/{{ user.username }}/password">Edit Password</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

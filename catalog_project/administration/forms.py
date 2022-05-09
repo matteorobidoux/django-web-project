@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 class UserCreateForm(NewUserForm):
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'groups')
+        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'groups', )
 
     def save(self, commit=True):
         user = super(NewUserForm, self).save(commit=False)
@@ -29,7 +29,7 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'groups')
+        fields = ('email', 'groups', 'first_name', 'last_name')
 
 
 # A generic form for the profile

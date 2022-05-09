@@ -2,8 +2,12 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
+<title> Create Project </title>
+{% endblock %}
+
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'item_catalog/item_catalog-style.css' %}">
     <div class="content-section mb-3">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
