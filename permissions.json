@@ -37,13 +37,19 @@
       "block_user",
       "add_warning",
       "view_dashboard",
-      "view_member_dashboard",
       "add_userflag",
 
       "add_item",
       "change_item",
       "delete_item",
-      "add_itemflag"
+      "add_itemflag",
+      "add_member",
+
+      "delete_member",
+      "block_member",
+      "warn_member",
+      "add_userflag",
+      "view_member_dashboard"
     ]
   }
 }

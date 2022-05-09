@@ -24,7 +24,7 @@ urlpatterns = [
     # Warn user view
     path('useradmin/warn_user/<int:pk>/', views.WarnUser.as_view(), name="warn_member"),
     # Flag user view (POST)
-    path('/useradmin/flag_user/<int:pk>/', views.FlagUser.as_view(), name="flag_member"),
+    path('useradmin/flag_user/<int:pk>/', views.FlagUser.as_view(), name="flag_member"),
     # Block user view (POST)
     path('useradmin/block_user/<int:pk>/', views.BlockUser.as_view(), name="block_member"),
     # Create user view

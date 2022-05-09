@@ -10,14 +10,6 @@ from rest_framework.views import APIView
 from item_catalog.models import Item
 from .serializers import ItemSerializer
 
-"""
-Through well-defined urls (and query strings), users can use web API to:
-a. list all items, specific items,
-b. list or a single item.
-c. update / delete items [your instructor may remove this requirement].
-
-"""
-
 # Viewset for viewing all items. You can filter by id,
 class ItemViewSet(generics.ListAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
