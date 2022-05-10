@@ -1,5 +1,5 @@
 import django_filters
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.filters import OrderingFilter
@@ -34,6 +34,7 @@ class CreateItemViewSet(LoginRequiredMixin, generics.CreateAPIView):
     def perform_create(self, serializer):
         return serializer.save(owner=self.request.user)
 
+
 # Viewset for viewing a single item. Requires login, but no admin permissions.
 class SingleItemViewSet(LoginRequiredMixin, generics.RetrieveAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -45,8 +46,12 @@ class SingleItemViewSet(LoginRequiredMixin, generics.RetrieveAPIView):
 
 
 # Viewset for managing an item. Checks if you can delete and change the item.
-class ManageSingleItemViewSet(PermissionRequiredMixin, SingleItemViewSet, generics.DestroyAPIView, generics.UpdateAPIView):
+class ManageSingleItemViewSet(UserPassesTestMixin, SingleItemViewSet, generics.DestroyAPIView, generics.UpdateAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-    permission_required = ('delete_item', 'change_item')
+    def test_func(self):
+        object = self.get_object()
+        if self.request.user.has_perm('item_catalog.delete_item') or self.request.user.has_perm('item_catalog.change_item'):
+            return True
+        return object.owner == self.request.user

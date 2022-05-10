@@ -54,7 +54,13 @@
         {% endif %}
     </div>
     {% endif %}
-
+    {% if profile.flagged %}
+    <div class="flagged-box content-section">
+        <h1>
+            {% if profile.user == request.user %}You were last{% else %}This user was{% endif %} flagged on {{ profile.latest_flag.timestamp }}
+        </h1>
+    </div>
+    {% endif %}
     <img class="profile-pic" src="{{ profile.image.url }}">
     <h1 class="profile-name center">{{ profile.user.username }}'s page</h1>
     <div class="content-section">

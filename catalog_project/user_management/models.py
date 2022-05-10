@@ -37,6 +37,10 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
+    def latest_flag(self):
+        flag = self.user.flag_user_target.order_by('-timestamp')[0]
+        return flag
+
 
 class Warning(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)

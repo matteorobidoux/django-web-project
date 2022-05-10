@@ -1,4 +1,5 @@
-from django.db.models import Avg
+from django.contrib.auth.decorators import login_required
+from django.db.models import Avg, Q
 from django.http import (HttpResponse, HttpResponseNotFound,
                          HttpResponseRedirect, request, Http404)
 from django.shortcuts import get_object_or_404, redirect, render
@@ -98,8 +99,12 @@ class ItemListView(ModelSearchListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
         if not self.request.user.has_perm('item_catalog.add_itemflag'):
-            queryset = queryset.exclude(flagged=True)
+            if not self.request.user.is_anonymous:
+                queryset = queryset.exclude(~Q(owner=self.request.user), flagged=True)
+            else:
+                queryset = queryset.exclude(flagged=True)
 
         return queryset
 
@@ -175,24 +180,18 @@ class ItemDeleteView(SelfAuditMixin, DeleteView):
     template_name = 'delete_project.html'
 
 
-
 class ItemDetailView(LoginRequiredMixin, DetailView):
     model = Item
     template_name = 'item_detail.html'
     login_url = '/login/'
 
-    def post(self, request, *args, **kwargs):
-        if request.user.id == self.object.owner.id:
-            super().post(request, *args, **kwargs)
-        return
-
     def get(self, request, *args, **kwargs):
-        if (self.model.flagged and not request.user.has_perm('item_catalog.add_itemflag')):
+        if (self.get_object().flagged and not request.user.has_perm('item_catalog.add_itemflag') and request.user != self.get_object().owner):
             raise Http404
         return super().get(request, *args, **kwargs)
 
 
-class AddCommentView(View):
+class AddCommentView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
             form = CommentForm(request.POST)
             if form.is_valid():
@@ -206,13 +205,16 @@ class AddCommentView(View):
                 return redirect('project-detail', pk=self.kwargs['pk'])
 
 
+@login_required(login_url='/login/')
 def LikeView(request, pk):
-    item = get_object_or_404(Item, id=pk)
-    print(item)
-    item.likes.add(request.user)
-    return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
+    if request.method == "POST":
+        item = get_object_or_404(Item, id=pk)
+        item.likes.add(request.user)
+        return HttpResponseRedirect(reverse('project-detail', args=[str(pk)]))
+    raise Http404;
 
 
+@login_required(login_url='/login/')
 def RateView(request, pk):
     if request.method == 'POST':
         try:
