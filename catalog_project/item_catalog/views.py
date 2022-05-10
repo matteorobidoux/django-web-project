@@ -113,7 +113,7 @@ class ItemCreateView(CreateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.owner = self.request.user
-        obj.save
+        obj.save()
         return super().form_valid(form)
 
 

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'messaging.apps.MessagingConfig',
     'item_catalog.apps.ItemCatalogConfig',
     'administration.apps.AdministrationConfig',
+    'storages',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -134,8 +135,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
+MEDIA_LOCATION = 'media'
+AZURE_ACCOUNT_NAME = 'djangoprojectstorage'
+AZURE_CUSTOM_DOMAIN = f"{AZURE_ACCOUNT_NAME}.blob.core.windows.net"
+MEDIA_URL =f"https://{AZURE_CUSTOM_DOMAIN}{MEDIA_LOCATION}/"
 
 
 # Default primary key field type
