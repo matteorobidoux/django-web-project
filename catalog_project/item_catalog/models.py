@@ -40,7 +40,7 @@ class Item(models.Model):
     content = models.TextField()
     url = models.URLField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='planned')
-    snapshot = models.ImageField(default='default.jpg', upload_to='project_photos')
+    snapshot = models.ImageField(default='project_photos/default.jpg', upload_to='project_photos')
     likes = models.ManyToManyField(User, related_name='item_likes', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     flagged = models.BooleanField(default=False)
