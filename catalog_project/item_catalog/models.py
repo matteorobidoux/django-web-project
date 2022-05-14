@@ -1,6 +1,9 @@
 import math
+import uuid
+from io import BytesIO
 
 from PIL import Image
+from django.core.files.base import ContentFile
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -41,6 +44,11 @@ class Item(models.Model):
     likes = models.ManyToManyField(User, related_name='item_likes', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     flagged = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        # Reduce image resolution
+        save_thumbnail_image(self.snapshot)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -89,3 +97,22 @@ class ItemFlag(models.Model):
 
     def __str__(self):
         return f"{self.item.name} flagged on {self.timestamp}"
+
+
+def save_thumbnail_image(image_field):
+    img = Image.open(BytesIO(image_field.read()))
+    # Convert to RGBA format
+    if img.mode != 'RGBA':
+        img = img.convert('RGBA')
+    if img.height > 400 or img.width > 400:
+        # limit the image size
+        output_size = (400, 400)
+        img.thumbnail(output_size, Image.ANTIALIAS)
+        filename = image_field.name.split('.')[0]+uuid.uuid4().hex
+
+        # create a bytesIO output
+        image_output_buffer = BytesIO()
+        img.save(image_output_buffer, format="PNG", quality=70)
+        image_output_buffer.seek(0)
+        # Make a file
+        image_field.save(filename + ".png", ContentFile(image_output_buffer.getvalue()), save=False)

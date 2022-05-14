@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from PIL import Image
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
+from item_catalog.models import save_thumbnail_image
 
 class Profile(models.Model):
     # Define the class for permissions
@@ -24,15 +21,11 @@ class Profile(models.Model):
     blocked = models.BooleanField(default=False)
 
     objects = models.Manager()
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
 
-        # Reduce image resolution when adding in snapshot
-        img = Image.open(self.image.path)
-        if img.height > 400 or img.width > 400:
-            output_size = (400, 400)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    def save(self, *args, **kwargs):
+        # Reduce image resolution
+        save_thumbnail_image(self.image)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.user.username} Profile'
