@@ -41,7 +41,7 @@
                     <p class="article-content"> Rating: {{ item.avg_rating }} </p>
                     {% if item.flagged %}
                     <h3>
-                        <i>This item is flagged. It is only visible to Item Admins for now.</i>
+                       <i>This item is flagged. It is only visible to Item Admins{% if user == item.owner %} and you {% endif %}for now.</i>
                     </h3>
                     {% endif %}
                 </div>
@@ -81,7 +81,7 @@
                                     <p class="article-content"> Rating: {{ item.avg_rating }} </p>
                                     {% if item.flagged %}
                                     <h3>
-                                        <i>This item is flagged. It is only visible to Item Admins for now.</i>
+                                        <i>This item is flagged. It is only visible to Item Admins{% if user == item.owner %} and you {% endif %}for now.</i>
                                     </h3>
                                     {% endif %}
                                 </div>

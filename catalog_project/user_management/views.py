@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.template import loader
 from django.views import generic
 from django.views.generic import DetailView, DeleteView
@@ -43,18 +43,23 @@ class ManageUsers(PermissionRequiredMixin, ModelSearchListView):
     ordering = ['id']
     paginate_by = 10
 
-
 def profile_page(request, username=None):
     if not request.user.is_authenticated:
         messages.info(request, 'Please login to view profiles')
         return redirect('/login')
     template = loader.get_template('profile.html')
+
+    profile = None
     if username:
         user_page = get_object_or_404(User, username=username)
         profile = user_page.profile
     else:
         user_page = request.user.username
         profile = request.user.profile
+
+    if profile.user != request.user and not request.user.has_perm('administration.add_userflag') and profile.flagged:
+        raise Http404;
+
     return HttpResponse(template.render({'profile': profile, 'user': user_page}, request))
 
 
