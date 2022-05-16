@@ -19,7 +19,7 @@
    
     Linux:
     ```commandline
-    source .venv/bin/activate  
+    source ./venv/bin/activate
     ```
 
    (See other activation methods [here](https://docs.python.org/3/library/venv.html))
@@ -37,7 +37,7 @@
     PASSWORD: Python_420
     ```
 6. While creating the user, give them access to the database called ``catalog_project``. They must own the database.
-7. Run migrations
+7. Run migrations (make sure the database server is running)
     ```commandline
     python catalog_project/manage.py migrate
     ```
