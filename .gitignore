@@ -94,3 +94,6 @@ fabric.properties
 # Pycache causing nightmares
 *.pyc
 *.pyo
+
+# Useless script
+update_heroku_dir.sh
