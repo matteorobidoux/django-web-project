@@ -41,7 +41,7 @@
                     <p class="article-content"> Rating: {{ item.avg_rating }} </p>
                     {% if item.flagged %}
                     <h3>
-                       <i>This item is flagged. It is only visible to Item Admins{% if user == item.owner %} and you {% endif %}for now.</i>
+                       <i>This item is flagged. It is only visible to Item Admins{% if user == item.owner %} and you{% endif %} for now.</i>
                     </h3>
                     {% endif %}
                 </div>
@@ -52,7 +52,7 @@
         <div class="container">
              {% for item in items %}
                         <div class="m-2 col-md-6 grid-style">
-                            <article class="media content-section mb-4{% if item.flagged %}flagged-box{% endif %}">
+                            <article class="media content-section mb-4 {% if item.flagged %}flagged-box{% endif %}">
                                 <img class="article-img" src="{{ item.snapshot.url }}">
                                 <div class="media-body">
                                     <div class="article-metadata row">
@@ -81,7 +81,7 @@
                                     <p class="article-content"> Rating: {{ item.avg_rating }} </p>
                                     {% if item.flagged %}
                                     <h3>
-                                        <i>This item is flagged. It is only visible to Item Admins{% if user == item.owner %} and you {% endif %}for now.</i>
+                                        <i>This item is flagged. It is only visible to Item Admins{% if user == item.owner %} and you{% endif %} for now.</i>
                                     </h3>
                                     {% endif %}
                                 </div>
