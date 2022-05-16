@@ -9,8 +9,6 @@ urlpatterns = [
     path(r'login/', views.login_page, name="login"),
     # Register page
     path(r'register/', views.register, name="register"),
-    # Reset password page
-    # path('reset-password/', views.reset_password, name="reset_password"),
     # Logout page
     path(r'logout', views.logout_page, name="login"),
 
@@ -28,7 +26,7 @@ urlpatterns = [
     # Block user view (POST)
     path('useradmin/block_user/<int:pk>/', views.BlockUser.as_view(), name="block_member"),
     # Create user view
-    path('useradmin/create/', views.AdminUserCreateView, name="create_member"),
+    path('useradmin/create/', views.admin_user_create, name="create_member"),
     # Delete user view
     path('useradmin/delete_user/<int:pk>/', views.DeleteUserView.as_view(), name="delete_member"),
     # Blocked user

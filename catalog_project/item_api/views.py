@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from item_catalog.models import Item
 from .serializers import ItemSerializer
 
+
 # Viewset for viewing all items. You can filter by id,
 class ItemViewSet(generics.ListAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -50,8 +51,13 @@ class ManageSingleItemViewSet(UserPassesTestMixin, SingleItemViewSet, generics.D
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
+    # Test function checks if the user has perms
+    # Or if they own the item
     def test_func(self):
         object = self.get_object()
-        if self.request.user.has_perm('item_catalog.delete_item') or self.request.user.has_perm('item_catalog.change_item'):
+        # Check if item admin
+        if self.request.user.has_perm('item_catalog.delete_item') \
+                or self.request.user.has_perm('item_catalog.change_item'):
             return True
+        # Check if item owner
         return object.owner == self.request.user

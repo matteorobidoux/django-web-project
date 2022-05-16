@@ -11,7 +11,6 @@ from django.forms.models import model_to_dict
 from django.contrib.admin.models import LogEntry
 from item_catalog.views import ModelSearchListView, PostLastPage
 
-
 """ Generic User management views """
 
 
@@ -62,11 +61,13 @@ class EditUserView(CheckSuperUserMixin, PostLastPage, generic.TemplateView):
 
     # Getting initial data involves the two dictionaries representing the data inside the user and profile.
     def get_initial_data(self, kwargs):
+        # Get the user field dictionary
         user = User.objects.get(id=kwargs['pk'])
         user_dict = model_to_dict(user)
         profile_dict = model_to_dict(user.profile)
-        initial_user = { k: user_dict[k] for k in self.initial_user }
-        initial_profile = { k: profile_dict[k] for k in self.initial_profile }
+        # Define the initial data dictionaries and return them
+        initial_user = {k: user_dict[k] for k in self.initial_user}
+        initial_profile = {k: profile_dict[k] for k in self.initial_profile}
         return initial_user, initial_profile
 
     # Getting context involves getting the target user and the two forms for them
@@ -86,18 +87,18 @@ class EditUserView(CheckSuperUserMixin, PostLastPage, generic.TemplateView):
 
     # Post saves the edits on the user and profile
     def post(self, request, *args, **kwargs):
+        # Get the user and forms
         user = User.objects.get(id=kwargs['pk'])
         user_form = self.user_form_model(request.POST, instance=user)
         profile_form = self.profile_form_model(request.POST, request.FILES, instance=user.profile)
-
+        # Set object
         self.object = user
-
         if user_form.is_valid() and profile_form.is_valid():
+            # Save forms if theyre both valid
             user_form.save()
             profile_form.save()
 
             return HttpResponseRedirect(self.get_success_url())
-
 
 
 # A view for creating a User
@@ -120,20 +121,27 @@ class UserCreateView(PermissionRequiredMixin, generic.TemplateView):
     # Post saves the edits on the user and profile
     def post(self, request, *args, **kwargs):
         user_form = self.user_form_model(request.POST, request.FILES)
-
+        # Check if the form is valid firwst
         if user_form.is_valid():
+            # Save the user
             user = user_form.save()
             profile_form = self.profile_form_model(request.POST, request.FILES)
+            # If the profile is valid, proceed
             if profile_form.is_valid():
+                # Save the profile
                 profile = profile_form.save(commit=False)
                 profile.user = user
                 profile.save()
+                # Log the action
+                actions.create_user(request, user.id)
                 return redirect(self.success_url)
             else:
+                # Delete the user if the profile is invalid
                 user.delete()
                 return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
 
         return render(request, self.template_name, {'user_form': user_form, 'profile_form': self.profile_form_model()})
+
 
 """ Main pages """
 
@@ -231,8 +239,3 @@ class AdminUserCreateView(UserCreateView):
 
     permission_required = "auth.add_user"
     template_name = 'create-user.html'
-
-
-
-
-

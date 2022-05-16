@@ -1,5 +1,5 @@
 from django.contrib import admin
 from . import models
 
-# Register your models here.
+# Registers the user flag
 admin.register(models.UserFlag)

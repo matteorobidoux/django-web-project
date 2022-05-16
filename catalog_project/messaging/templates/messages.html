@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    {% if messages.all.count == 1 %}
+    {% if messages.all.count < 1 %}
         <div class="message-div row my-3">
             <div class="col-md-12">
                 <p class="empty-text"> No Messages </p>
@@ -24,7 +24,7 @@
         </div>
     {% endif %}
 
-    {% if messages.all.count > 1 %}
+    {% if messages.all.count > 0 %}
         <div class="message-div mt-3">
             {% for message in messages %}
                 <div class="row">
