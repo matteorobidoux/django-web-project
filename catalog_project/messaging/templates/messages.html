@@ -8,13 +8,13 @@
 <a class="back-to-convo" href="/messages/"><i class="fa-2x fa fa-angle-left"></i></a>
 
 {% if  messages.0.receiver == request.user %}
-    <a class="message-link mb-4" href="/profile/{{messages.0.sender}}"><h5 class="message-messaging">@{{  messages.0.sender }}</h5></a>
+    <a class="message-link mb-4" href="/profile/{{messages.0.sender}}"><h5 class="message-messaging">@{{  sender }}</h5></a>
 {% else %}
-    <a class="message-link mb-4" href="/profile/{{messages.0.receiver}}"><h5 class="message-messaging">@{{  messages.0.receiver }}</h5></a>
+    <a class="message-link mb-4" href="/profile/{{messages.0.receiver}}"><h5 class="message-messaging">@{{  receiver }}</h5></a>
 {% endif %}
 
 <div class="container">
-    {% if messages.all.count == 1 %}
+    {% if messages.all.count < 1 %}
         <div class="message-div row my-3">
             <div class="col-md-12">
                 <p class="empty-text"> No Messages </p>
@@ -22,7 +22,7 @@
         </div>
     {% endif %}
 
-    {% if messages.all.count > 1 %}
+    {% if messages.all.count > 0 %}
         <div class="message-div mt-3">
             {% for message in messages %}
                 <div class="row">
@@ -50,7 +50,7 @@
 
     <div class="row mb-4">
         <div class="form-div col-md-12 mt-5 p-3">
-            <form method="POST" action="{% url 'create-message' messages.0.receiver.pk messages.0.sender.pk %}">
+            <form method="POST" action="{% url 'create-message' receiver.pk sender.pk %}">
                 {% csrf_token %}
                 <textarea class="form-control" rows='5' name="content" required> </textarea>
                 {{ form | crispy }}

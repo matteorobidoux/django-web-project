@@ -65,14 +65,24 @@ class MessageList(UserPassesTestMixin, ListView):
 
         return self.request.user == user_sender or self.request.user == user_receiver
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        user_receiver = User.objects.get(pk=self.kwargs['pkr'])
+        user_sender = User.objects.get(pk=self.kwargs['pks'])
+
+        context["sender"] = user_sender
+        context["receiver"] = user_receiver
+        return context
+
     # Gets all messages where the user is the reciever or sender
     def get_queryset(self, *args, **kwargs):
         # Same thing for the correspondee
         user_receiver = User.objects.get(pk=self.kwargs['pkr'])
         user_sender = User.objects.get(pk=self.kwargs['pks'])
         convos = super(MessageList, self).get_queryset()
-        convos = convos.filter(
-            Q(sender=user_sender, receiver=user_receiver) | Q(receiver=user_sender, sender=user_receiver))
+        convos = convos\
+            .filter(Q(sender=user_sender, receiver=user_receiver) | Q(receiver=user_sender, sender=user_receiver))\
+            .exclude(content="")
 
         return convos
 
