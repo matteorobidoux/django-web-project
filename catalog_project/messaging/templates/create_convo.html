@@ -2,6 +2,10 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+{% block head %}
+<title> New Conversation </title>
+{% endblock %}
+
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{% static 'messaging/messaging-style.css' %}">
     <div class="container">
