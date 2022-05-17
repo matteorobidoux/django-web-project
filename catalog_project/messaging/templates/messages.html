@@ -5,18 +5,16 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{% static 'messaging/messaging-style.css' %}">
     
-<div class="container">
-    <div class="row">
-        <div class="user-tag card col-md-12 mt-3 mb-2 p-3 shadow-sm">
-            {% if  messages.0.receiver == request.user %}
-                <a class="message-messaging mr-2" href="/profile/{{messages.0.sender}}"> <h5>@{{  messages.0.sender }}</h5></a>
-            {% else %}
-                <a class="message-messaging mr-2" href="/profile/{{messages.0.receiver}}"><h5>@{{  messages.0.receiver }}</h5></a>
-            {% endif %}
-        </div>
-    </div>
+<a class="back-to-convo" href="/messages/"><i class="fa-2x fa fa-angle-left"></i></a>
 
-    {% if messages.all.count < 1 %}
+{% if  messages.0.receiver == request.user %}
+    <a class="message-link mb-4" href="/profile/{{messages.0.sender}}"><h5 class="message-messaging">@{{  messages.0.sender }}</h5></a>
+{% else %}
+    <a class="message-link mb-4" href="/profile/{{messages.0.receiver}}"><h5 class="message-messaging">@{{  messages.0.receiver }}</h5></a>
+{% endif %}
+
+<div class="container">
+    {% if messages.all.count == 1 %}
         <div class="message-div row my-3">
             <div class="col-md-12">
                 <p class="empty-text"> No Messages </p>
@@ -24,7 +22,7 @@
         </div>
     {% endif %}
 
-    {% if messages.all.count > 0 %}
+    {% if messages.all.count > 1 %}
         <div class="message-div mt-3">
             {% for message in messages %}
                 <div class="row">
